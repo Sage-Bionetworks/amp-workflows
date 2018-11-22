@@ -2,4 +2,97 @@
 
 class: CommandLineTool
 cwlVersion: v1.0
+id: picard-alignmentsummarymetrics
+label: Picard CollectAlignmentSummaryMetrics module
 
+doc: |
+  Use Picard to compute alignment summary metrics.
+
+  Original command:
+  java -Xmx8G -jar $PICARD CollectAlignmentSummaryMetrics \
+    VALIDATION_STRINGENCY=LENIENT \
+    MAX_RECORDS_IN_RAM=4000000 \
+    ASSUME_SORTED=true \
+    ADAPTER_SEQUENCE= \
+    IS_BISULFITE_SEQUENCED=false \
+    MAX_INSERT_SIZE=100000 \
+    R=$FASTA \
+    INPUT="picard/${sample}.tmp.bam" \
+    OUTPUT="picard/${sample}/picard.analysis.CollectAlignmentSummaryMetrics" \
+    TMP_DIR="${scratchdir}/${USER}/${sample}/"
+
+baseCommand: ['CollectRnaSeqMetrics']
+
+requirements:
+  - class: InlineJavascriptRequirement
+
+hints:
+  - class: DockerRequirement
+    dockerPull: 'quay.io/Sage-Bionetworks/picard_utils:1.0'
+
+inputs:
+  - id: reads_bam
+    label: Input reads BAM
+    doc: Input reads data file in BAM format
+    type: File
+    inputBinding:
+      position: 1
+      prefix: INPUT=
+      separate: false
+
+  - id: reference_fasta
+    type: string
+    inputBinding:
+      position: 2
+      prefix: R=
+      separate: false
+
+  - id: max_insert_size
+    type: string
+    inputBinding:
+      position: 3
+      prefix: MAX_INSERT_SIZE=
+      separate: false
+
+  - id: max_records_in_ram
+    type: string
+    inputBinding:
+      position: 4
+      prefix: MAX_RECORDS_IN_RAM=
+      separate: false
+
+  - id: assume_sorted
+    type: string
+    inputBinding:
+      position: 5
+      prefix: ASSUME_SORTED=
+      separate: false
+
+  - id: is_bisulfite_seq
+    type: string
+    inputBinding:
+      position: 6
+      prefix: IS_BISULFITE_SEQUENCED=
+      separate: false
+
+  - id: adapter_sequence
+    type: string
+    inputBinding:
+      position: 7
+      prefix: ADAPTER_SEQUENCE=
+      separate: false
+
+  - id: validation_stringency
+    type: string
+    inputBinding:
+      position: 4
+      prefix: VALIDATION_STRINGENCY=
+      separate: false
+
+outputs:
+  - id: output
+    label: Output metrics
+    doc: Output metrics file
+    type: File
+    outputBinding:
+      glob: *picard.analysis.CollectAlignmentSummaryMetrics
