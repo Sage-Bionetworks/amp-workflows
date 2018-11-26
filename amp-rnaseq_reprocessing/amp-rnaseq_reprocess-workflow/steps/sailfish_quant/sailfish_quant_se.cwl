@@ -3,6 +3,15 @@ class: CommandLineTool
 label: "Sailfish quant: quantifying the samples (For single end reads)"
 doc: "Sailfish: Rapid Alignment-free Quantification of Isoform Abundance http://www.cs.cmu.edu/~ckingsf/software/sailfish/ (no documentation for command line options, see sailfish quant --help. sailfish quant has many advanced options, here are only basic options defined.)"
 
+$namespaces:
+  dct: http://purl.org/dc/terms/
+  foaf: http://xmlns.com/foaf/0.1/
+
+dct:creator:
+  "@id": "http://orcid.org/0000-0003-3777-5945"
+  foaf:name: "Tazro Ohta"
+  foaf:mbox: "mailto:inutano@gmail.com"
+  
 hints:
   DockerRequirement:
     dockerPull: quay.io/biocontainers/sailfish:0.10.1--h6516f61_3

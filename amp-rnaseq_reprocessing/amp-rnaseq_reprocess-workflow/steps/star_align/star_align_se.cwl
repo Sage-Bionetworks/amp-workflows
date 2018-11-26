@@ -3,6 +3,15 @@ class: CommandLineTool
 label: "STAR mapping: running mapping jobs."
 doc: "STAR: Spliced Transcripts Alignment to a Reference. https://github.com/alexdobin/STAR/blob/master/doc/STARmanual.pdf"
 
+$namespaces:
+  dct: http://purl.org/dc/terms/
+  foaf: http://xmlns.com/foaf/0.1/
+
+dct:creator:
+  "@id": "http://orcid.org/0000-0003-3777-5945"
+  foaf:name: "Tazro Ohta"
+  foaf:mbox: "mailto:inutano@gmail.com"
+
 hints:
   DockerRequirement:
     dockerPull: quay.io/biocontainers/star:2.6.0c--0

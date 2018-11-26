@@ -3,6 +3,15 @@ class: CommandLineTool
 label: "Salmon index: building an index"
 doc: "Salmon is a tool for quantifying the expression of transcripts using RNA-seq data. Salmon uses new algorithms (specifically, coupling the concept of quasi-mapping with a two-phase inference procedure) to provide accurate expression estimates very quickly (i.e. wicked-fast) and while using little memory. Salmon performs its inference using an expressive and realistic model of RNA-seq data that takes into account experimental attributes and biases commonly observed in real RNA-seq data. http://salmon.readthedocs.io/en/latest/ (document has no description for command line options, see salmon index --help)"
 
+$namespaces:
+  dct: http://purl.org/dc/terms/
+  foaf: http://xmlns.com/foaf/0.1/
+
+dct:creator:
+  "@id": "http://orcid.org/0000-0003-3777-5945"
+  foaf:name: "Tazro Ohta"
+  foaf:mbox: "mailto:inutano@gmail.com"
+
 hints:
   DockerRequirement:
     dockerPull: combinelab/salmon:0.10.2
