@@ -4,7 +4,7 @@ class: Workflow
 cwlVersion: v1.0
 
 doc: |
-  Calculate quality metrics for each sample using Picard.
+  Align RNA-seq data for each sample using STAR.
 
 $namespaces:
   dct: http://purl.org/dc/terms/
@@ -16,15 +16,15 @@ dct:creator:
   foaf:mbox: "mailto:james.a.eddy@gmail.com"
 
 inputs:
-  reads_bam:
+  reads_fastq:
     type: File
 
 outputs:
-  metrics_txt:
+  reads_bam:
     type: File
 
 steps:
-  picard_alignmentsummarys:
+  star_index:
     label: build STAR genome index
     doc: |
       This step builds the index from a FASTA sequence for the specified
@@ -34,7 +34,7 @@ steps:
       input_fasta: genome_fasta
     out: [output_index]
 
-  picard_rnaseq:
+  star_align:
     label: align RNA-seq reads with STAR
     doc: |
       This step maps RNA-seq reads to the specified genome using the STAR

@@ -1,0 +1,14 @@
+tools:
+
+workflows:
+  amp-rnaseq_reprocessing:
+    path: "/amp-rnaseq_reprocessing/amp-rnaseq_reprocess-workflow"
+    descriptor: "/main-rnaseq_reprocess-workflow.cwl"
+    subworkflows:
+      - "/wf-alignment.cwl"
+      - "/wf-metrics.cwl"
+    tools_path: "/steps"
+    tools:
+      star_index:
+        id: "/star_index.cwl"
+        run_in: "subworkflow/wf-alignment.cwl"
