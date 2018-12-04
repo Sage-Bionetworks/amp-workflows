@@ -1,0 +1,14 @@
+{
+  "genomeFastaFiles": [
+    {
+      "path": "GRCh38.chr22.genome.fa",
+      "class": "File"
+    }
+  ],
+  "sjdbGTFfile": {
+    "path": "gencode.v24.chr22.annotation.gtf",
+    "class": "File"
+  },
+  "sjdbOverhang": 100,
+  "nthreads": 4
+}

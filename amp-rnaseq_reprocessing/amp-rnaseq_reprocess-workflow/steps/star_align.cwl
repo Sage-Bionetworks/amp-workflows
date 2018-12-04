@@ -1,0 +1,1 @@
+/Users/jaeddy/code/github/projects/amp-workflows/tools/star_align/star_align.cwl

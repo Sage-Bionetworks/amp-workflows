@@ -1,0 +1,1 @@
+/Users/jaeddy/code/github/projects/amp-workflows/tools/star_index/star_index.cwl

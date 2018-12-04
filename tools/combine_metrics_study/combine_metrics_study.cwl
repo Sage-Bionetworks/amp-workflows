@@ -18,6 +18,7 @@ hints:
     dockerPull: 'quay.io/Sage-Bionetworks/picard_utils:1.0'
 
 inputs:
+
   - id: picard_metrics
     label: Picard metrics files to combine
     type: File[]
@@ -52,9 +53,10 @@ inputs:
       prefix: --output_dir
 
 outputs:
+
   - id: combined_metrics
     label: Output combined metrics matrix
     doc: Output combined metrics matrix saved as tab-delimited text file.
     type: File
     outputBinding:
-      glob: *_all_metrics_matrix.txt
+      glob: "*_all_metrics_matrix.txt"

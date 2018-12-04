@@ -21,16 +21,17 @@ doc: |
     OUTPUT="picard/${sample}/picard.analysis.CollectAlignmentSummaryMetrics" \
     TMP_DIR="${scratchdir}/${USER}/${sample}/"
 
-baseCommand: ['CollectRnaSeqMetrics']
+baseCommand: ['picard.sh', 'CollectAlignmentSummaryMetrics']
 
 requirements:
   - class: InlineJavascriptRequirement
 
 hints:
   - class: DockerRequirement
-    dockerPull: 'quay.io/Sage-Bionetworks/picard_utils:1.0'
+    dockerPull: 'quay.io/sage-bionetworks/picard_utils:1.0'
 
 inputs:
+
   - id: reads_bam
     label: Input reads BAM
     doc: Input reads data file in BAM format
@@ -41,21 +42,21 @@ inputs:
       separate: false
 
   - id: reference_fasta
-    type: string
+    type: File
     inputBinding:
       position: 2
       prefix: R=
       separate: false
 
   - id: max_insert_size
-    type: string
+    type: int
     inputBinding:
       position: 3
       prefix: MAX_INSERT_SIZE=
       separate: false
 
   - id: max_records_in_ram
-    type: string
+    type: int
     inputBinding:
       position: 4
       prefix: MAX_RECORDS_IN_RAM=
@@ -90,9 +91,10 @@ inputs:
       separate: false
 
 outputs:
+
   - id: output
     label: Output metrics
     doc: Output metrics file
     type: File
     outputBinding:
-      glob: *picard.analysis.CollectAlignmentSummaryMetrics
+      glob: "*picard.analysis.CollectAlignmentSummaryMetrics"

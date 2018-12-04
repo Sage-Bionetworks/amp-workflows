@@ -20,26 +20,44 @@ inputs:
     type: File
 
 outputs:
-  metrics_txt:
+  combined_metrics_csv:
     type: File
 
 steps:
-  picard_alignmentsummarys:
-    label: build STAR genome index
+  picard_alignmentsummary:
+    label: ...
     doc: |
-      This step builds the index from a FASTA sequence for the specified
-      genome to be used with the STAR spliced read aligner.
-    run: steps/star_index/star_index.cwl
+      ...
+    run: steps/picard_alignmentsummary_metrics.cwl
     in:
-      input_fasta: genome_fasta
-    out: [output_index]
+      input_bam: reads_bam
+    out: [output_metrics]
 
   picard_rnaseq:
-    label: align RNA-seq reads with STAR
+    label: ...
     doc: |
-      This step maps RNA-seq reads to the specified genome using the STAR
-      spliced read aligner.
-    run: steps/star_align/star_align_pe.cwl
+      ...
+    run: steps/picard_rnaseq_metrics.cwl
     in:
-      input_fastq: reads_fastq
-    out: [output_bam]
+      input_bam: reads_bam
+    out: [output_metrics]
+
+  combine_metrics_sample:
+    label: ...
+    doc: |
+      ...
+    run: steps/combine_metrics_sample.cwl
+    in:
+      ...
+    out:
+      ...
+
+  combine_metrics_study:
+    label: ...
+    doc: |
+      ...
+    run: steps/combine_metrics_study.cwl
+    in:
+      ...
+    out:
+      ...

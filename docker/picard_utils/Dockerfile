@@ -1,4 +1,4 @@
-FROM quay.io/biocontainers/picard:2.18.15--0
+FROM biocontainers/biocontainers:v1.0.0_cv4
 
 MAINTAINER James Eddy <james.a.eddy@gmail.com>
 
@@ -6,13 +6,23 @@ USER root
 
 ENV PACKAGES python-dev python-setuptools python-pip
 
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends ${PACKAGES}
+# RUN apt-get update && \
+#     apt-get install -y --no-install-recommends ${PACKAGES}
+
+RUN wget https://github.com/broadinstitute/picard/releases/download/2.2.4/picard-tools-2.2.4.zip && \
+  unzip -q picard-tools-2.2.4.zip && \
+  rm picard-tools-2.2.4.zip && \
+  mv picard-tools-2.2.4 /usr/local/lib/
+
+ENV JAR_DIR /usr/local/lib/picard-tools-2.2.4
+
+RUN conda install ucsc-gtftogenepred
 
 COPY bin/* /usr/local/bin/
 RUN chmod a+x /usr/local/bin/combine_metrics_sample.py
-RUN chmod a+x /usr/local/bin/combine_metrics_study.py
+RUN chmod a+x /usr/local/bin/combine_metrics_study.R
 RUN chmod a+x /usr/local/bin/make_refflat.sh
 RUN chmod a+x /usr/local/bin/make_riboints.sh
+RUN chmod a+x /usr/local/bin/picard.sh
 
 CMD ["/bin/bash"]

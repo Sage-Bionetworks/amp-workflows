@@ -1,0 +1,6 @@
+{
+  "genemodel_gtf": {
+    "path": "gencode.v24.chr22.annotation.gtf",
+    "class": "File"
+  }
+}

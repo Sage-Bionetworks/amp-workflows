@@ -2,11 +2,11 @@
 
 class: CommandLineTool
 cwlVersion: v1.0
-id: picard-samtofastq
-label: Use Picard to convert BAM to FASTQ
+id: picard_sortsam
+label: Picard SortSam
 
 doc: |
-  Use Picard to convert BAM to FASTQ.
+  Use Picard to sort a SAM or BAM file.
 
   Original command:
   java -Xmx8G -jar $PICARD SortSam \
@@ -17,18 +17,19 @@ doc: |
     VALIDATION_STRINGENCY=SILENT \
     COMPRESSION_LEVEL=0
 
-baseCommand: ['SortSam']
+baseCommand: ['picard.sh', 'SortSam']
 
 requirements:
   - class: InlineJavascriptRequirement
 
 hints:
   - class: DockerRequirement
-    dockerPull: 'quay.io/Sage-Bionetworks/picard_utils:1.0'
+    dockerPull: 'quay.io/sage-bionetworks/picard_utils:1.0'
 
 inputs:
-  - id: reads_bam
-    label: Input reads BAM
+
+  - id: aligned_reads_bam
+    label: Input reads BAM file
     doc: Input reads data file in BAM format
     type: File
     inputBinding:
@@ -37,6 +38,7 @@ inputs:
       separate: false
 
   - id: sort_order
+    label: Sort order
     type: string
     inputBinding:
       position: 2
@@ -44,6 +46,7 @@ inputs:
       separate: false
 
   - id: quiet
+    label: Verbosity (QUIET)
     type: string
     inputBinding:
       position: 3
@@ -51,6 +54,7 @@ inputs:
       separate: false
 
   - id: validation_stringency
+    label: Validation stringency
     type: string
     inputBinding:
       position: 4
@@ -58,16 +62,26 @@ inputs:
       separate: false
 
   - id: compression_level
-    type: string
+    label: Compression level
+    type: int
     inputBinding:
       position: 4
       prefix: COMPRESSION_LEVEL=
       separate: false
 
+  - id: sorted_reads_filename
+    label: Sorted BAM filename
+    type: string
+    inputBinding:
+      position: 5
+      prefix: OUTPUT=
+      separate: false
+
 outputs:
-  - id: output
-    label: Output FASTQ
-    doc: Output FASTQ file
+
+  - id: sorted_reads_bam
+    label: Output sorted BAM
+    doc: Output sorted BAM file
     type: File
     outputBinding:
-      glob: *.fastq
+      glob: '*.bam'

@@ -1,0 +1,19 @@
+{
+  "unaligned_reads_fastq": [
+    {
+      "path": "ex_sr_unstranded.fastq.gz",
+      "class": "File"
+    }
+  ],
+  "genome_dir": {
+    "path": "GRCh38/star",
+    "class": "Directory"
+  },
+  "num_threads": 4,
+  "output_dir_name": "ex_sr_unstranded",
+  "output_sam_type": ["BAM", "Unsorted"],
+  "output_sam_unmapped": "Within",
+  "quant_mode": ["GeneCounts"],
+  "two_pass_mode": "Basic",
+  "read_files_command": "zcat"
+}

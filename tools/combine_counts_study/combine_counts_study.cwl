@@ -15,9 +15,10 @@ requirements:
 
 hints:
   - class: DockerRequirement
-    dockerPull: 'quay.io/Sage-Bionetworks/star_utils:1.0'
+    dockerPull: 'quay.io/sage-bionetworks/star_utils:1.0'
 
 inputs:
+
   - id: read_counts
     label: Read count files to combine
     type: File[]
@@ -47,6 +48,7 @@ inputs:
     doc: |
       Directory in which to save output [default %(default)s].
     type: Directory
+    default: $(runtime.outdir)
     inputBinding:
       position: 3
       prefix: --output_dir
@@ -61,9 +63,10 @@ inputs:
       prefix: --col_num
 
 outputs:
+
   - id: combined_counts
     label: Output combined counts matrix
     doc: Output combined counts matrix saved as tab-delimited text file.
     type: File
     outputBinding:
-      glob: *_all_counts_matrix.txt
+      glob: "*_all_counts_matrix.txt"

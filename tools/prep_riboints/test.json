@@ -1,0 +1,10 @@
+{
+  "input_gtf": {
+    "path": "fill me in",
+    "class": "File"
+  },
+  "input_bam": {
+    "path": "fill me in",
+    "class": "File"
+  }
+}

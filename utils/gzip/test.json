@@ -1,0 +1,6 @@
+{
+  "input_file": {
+    "path": "ex_sr_unstranded_mappedonly.fastq",
+    "class": "File"
+  }
+}

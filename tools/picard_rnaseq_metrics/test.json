@@ -1,0 +1,28 @@
+{
+  "rrna_fragment_percentage": 0.8,
+  "output": {
+    "path": "fill me in",
+    "class": "File"
+  },
+  "metric_accumulation_level": "ALL_READS",
+  "validation_stringency": "LENIENT",
+  "strand_specificity": "NONE",
+  "reference_fasta": {
+    "path": "fill me in",
+    "class": "File"
+  },
+  "max_records_in_ram": 4000000,
+  "reference_refflat": {
+    "path": "fill me in",
+    "class": "File"
+  },
+  "reference_riboints": {
+    "path": "fill me in",
+    "class": "File"
+  },
+  "reads_bam": {
+    "path": "fill me in",
+    "class": "File"
+  },
+  "minimum_length": 500
+}

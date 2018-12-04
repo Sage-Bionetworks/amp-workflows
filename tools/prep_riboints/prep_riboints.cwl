@@ -3,39 +3,38 @@
 class: CommandLineTool
 cwlVersion: v1.0
 id: prep-riboints
-label: Generate Picard ribosomal intervals file
+label: Build Picard ribosomal intervals
 
 doc: |
   Generate ribosomal intervals reference file for Picard CollectRnaSeqMetrics.
 
 baseCommand: ['make_riboints.sh']
 
-requirements:
-  - class: InlineJavascriptRequirement
-
 hints:
   - class: DockerRequirement
-    dockerPull: 'quay.io/Sage-Bionetworks/picard_utils:1.0'
+    dockerPull: 'quay.io/sage-bionetworks/picard_utils:1.0'
 
 inputs:
-  - id: input_gtf
-    label: Gene model GTF
-    doc: Gene annotations (gene model) in GTF from Gencode
+
+  - id: genemodel_gtf
+    label: Gene model GTF file
+    doc: Gene annotations (gene model) in GTF format from Gencode
     type: File
     inputBinding:
       position: 0
 
-  - id: input_bam
-    label: Input BAM
-    doc: Input file in BAM format
+  - id: reads_aligned_bam
+    label: Input BAM file
+    doc: Input file with aligned reads in BAM format
     type: File
     inputBinding:
       position: 1
 
 outputs:
-  - id: output
+
+  - id: picard_riboints
     label: Output ribosomal interval list
     doc: Output ribosomal (rRNA) interval list file
     type: File
     outputBinding:
-      glob: *.rRNA.interval_list
+      glob: "*.rRNA.interval_list"

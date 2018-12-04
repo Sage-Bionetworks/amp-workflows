@@ -1,0 +1,8 @@
+{
+  "reads_bam": {
+    "path": "ex_sr_unstranded_mappedonly.sorted.bam",
+    "class": "File"
+  },
+  "validation_stringency": "LENIENT",
+  "reads_r1_fastq": "ex_sr_unstranded.fastq"
+}
