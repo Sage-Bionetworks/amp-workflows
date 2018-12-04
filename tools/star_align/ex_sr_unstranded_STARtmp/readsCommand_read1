@@ -1,3 +1,0 @@
-exec > "ex_sr_unstranded_STARtmp/tmp.fifo.read1"
-echo FILE 0
-zcat      "ex_sr_unstranded.fastq.gz"
