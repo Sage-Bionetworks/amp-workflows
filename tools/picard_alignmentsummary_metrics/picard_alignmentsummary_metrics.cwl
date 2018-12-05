@@ -32,7 +32,7 @@ hints:
 
 inputs:
 
-  - id: reads_bam
+  - id: reads_aligned_bam
     label: Input reads BAM
     doc: Input reads data file in BAM format
     type: File
@@ -41,7 +41,7 @@ inputs:
       prefix: INPUT=
       separate: false
 
-  - id: reference_fasta
+  - id: reference_genome_fasta
     type: File
     inputBinding:
       position: 2
@@ -86,15 +86,22 @@ inputs:
   - id: validation_stringency
     type: string
     inputBinding:
-      position: 4
+      position: 8
       prefix: VALIDATION_STRINGENCY=
+      separate: false
+
+  - id: output_metrics
+    type: string
+    inputBinding:
+      position: 9
+      prefix: OUTPUT=
       separate: false
 
 outputs:
 
-  - id: output
+  - id: alignmentsummarymetrics_txt
     label: Output metrics
     doc: Output metrics file
     type: File
     outputBinding:
-      glob: "*picard.analysis.CollectAlignmentSummaryMetrics"
+      glob: "*.CollectAlignmentSummaryMetrics"

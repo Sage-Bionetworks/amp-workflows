@@ -1,12 +1,13 @@
 {
   "picard_metrics": [
     {
-      "path": "fill me in",
+      "path": "ex_sr_unstranded.CollectAlignmentSummaryMetrics",
       "class": "File"
     },
     {
-      "path": "fill me in",
+      "path": "ex_sr_unstranded.CollectRnaSeqMetrics",
       "class": "File"
     }
-  ]
+  ],
+  "combined_metrics_filename": "ex_sr_unstranded_picard.CombinedMetrics.csv"
 }

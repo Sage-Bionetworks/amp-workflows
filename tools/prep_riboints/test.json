@@ -1,10 +1,10 @@
 {
-  "input_gtf": {
-    "path": "fill me in",
+  "genemodel_gtf": {
+    "path": "gencode.v24.chr22.annotation.gtf",
     "class": "File"
   },
-  "input_bam": {
-    "path": "fill me in",
+  "reads_aligned_bam": {
+    "path": "ex_sr_unstrandedAligned.out.bam",
     "class": "File"
   }
 }

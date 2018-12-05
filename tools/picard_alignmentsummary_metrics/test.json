@@ -1,10 +1,10 @@
 {
-  "reads_bam": {
-    "path": "mapt.NA12156.altex.bam",
+  "reads_aligned_bam": {
+    "path": "ex_sr_unstrandedAligned.out.bam",
     "class": "File"
   },
-  "reference_fasta": {
-    "path": "",
+  "reference_genome_fasta": {
+    "path": "GRCh38.chr22.genome.fa",
     "class": "File"
   },
   "validation_stringency": "LENIENT",
@@ -12,5 +12,6 @@
   "max_insert_size": 100000,
   "is_bisulfite_seq": "false",
   "max_records_in_ram": 4000000,
-  "adapter_sequence": ""
+  "adapter_sequence": "",
+  "output_metrics": "ex_sr_unstrandedAligned.CollectAlignmentSummaryMetrics"
 }

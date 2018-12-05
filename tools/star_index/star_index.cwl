@@ -1,6 +1,6 @@
 cwlVersion: v1.0
 class: CommandLineTool
-label: "STAR genomeGenerate"
+label: STAR genomeGenerate
 doc: |
   Generate genome indexes for STAR.
 
@@ -29,8 +29,8 @@ arguments:
 
 inputs:
 
-  - id: nthreads:
-    label: "Number of threads"
+  - id: nthreads
+    label: Number of threads
     doc: |
       defines the number of threads to be used for genome generation, it has
       to be set to the number of available cores on the server node.
@@ -38,8 +38,8 @@ inputs:
     inputBinding:
       prefix: --runThreadN
 
-  - id: genomeFastaFiles:
-    label: "Paths to genome fasta files"
+  - id: genomeFastaFiles
+    label: Genome FASTA files
     doc: |
       specified one or more FASTA files with the genome reference sequences.
       Multiple reference sequences (henceforth called chromosomes) are allowed
@@ -53,7 +53,7 @@ inputs:
       prefix: --genomeFastaFiles
 
   - id: sjdbGTFfile
-    label: "Path to annotation gtf file"
+    label: Gene model GTF file
     doc: |
       specifies the path to the file with annotated transcripts in the
       standard GTF format. STAR will extract splice junctions from this file
@@ -66,8 +66,7 @@ inputs:
       prefix: --sjdbGTFfile
 
   - id: sjdbOverhang
-    label: "ReadLength-1, a value to be used for spliced junction database
-    construction"
+    label: Splice junction overhang
     doc: |
       specifies the length of the genomic sequence around the annotated
       junction to be used in constructing the splice junctions database.

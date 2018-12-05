@@ -284,31 +284,25 @@ inputs:
   #     prefix: --outSAMstrandField
 
 outputs:
-
-  # results:
-  #   type: File[]
-  #   outputBinding:
-  #     glob: "*"
-
   - id: aligned_reads_bam
     type: File
     outputBinding:
       glob: "*Aligned.out.bam"
 
-  # transcriptome_aligned_reads_bam:
+  # - id: transcriptome_aligned_reads_bam
   #   type: File
   #   outputBinding:
   #     glob: "*Aligned.toTranscriptome.out.bam"
-  #
-  # reads_per_gene:
-  #   type: File
-  #   outputBinding:
-  #     glob: "*ReadsPerGene.out.tab"
-  #
-  # splice_junctions:
-  #   type: File
-  #   outputBinding:
-  #     glob: "*SJ.out.tab"
+
+  - id: reads_per_gene
+    type: File
+    outputBinding:
+      glob: "*ReadsPerGene.out.tab"
+
+  - id: splice_junctions
+    type: File
+    outputBinding:
+      glob: "*SJ.out.tab"
 
   - id: logs
     type: File[]

@@ -1,28 +1,25 @@
 {
-  "rrna_fragment_percentage": 0.8,
-  "output": {
-    "path": "fill me in",
+  "reads_aligned_bam": {
+    "path": "ex_sr_unstrandedAligned.out.bam",
     "class": "File"
   },
-  "metric_accumulation_level": "ALL_READS",
-  "validation_stringency": "LENIENT",
-  "strand_specificity": "NONE",
-  "reference_fasta": {
-    "path": "fill me in",
+  "reference_genome_fasta": {
+    "path": "GRCh38.chr22.genome.fa",
     "class": "File"
   },
-  "max_records_in_ram": 4000000,
   "reference_refflat": {
-    "path": "fill me in",
+    "path": "gencode.v24.chr22.refFlat.txt",
     "class": "File"
   },
   "reference_riboints": {
-    "path": "fill me in",
+    "path": "gencode.v24.chr22.rRNA.interval_list",
     "class": "File"
   },
-  "reads_bam": {
-    "path": "fill me in",
-    "class": "File"
-  },
-  "minimum_length": 500
+  "rrna_fragment_percentage": 0.8,
+  "metric_accumulation_level": "ALL_READS",
+  "validation_stringency": "LENIENT",
+  "strand_specificity": "NONE",
+  "max_records_in_ram": 4000000,
+  "minimum_length": 500,
+  "output_metrics": "ex_sr_unstranded.CollectRnaSeqMetrics"
 }

@@ -1,0 +1,1 @@
+/Users/jaeddy/code/github/projects/amp-workflows/data/gencode.v24.chr22.refFlat.txt
