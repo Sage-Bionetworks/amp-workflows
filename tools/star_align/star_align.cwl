@@ -1,6 +1,6 @@
 cwlVersion: v1.0
 class: CommandLineTool
-label: "STAR mapping: running mapping jobs."
+label: STAR spliced alignment
 doc: |
   STAR: Spliced Transcripts Alignment to a Reference.
   https://github.com/alexdobin/STAR/blob/master/doc/STARmanual.pdf
@@ -15,7 +15,7 @@ dct:creator:
   foaf:mbox: "mailto:inutano@gmail.com"
 
 hints:
-  DockerRequirement:
+  - class: DockerRequirement
     dockerPull: 'quay.io/sage-bionetworks/star_utils:1.0'
 
 baseCommand: ['STAR', '--runMode', 'alignReads']
@@ -284,7 +284,8 @@ inputs:
   #     prefix: --outSAMstrandField
 
 outputs:
-  - id: aligned_reads_bam
+  - id: aligned_reads_sam
+    label: Aligned reads SAM
     type: File
     outputBinding:
       glob: "*Aligned.out.bam"
@@ -295,16 +296,19 @@ outputs:
   #     glob: "*Aligned.toTranscriptome.out.bam"
 
   - id: reads_per_gene
+    label: Reads per gene
     type: File
     outputBinding:
       glob: "*ReadsPerGene.out.tab"
 
   - id: splice_junctions
+    label: Splice junctions
     type: File
     outputBinding:
       glob: "*SJ.out.tab"
 
   - id: logs
+    label: STAR logs
     type: File[]
     outputBinding:
       glob: "*.out"

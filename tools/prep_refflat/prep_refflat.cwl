@@ -17,7 +17,7 @@ hints:
 inputs:
 
   - id: genemodel_gtf
-    label: Gene model GTF file
+    label: Gene model GTF
     doc: Gene annotations (gene model) in GTF from Gencode
     type: File
     inputBinding:
@@ -26,8 +26,8 @@ inputs:
 outputs:
 
   - id: picard_refflat
-    label: Output refFlat file
-    doc: Output refFlat reference file
+    label: Picard refFlat
+    doc: Picard refFlat reference
     type: File
     outputBinding:
       glob: "*.refFlat.txt"

@@ -1,5 +1,5 @@
 {
-  "reads_bam": {
+  "reads_sam": {
     "path": "ex_sr_unstranded_mappedonly.sorted.bam",
     "class": "File"
   },

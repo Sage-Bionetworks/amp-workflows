@@ -1,14 +1,15 @@
 {
-  "genomeFastaFiles": [
+  "genome_fastas": [
     {
       "path": "GRCh38.chr22.genome.fa",
       "class": "File"
     }
   ],
-  "sjdbGTFfile": {
+  "genemodel_gtf": {
     "path": "gencode.v24.chr22.annotation.gtf",
     "class": "File"
   },
-  "sjdbOverhang": 100,
-  "nthreads": 4
+  "sjdb_overhang": 100,
+  "nthreads": 4,
+  "genome_dir_name": "star"
 }

@@ -17,15 +17,25 @@ dct:creator:
   foaf:mbox: "mailto:inutano@gmail.com"
 
 hints:
-  DockerRequirement:
+
+  - class: DockerRequirement
     dockerPull: 'quay.io/sage-bionetworks/star_utils:1.0'
+
+requirements:
+
+  - class: InlineJavascriptRequirement
+  - class: InitialWorkDirRequirement
+    listing:
+      - entry: "$({class: 'Directory', listing: []})"
+        entryname: $(inputs.genome_dir_name)
+        writable: true
 
 baseCommand: ['STAR', '--runMode', 'genomeGenerate']
 
 arguments:
 
   - prefix: --genomeDir
-    valueFrom: $(runtime.outdir)
+    valueFrom: $(runtime.outdir + '/' + inputs.genome_dir_name)
 
 inputs:
 
@@ -38,8 +48,8 @@ inputs:
     inputBinding:
       prefix: --runThreadN
 
-  - id: genomeFastaFiles
-    label: Genome FASTA files
+  - id: genome_fastas
+    label: Genome sequence FASTAs
     doc: |
       specified one or more FASTA files with the genome reference sequences.
       Multiple reference sequences (henceforth called chromosomes) are allowed
@@ -52,8 +62,8 @@ inputs:
     inputBinding:
       prefix: --genomeFastaFiles
 
-  - id: sjdbGTFfile
-    label: Gene model GTF file
+  - id: genemodel_gtf
+    label: Gene model GTF
     doc: |
       specifies the path to the file with annotated transcripts in the
       standard GTF format. STAR will extract splice junctions from this file
@@ -65,7 +75,7 @@ inputs:
     inputBinding:
       prefix: --sjdbGTFfile
 
-  - id: sjdbOverhang
+  - id: sjdb_overhang
     label: Splice junction overhang
     doc: |
       specifies the length of the genomic sequence around the annotated
@@ -80,9 +90,13 @@ inputs:
     inputBinding:
       prefix: --sjdbOverhang
 
+  - id: genome_dir_name
+    type: string
+
 outputs:
 
-  - id: starIndex
-    type: File[]
+  - id: genome_dir
+    label: Reference genome directory
+    type: Directory
     outputBinding:
-      glob: "*"
+      glob: "*$(inputs.genome_dir_name)"

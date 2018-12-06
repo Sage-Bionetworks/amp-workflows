@@ -3,7 +3,7 @@
 class: CommandLineTool
 cwlVersion: v1.0
 id: combine-counts
-label: Combine read counts across samples.
+label: Combine read counts across samples
 
 doc: |
   Combine individual sample count files into a gene x sample matrix file.
@@ -65,8 +65,8 @@ inputs:
 outputs:
 
   - id: combined_counts
-    label: Output combined counts matrix
-    doc: Output combined counts matrix saved as tab-delimited text file.
+    label: Combined counts matrix
+    doc: Combined counts matrix saved as tab-delimited text file.
     type: File
     outputBinding:
       glob: "*_all_counts_matrix.txt"

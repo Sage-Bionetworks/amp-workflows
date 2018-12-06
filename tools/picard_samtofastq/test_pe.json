@@ -1,5 +1,5 @@
 {
-  "reads_bam": {
+  "reads_sam": {
     "path": "ex_pe_unstranded.bam.sorted.bam",
     "class": "File"
   },

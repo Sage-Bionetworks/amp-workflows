@@ -1,5 +1,5 @@
 {
-  "aligned_reads_bam": {
+  "aligned_reads_sam": {
     "path": "ex_sr_unstranded_mappedonly.bam",
     "class": "File"
   },

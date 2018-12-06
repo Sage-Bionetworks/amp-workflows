@@ -3,7 +3,7 @@
 class: CommandLineTool
 cwlVersion: v1.0
 id: combine-metrics
-label: Combine Picard metrics across samples.
+label: Combine Picard metrics across samples
 
 doc: |
   Combine individual sample metric files into a sample x metric matrix file.
@@ -44,7 +44,7 @@ inputs:
       prefix: --sample_suffix
 
   - id: output_directory
-    label: Output directory
+    label: Output metrics folder
     doc: |
       Directory in which to save output [default %(default)s].
     type: Directory
@@ -55,7 +55,7 @@ inputs:
 outputs:
 
   - id: combined_metrics
-    label: Output combined metrics matrix
+    label: Combined metrics matrix
     doc: Output combined metrics matrix saved as tab-delimited text file.
     type: File
     outputBinding:

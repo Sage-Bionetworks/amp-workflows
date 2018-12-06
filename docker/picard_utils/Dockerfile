@@ -4,11 +4,6 @@ MAINTAINER James Eddy <james.a.eddy@gmail.com>
 
 USER root
 
-ENV PACKAGES python-dev python-setuptools python-pip
-
-# RUN apt-get update && \
-#     apt-get install -y --no-install-recommends ${PACKAGES}
-
 RUN wget https://github.com/broadinstitute/picard/releases/download/2.2.4/picard-tools-2.2.4.zip && \
   unzip -q picard-tools-2.2.4.zip && \
   rm picard-tools-2.2.4.zip && \
@@ -16,7 +11,19 @@ RUN wget https://github.com/broadinstitute/picard/releases/download/2.2.4/picard
 
 ENV JAR_DIR /usr/local/lib/picard-tools-2.2.4
 
-RUN conda install ucsc-gtftogenepred
+ENV CONDA_PACKAGES \
+  python=2.7 \
+  ucsc-gtftogenepred \
+  samtools \
+  r=3.4.1 \
+  r-tidyr \
+  r-readr \
+  r-stringr \
+  r-purrr \
+  r-dplyr \
+  r-argparse
+
+RUN conda install ${CONDA_PACKAGES}
 
 COPY bin/* /usr/local/bin/
 RUN chmod a+x /usr/local/bin/combine_metrics_sample.py

@@ -28,9 +28,9 @@ hints:
 
 inputs:
 
-  - id: aligned_reads_bam
-    label: Input reads BAM file
-    doc: Input reads data file in BAM format
+  - id: aligned_reads_sam
+    label: Aligned reads SAM
+    doc: Reads data file in SAM (or BAM) format
     type: File
     inputBinding:
       position: 1
@@ -70,7 +70,7 @@ inputs:
       separate: false
 
   - id: sorted_reads_filename
-    label: Sorted BAM filename
+    label: Sorted SAM filename
     type: string
     inputBinding:
       position: 5
@@ -80,8 +80,8 @@ inputs:
 outputs:
 
   - id: sorted_reads_bam
-    label: Output sorted BAM
-    doc: Output sorted BAM file
+    label: Sorted reads SAM
+    doc: Sorted SAM (or BAM) file
     type: File
     outputBinding:
       glob: '*.bam'

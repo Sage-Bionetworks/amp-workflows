@@ -9,7 +9,8 @@ requirements:
 
 inputs:
 
-  - id: input_files
+  - id: input_file
+    label: Input file
     type: File
     inputBinding:
       position: 1
@@ -17,6 +18,7 @@ inputs:
 outputs:
 
   - id: output_gz
+    label: Output gzipped file
     type: File
     outputBinding:
       glob: "$(inputs.input_file.path.split('/').slice(-1)[0]).gz"

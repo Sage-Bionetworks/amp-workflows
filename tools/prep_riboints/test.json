@@ -3,7 +3,7 @@
     "path": "gencode.v24.chr22.annotation.gtf",
     "class": "File"
   },
-  "reads_aligned_bam": {
+  "aligned_reads_sam": {
     "path": "ex_sr_unstrandedAligned.out.bam",
     "class": "File"
   }

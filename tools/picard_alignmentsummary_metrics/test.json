@@ -1,9 +1,9 @@
 {
-  "reads_aligned_bam": {
+  "aligned_reads_sam": {
     "path": "ex_sr_unstrandedAligned.out.bam",
     "class": "File"
   },
-  "reference_genome_fasta": {
+  "genome_fasta": {
     "path": "GRCh38.chr22.genome.fa",
     "class": "File"
   },
@@ -13,5 +13,5 @@
   "is_bisulfite_seq": "false",
   "max_records_in_ram": 4000000,
   "adapter_sequence": "",
-  "output_metrics": "ex_sr_unstrandedAligned.CollectAlignmentSummaryMetrics"
+  "output_metrics_filename": "ex_sr_unstrandedAligned.CollectAlignmentSummaryMetrics"
 }

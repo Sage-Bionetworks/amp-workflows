@@ -1,0 +1,14 @@
+{
+  "input_files": [
+    {
+      "path": "ex_sr_unstranded_mappedonly.fastq.gz",
+      "class": "File"
+    },
+    {
+      "path": "ex_sr_unstranded_unmapped.fastq.gz",
+      "class": "File"
+    }
+  ],
+  "begin": 0,
+  "end": 1
+}

@@ -17,15 +17,15 @@ hints:
 inputs:
 
   - id: genemodel_gtf
-    label: Gene model GTF file
+    label: Gene model GTF
     doc: Gene annotations (gene model) in GTF format from Gencode
     type: File
     inputBinding:
       position: 0
 
-  - id: reads_aligned_bam
-    label: Input BAM file
-    doc: Input file with aligned reads in BAM format
+  - id: aligned_reads_sam
+    label: Aligned reads SAM
+    doc: Reads data file in SAM (or BAM) format
     type: File
     inputBinding:
       position: 1
@@ -33,8 +33,8 @@ inputs:
 outputs:
 
   - id: picard_riboints
-    label: Output ribosomal interval list
-    doc: Output ribosomal (rRNA) interval list file
+    label: Picard ribosomal intervals
+    doc: Picard ribosomal (rRNA) interval list file
     type: File
     outputBinding:
       glob: "*.rRNA.interval_list"

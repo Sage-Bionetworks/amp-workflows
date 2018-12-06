@@ -32,16 +32,18 @@ hints:
 
 inputs:
 
-  - id: reads_aligned_bam
-    label: Input reads BAM
-    doc: Input reads data file in BAM format
+  - id: aligned_reads_sam
+    label: Aligned reads SAM
+    doc: Reads data file in SAM (or BAM) format
     type: File
     inputBinding:
       position: 1
       prefix: INPUT=
       separate: false
 
-  - id: reference_genome_fasta
+  - id: genome_fasta
+    label: Genome sequence FASTA
+    doc: Reference genome sequence in FASTA format
     type: File
     inputBinding:
       position: 2
@@ -90,7 +92,7 @@ inputs:
       prefix: VALIDATION_STRINGENCY=
       separate: false
 
-  - id: output_metrics
+  - id: output_metrics_filename
     type: string
     inputBinding:
       position: 9
@@ -100,8 +102,8 @@ inputs:
 outputs:
 
   - id: alignmentsummarymetrics_txt
-    label: Output metrics
-    doc: Output metrics file
+    label: Picard AlignmentSummaryMetrics
+    doc: Picard CollectAlignmentSummaryMetrics results
     type: File
     outputBinding:
       glob: "*.CollectAlignmentSummaryMetrics"

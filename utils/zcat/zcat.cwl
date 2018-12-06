@@ -10,6 +10,7 @@ requirements:
 inputs:
 
   - id: input_gzs
+    label: Input gzipped files
     type: File[]
     inputBinding:
       position: 1
@@ -20,6 +21,7 @@ inputs:
 outputs:
 
   - id: output_gz
+    label: Concatenated gzipped file
     type: File
     outputBinding:
       glob: "$(inputs.output_basename).gz"

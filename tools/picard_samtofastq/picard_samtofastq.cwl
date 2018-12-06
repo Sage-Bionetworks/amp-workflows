@@ -3,7 +3,7 @@
 class: CommandLineTool
 cwlVersion: v1.0
 id: picard-samtofastq
-label: Use Picard to convert BAM to FASTQ
+label: Picard SamToFastq
 
 doc: |
   Use Picard to convert BAM to FASTQ.
@@ -26,9 +26,9 @@ hints:
 
 inputs:
 
-  - id: reads_bam
-    label: Input reads BAM
-    doc: Input reads data file in BAM format
+  - id: aligned_reads_sam
+    label: Aligned reads SAM
+    doc: Reads data file in SAM (or BAM) format
     type: File
     inputBinding:
       position: 1
@@ -36,6 +36,7 @@ inputs:
       separate: false
 
   - id: reads_r1_fastq
+    label: R1 reads FASTQ
     type: string
     inputBinding:
       position: 2
@@ -43,6 +44,7 @@ inputs:
       separate: false
 
   - id: reads_r2_fastq
+    label: R2 reads FASTQ
     type: string?
     inputBinding:
       position: 3
@@ -59,8 +61,8 @@ inputs:
 outputs:
 
   - id: output
-    label: Output FASTQ
-    doc: Output FASTQ file
+    label: Unaligned reads FASTQ
+    doc: Unaligned reads in FASTQ file format
     type: File
     outputBinding:
       glob: "*.fastq"

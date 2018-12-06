@@ -3,7 +3,7 @@
 class: CommandLineTool
 cwlVersion: v1.0
 id: combine-metrics
-label: Combine Picard metrics of different types for a sample.
+label: Combine Picard metrics per sample
 
 doc: |
   Combine data from one or more Picard metrics outputs into a
@@ -27,6 +27,7 @@ inputs:
       position: 0
 
   - id: combined_metrics_filename
+    label: Output metrics filename
     type: string
     inputBinding:
       position: 1
@@ -35,8 +36,8 @@ inputs:
 outputs:
 
   - id: combined_metrics_csv
-    label: ...
-    doc: ...
+    label: Combined metrics table
+    doc: Combined metrics table saved as CSV text file
     type: File
     outputBinding:
       glob: "*_picard.CombinedMetrics.csv"

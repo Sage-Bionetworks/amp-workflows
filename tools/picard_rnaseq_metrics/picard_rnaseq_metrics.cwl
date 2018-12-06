@@ -3,7 +3,7 @@
 class: CommandLineTool
 cwlVersion: v1.0
 id: picard-rnaseqmetrics
-label: Picard CollectRnaSeqMetrics module
+label: Picard CollectRnaSeqMetrics
 
 doc: |
   Use Picard to compute alignment summary metrics.
@@ -34,30 +34,36 @@ hints:
 
 inputs:
 
-  - id: reads_aligned_bam
-    label: Input reads BAM
-    doc: Input reads data file in BAM format
+  - id: aligned_reads_sam
+    label: Aligned reads SAM
+    doc: Reads data file in SAM (or BAM) format
     type: File
     inputBinding:
       position: 1
       prefix: INPUT=
       separate: false
 
-  - id: reference_genome_fasta
+  - id: genome_fasta
+    label: Genome sequence FASTA
+    doc: Reference genome sequence in FASTA format
     type: File
     inputBinding:
       position: 2
       prefix: R=
       separate: false
 
-  - id: reference_refflat
+  - id: picard_refflat
+    label: Picard refFlat
+    doc: Picard refFlat reference
     type: File
     inputBinding:
       position: 3
       prefix: REF_FLAT=
       separate: false
 
-  - id: reference_riboints
+  - id: picard_riboints
+    label: Picard ribosomal intervals
+    doc: Picard ribosomal (rRNA) interval list file
     type: File
     inputBinding:
       position: 4
@@ -106,7 +112,7 @@ inputs:
       prefix: VALIDATION_STRINGENCY=
       separate: false
 
-  - id: output_metrics
+  - id: output_metrics_filename
     type: string
     inputBinding:
       position: 11
@@ -116,8 +122,8 @@ inputs:
 outputs:
 
   - id: rnaseqmetrics_txt
-    label: Output metrics
-    doc: Output metrics file
+    label: Picard RnaSeqMetrics
+    doc: Picard CollectRnaSeqMetrics results
     type: File
     outputBinding:
       glob: "*.CollectRnaSeqMetrics"
