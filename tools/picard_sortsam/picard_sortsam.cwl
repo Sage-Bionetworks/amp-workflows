@@ -40,6 +40,7 @@ inputs:
   - id: sort_order
     label: Sort order
     type: string
+    default: "queryname"
     inputBinding:
       position: 2
       prefix: SORT_ORDER=
@@ -48,6 +49,7 @@ inputs:
   - id: quiet
     label: Verbosity (QUIET)
     type: string
+    default: "true"
     inputBinding:
       position: 3
       prefix: QUIET=
@@ -55,6 +57,7 @@ inputs:
 
   - id: validation_stringency
     label: Validation stringency
+    default: "SILENT"
     type: string
     inputBinding:
       position: 4
@@ -63,6 +66,7 @@ inputs:
 
   - id: compression_level
     label: Compression level
+    default: 0
     type: int
     inputBinding:
       position: 4

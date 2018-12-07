@@ -52,6 +52,7 @@ inputs:
 
   - id: max_insert_size
     type: int
+    default: 100000
     inputBinding:
       position: 3
       prefix: MAX_INSERT_SIZE=
@@ -59,6 +60,7 @@ inputs:
 
   - id: max_records_in_ram
     type: int
+    default: 4000000
     inputBinding:
       position: 4
       prefix: MAX_RECORDS_IN_RAM=
@@ -66,6 +68,7 @@ inputs:
 
   - id: assume_sorted
     type: string
+    default: "true"
     inputBinding:
       position: 5
       prefix: ASSUME_SORTED=
@@ -73,6 +76,7 @@ inputs:
 
   - id: is_bisulfite_seq
     type: string
+    default: "false"
     inputBinding:
       position: 6
       prefix: IS_BISULFITE_SEQUENCED=
@@ -80,6 +84,7 @@ inputs:
 
   - id: adapter_sequence
     type: string
+    default: ""
     inputBinding:
       position: 7
       prefix: ADAPTER_SEQUENCE=
@@ -87,6 +92,7 @@ inputs:
 
   - id: validation_stringency
     type: string
+    default: "LENIENT"
     inputBinding:
       position: 8
       prefix: VALIDATION_STRINGENCY=

@@ -44,6 +44,7 @@ inputs:
     doc: |
       Suffix to strip from sample filename [default %(default)s].
     type: string
+    default: "ReadsPerGene.out.tab"
     inputBinding:
       position: 2
       prefix: --sample_suffix
@@ -53,6 +54,7 @@ inputs:
     doc: |
       1-based index of counts column to select [default %(default)s].
     type: int
+    default: 2
     inputBinding:
       position: 4
       prefix: --col_num

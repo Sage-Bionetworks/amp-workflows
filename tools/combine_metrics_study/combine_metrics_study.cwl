@@ -44,6 +44,7 @@ inputs:
     doc: |
       Suffix to strip from sample filename [default %(default)s].
     type: string
+    default: "_picard.CombinedMetrics.csv"
     inputBinding:
       position: 2
       prefix: --sample_suffix

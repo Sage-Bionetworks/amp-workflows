@@ -72,6 +72,7 @@ inputs:
 
   - id: max_records_in_ram
     type: int
+    default: 4000000
     inputBinding:
       position: 5
       prefix: MAX_RECORDS_IN_RAM=
@@ -79,6 +80,7 @@ inputs:
 
   - id: strand_specificity
     type: string
+    default: "NONE"
     inputBinding:
       position: 6
       prefix: STRAND_SPECIFICITY=
@@ -86,6 +88,7 @@ inputs:
 
   - id: minimum_length
     type: int
+    default: 500
     inputBinding:
       position: 7
       prefix: MINIMUM_LENGTH=
@@ -93,6 +96,7 @@ inputs:
 
   - id: rrna_fragment_percentage
     type: float
+    default: 0.8
     inputBinding:
       position: 8
       prefix: RRNA_FRAGMENT_PERCENTAGE=
@@ -100,6 +104,7 @@ inputs:
 
   - id: metric_accumulation_level
     type: string
+    default: "ALL_READS"
     inputBinding:
       position: 9
       prefix: METRIC_ACCUMULATION_LEVEL=
@@ -107,6 +112,7 @@ inputs:
 
   - id: validation_stringency
     type: string
+    default: "LENIENT"
     inputBinding:
       position: 10
       prefix: VALIDATION_STRINGENCY=

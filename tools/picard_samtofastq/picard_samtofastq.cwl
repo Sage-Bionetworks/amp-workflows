@@ -53,6 +53,7 @@ inputs:
 
   - id: validation_stringency
     type: string
+    default: "LENIENT"
     inputBinding:
       position: 4
       prefix: VALIDATION_STRINGENCY=

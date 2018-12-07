@@ -98,7 +98,7 @@ inputs:
       SAM/BAM alignments to transcriptome into a separate file, GeneCounts:
       count reads per gene
     type: string[]
-    default: ["TranscriptomeSAM", "GeneCounts"]
+    default: "GeneCounts"
     inputBinding:
       prefix: --quantMode
 
