@@ -4,6 +4,10 @@ MAINTAINER James Eddy <james.a.eddy@gmail.com>
 
 USER root
 
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    tzdata
+
 RUN wget https://github.com/broadinstitute/picard/releases/download/2.2.4/picard-tools-2.2.4.zip && \
   unzip -q picard-tools-2.2.4.zip && \
   rm picard-tools-2.2.4.zip && \

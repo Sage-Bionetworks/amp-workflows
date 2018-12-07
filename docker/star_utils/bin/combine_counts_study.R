@@ -32,13 +32,15 @@ names(args$file_list) <- map_chr(args$file_list, function(file_path) {
 
 # Save the first column of the first file to a vector to use for ordering
 # rows in the combined matrix
-feature_order <- read_tsv(args$file_list[1], col_names = FALSE)[["X1"]]
+feature_order <- read_tsv(args$file_list[1],
+                          col_names = FALSE,
+                          col_types = "ciii")[["X1"]]
 
 # Merge all columns into a single data frame; note: identifiers (e.g., gene
 # names) in the first column will be stored in the "feature" column
 message("Combining counts for all samples...")
 combined_counts <- map_df(args$file_list, function(file_path) {
-    read_tsv(file_path, col_names = FALSE) %>%
+    read_tsv(file_path, col_names = FALSE, col_types = "ciii") %>%
         .[, c(1, args$col_num)] %>%
         set_names(c("feature", "count")) %>%
         mutate(feature = factor(feature, levels = feature_order))
