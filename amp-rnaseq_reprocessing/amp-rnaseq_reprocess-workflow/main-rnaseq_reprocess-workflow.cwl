@@ -1,5 +1,6 @@
 class: Workflow
 cwlVersion: v1.0
+label: AMP-AD RNA-seq Reprocessing
 doc: |
   Align RNA-seq data for each sample using STAR.
 $namespaces:
@@ -11,19 +12,33 @@ inputs:
     type: File
     'sbg:x': 4.24212646484375
     'sbg:y': 41.5
-  - id: output_directory
-    type: Directory
-    'sbg:x': 793.7315673828125
-    'sbg:y': 43.118568420410156
   - id: genome_fastas
     type: 'File[]'
-    'sbg:x': -172.6553497314453
-    'sbg:y': -251.48434448242188
+    'sbg:x': -176
+    'sbg:y': -256
   - id: genemodel_gtf
     type: File
     'sbg:x': -180.48533630371094
     'sbg:y': -87.0548095703125
-outputs: []
+  - id: output_prefix
+    type: string
+    'sbg:exposed': true
+  - id: sample_suffix
+    type: string
+    'sbg:exposed': true
+outputs:
+  - id: combined_counts
+    outputSource:
+      - combine_counts/combined_counts
+    type: File
+    'sbg:x': 617.0514526367188
+    'sbg:y': 105.48322296142578
+  - id: combined_metrics
+    outputSource:
+      - combine_metrics/combined_metrics
+    type: File
+    'sbg:x': 1090.5570068359375
+    'sbg:y': -31.02013397216797
 steps:
   - id: wf_alignment
     in:
@@ -69,19 +84,6 @@ steps:
     label: Metrics sub-workflow
     'sbg:x': 659
     'sbg:y': -34
-  - id: combine_metrics
-    in:
-      - id: picard_metrics
-        source:
-          - wf_metrics/combined_metrics_csv
-      - id: output_directory
-        source: output_directory
-    out:
-      - id: combined_metrics
-    run: steps/combine_metrics_study.cwl
-    label: Combine Picard metrics across samples
-    'sbg:x': 935.9485473632812
-    'sbg:y': -86.07830047607422
   - id: wf_buildindexes
     in:
       - id: genome_fastas
@@ -95,6 +97,32 @@ steps:
     label: Index building sub-workflow
     'sbg:x': 2.000000476837158
     'sbg:y': -180.13870239257812
+  - id: combine_counts
+    in:
+      - id: read_counts
+        source:
+          - wf_alignment/reads_per_gene
+    out:
+      - id: combined_counts
+    run: steps/combine_counts_study.cwl
+    label: Combine read counts across samples
+    'sbg:x': 403.40728759765625
+    'sbg:y': 143.3702392578125
+  - id: combine_metrics
+    in:
+      - id: picard_metrics
+        source:
+          - wf_metrics/combined_metrics_csv
+      - id: output_prefix
+        source: output_prefix
+      - id: sample_suffix
+        source: sample_suffix
+    out:
+      - id: combined_metrics
+    run: steps/combine_metrics_study.cwl
+    label: Combine Picard metrics across samples
+    'sbg:x': 881.3758544921875
+    'sbg:y': -99.6040267944336
 requirements:
   - class: SubworkflowFeatureRequirement
 'dct:creator':
