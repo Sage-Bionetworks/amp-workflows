@@ -17,6 +17,11 @@ hints:
   - class: DockerRequirement
     dockerPull: 'quay.io/sage-bionetworks/star_utils:1.0'
 
+arguments:
+
+  - prefix: --out_dir
+    valueFrom: $(runtime.outdir)
+
 inputs:
 
   - id: read_counts
@@ -42,16 +47,6 @@ inputs:
     inputBinding:
       position: 2
       prefix: --sample_suffix
-
-  - id: output_directory
-    label: Output directory
-    doc: |
-      Directory in which to save output [default %(default)s].
-    type: Directory
-    default: $(runtime.outdir)
-    inputBinding:
-      position: 3
-      prefix: --output_dir
 
   - id: column_number
     label: Counts column number

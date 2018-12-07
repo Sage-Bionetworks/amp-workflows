@@ -15,7 +15,12 @@ requirements:
 
 hints:
   - class: DockerRequirement
-    dockerPull: 'quay.io/Sage-Bionetworks/picard_utils:1.0'
+    dockerPull: 'quay.io/sage-bionetworks/picard_utils:1.0'
+
+arguments:
+
+  - prefix: --out_dir
+    valueFrom: $(runtime.outdir)
 
 inputs:
 
@@ -42,15 +47,6 @@ inputs:
     inputBinding:
       position: 2
       prefix: --sample_suffix
-
-  - id: output_directory
-    label: Output metrics folder
-    doc: |
-      Directory in which to save output [default %(default)s].
-    type: Directory
-    inputBinding:
-      position: 3
-      prefix: --output_dir
 
 outputs:
 
