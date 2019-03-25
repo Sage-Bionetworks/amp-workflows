@@ -1,1 +1,1 @@
-/Users/jaeddy/code/github/projects/amp-workflows/tools/picard_rnaseq_metrics/picard_rnaseq_metrics.cwl
+../../../tools/picard_rnaseq_metrics/picard_rnaseq_metrics.cwl

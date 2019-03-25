@@ -1,1 +1,1 @@
-/Users/jaeddy/code/github/projects/amp-workflows/tools/picard_sortsam/picard_sortsam.cwl
+../../../tools/picard_sortsam/picard_sortsam.cwl

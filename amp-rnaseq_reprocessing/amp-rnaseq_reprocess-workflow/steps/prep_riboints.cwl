@@ -1,1 +1,1 @@
-/Users/jaeddy/code/github/projects/amp-workflows/tools/prep_riboints/prep_riboints.cwl
+../../../tools/prep_riboints/prep_riboints.cwl

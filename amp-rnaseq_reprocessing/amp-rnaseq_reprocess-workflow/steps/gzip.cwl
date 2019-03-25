@@ -1,1 +1,1 @@
-/Users/jaeddy/code/github/projects/amp-workflows/utils/gzip/gzip.cwl
+../../../utils/gzip/gzip.cwl
