@@ -15,7 +15,7 @@ requirements:
 
 hints:
   - class: DockerRequirement
-    dockerPull: 'quay.io/sage-bionetworks/star_utils:1.0'
+    dockerPull: 'wpoehlm/ngstools:star'
 
 arguments:
 
