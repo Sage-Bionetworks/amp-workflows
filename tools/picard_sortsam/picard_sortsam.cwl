@@ -69,7 +69,7 @@ inputs:
     default: 0
     type: int
     inputBinding:
-      position: 4
+      position: 5
       prefix: COMPRESSION_LEVEL=
       separate: false
 
@@ -77,7 +77,7 @@ inputs:
     label: Sorted SAM filename
     type: string
     inputBinding:
-      position: 5
+      position: 6
       prefix: OUTPUT=
       separate: false
 
