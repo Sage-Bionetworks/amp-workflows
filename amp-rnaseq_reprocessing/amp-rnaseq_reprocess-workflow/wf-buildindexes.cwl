@@ -10,12 +10,21 @@ $namespaces:
 inputs:
   - id: genome_fastas
     type: 'File[]'
-    'sbg:x': -682.5869140625
-    'sbg:y': -429
+    'sbg:x': -836
+    'sbg:y': -463
   - id: genemodel_gtf
     type: File
-    'sbg:x': -690.5869140625
-    'sbg:y': -266
+    'sbg:x': -888
+    'sbg:y': -180
+  - id: nthreads
+    type: int
+    'sbg:x': -722
+    'sgb:y': -270
+    'sbg:y': -581
+  - id: genome_dir_name
+    type: string
+    'sbg:x': -852
+    'sbg:y': -340
 outputs:
   - id: genome_dir
     outputSource:
@@ -26,11 +35,15 @@ outputs:
 steps:
   - id: star_index
     in:
+      - id: nthreads
+        source: nthreads
       - id: genome_fastas
         source:
           - genome_fastas
       - id: genemodel_gtf
         source: genemodel_gtf
+      - id: genome_dir_name
+        source: genome_dir_name
     out:
       - id: genome_dir
     run: steps/star_index.cwl
