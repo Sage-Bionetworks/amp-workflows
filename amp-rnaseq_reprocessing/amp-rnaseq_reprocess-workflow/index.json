@@ -1,0 +1,16 @@
+{
+  "nthreads": 6,
+  "genome_fastas": [
+
+    {
+      "class": "File",
+      "path": "/home/wpoehlm/Testing/CWL/Run_WF/amp-rnaseq_reprocessing/amp-rnaseq_reprocess-workflow/Ref/chr21-GRCh38.fa"
+    }
+  ],
+  "genemodel_gtf": {
+    "class": "File",
+    "path": "/home/wpoehlm/Testing/CWL/Run_WF/amp-rnaseq_reprocessing/amp-rnaseq_reprocess-workflow/Ref/chr21-gencode.v24.annotation.gtf"
+  },
+    "sjdb_overhang": 100,
+    "genome_dir_name": "chromdex"
+}

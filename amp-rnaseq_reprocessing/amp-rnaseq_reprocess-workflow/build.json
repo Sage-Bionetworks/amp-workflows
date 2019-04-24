@@ -1,0 +1,11 @@
+{
+    "aligned_reads_sam": {
+        "class": "File",
+        "path": "/home/wpoehlm/Testing/CWL/example_bam/SRR6047145.sam"
+    },
+    "genemodel_gtf": {
+        "class": "File",
+        "path": "/home/wpoehlm/Testing/CWL/Run_WF/amp-rnaseq_reprocessing/amp-rnaseq_reprocess-workflow/Ref/chr21-gencode.v24.annotation.gtf"
+    }
+}
+

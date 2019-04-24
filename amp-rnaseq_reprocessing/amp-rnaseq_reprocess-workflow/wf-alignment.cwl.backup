@@ -11,28 +11,12 @@ $namespaces:
 inputs:
   - id: aligned_reads_sam
     type: File
-    'sbg:x': -459
-    'sbg:y': 21
+    'sbg:x': -451.2436218261719
+    'sbg:y': -10
   - id: genome_dir
     type: Directory
     'sbg:x': 273.41412353515625
     'sbg:y': 167.5
-  - id: sorted_reads_filename
-    type: string
-    'sbg:x': -579
-    'sbg:y': -41
-  - id: reads_r1_fastq
-    type: string
-    'sbg:x': -427
-    'sbg:y': 249
-  - id: reads_r2_fastq
-    type: string?
-    'sbg:x': -271
-    'sbg:y': 318
-  - id: num_threads
-    type: int
-    'sbg:x': 418
-    'sbg:y': 255
 outputs:
   - id: splice_junctions
     outputSource:
@@ -58,19 +42,11 @@ outputs:
     type: File
     'sbg:x': 601
     'sbg:y': 247
-#  - id: output_fq
-#    outputSource:
-#      - picard_samtofastq/output_fq
-#    type: File[]
-#    'sbg:x': -11.111109733581543
-#    'sbg:y': 229.41175842285156
 steps:
   - id: picard_sortsam
     in:
       - id: aligned_reads_sam
         source: aligned_reads_sam
-      - id: sorted_reads_filename
-        source: sorted_reads_filename
     out:
       - id: sorted_reads_bam
     run: steps/picard_sortsam.cwl
@@ -81,31 +57,38 @@ steps:
     in:
       - id: aligned_reads_sam
         source: picard_sortsam/sorted_reads_bam
-      - id: reads_r1_fastq
-        source: reads_r1_fastq
-      - id: reads_r2_fastq
-        source: reads_r2_fastq
     out:
-      - id: mate_1
-      - id: mate_2
+      - id: output
     run: steps/picard_samtofastq.cwl
     label: Picard SamToFastq
     'sbg:x': -147
     'sbg:y': 116
+  - id: gzip
+    in:
+      - id: input_file
+        source: picard_samtofastq/output
+    out:
+      - id: output_gz
+    run: steps/gzip.cwl
+    'sbg:x': -28
+    'sbg:y': -9
+  - id: zcat
+    in:
+      - id: input_gzs
+        source:
+          - gzip/output_gz
+    out:
+      - id: output_gz
+    run: steps/zcat.cwl
+    'sbg:x': 165
+    'sbg:y': -8
   - id: star_align
     in:
-#      - id: unaligned_reads_fastq
-#        source:
-#          - picard_samtofastq/output_fq
-
-      - id: mate_1_fastq
-        source: picard_samtofastq/mate_1
-      - id: mate_2_fastq
-        source: picard_samtofastq/mate_2
+      - id: unaligned_reads_fastq
+        source:
+          - zcat/output_gz
       - id: genome_dir
         source: genome_dir
-      - id: num_threads
-        source: num_threads
     out:
       - id: aligned_reads_sam
       - id: reads_per_gene
