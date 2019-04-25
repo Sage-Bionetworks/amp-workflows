@@ -24,6 +24,10 @@ inputs:
     type: File
     'sbg:x': -347.39886474609375
     'sbg:y': -112
+  - id: output_metrics_filename
+    type: File
+    'sbg:x': -400
+    'sbg:y': -150
 outputs:
   - id: combined_metrics_csv
     outputSource:
@@ -42,6 +46,8 @@ steps:
         source: picard_refflat
       - id: picard_riboints
         source: picard_riboints
+      - id: output_metrics_filename
+        source: output_metrics_filename
     out:
       - id: rnaseqmetrics_txt
     run: steps/picard_rnaseq_metrics.cwl

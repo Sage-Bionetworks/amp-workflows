@@ -28,6 +28,7 @@ ENV CONDA_PACKAGES \
   r-argparse
 
 RUN conda install ${CONDA_PACKAGES}
+RUN conda install -c conda-forge ncurses
 
 COPY bin/* /usr/local/bin/
 RUN chmod a+x /usr/local/bin/combine_metrics_sample.py
