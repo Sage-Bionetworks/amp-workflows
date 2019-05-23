@@ -112,4 +112,4 @@ outputs:
     doc: Picard CollectAlignmentSummaryMetrics results
     type: File
     outputBinding:
-      glob: "*.CollectAlignmentSummaryMetrics"
+      glob: "*txt"

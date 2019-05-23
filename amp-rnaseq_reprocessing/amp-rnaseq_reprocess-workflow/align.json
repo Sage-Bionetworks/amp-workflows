@@ -2,16 +2,16 @@
     "aligned_reads_sam": {
         "class": "File",
         "metadata": {},
-        "path": "/home/wpoehlm/Testing/CWL/example_bam/SRR6047148.filtered.bam",
+        "path": "./subset.bam",
         "secondaryFiles": []
     },
     "genome_dir": {
         "class": "Directory",
-        "path": "/home/wpoehlm/Testing/CWL/Run_WF/amp-rnaseq_reprocessing/amp-rnaseq_reprocess-workflow/Dex"
+        "path": "./Dex"
     },
-    "num_threads": 4,
-    "output_basename": "SRR6047148",
-    "reads_r1_fastq": "SRR6047148_1.fastq",
-    "reads_r2_fastq": "SRR6047148_2.fastq",
-    "sorted_reads_filename": "SRR6047148.sorted.bam"
+    "num_threads": 3,
+    "output_basename": "test",
+    "reads_r1_fastq": "test_1.fastq",
+    "reads_r2_fastq": "test_2.fastq",
+    "sorted_reads_filename": "test.sorted.bam"
 }

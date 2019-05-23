@@ -1,0 +1,16 @@
+{
+    "genemodel_gtf": {
+        "class": "File",
+        "path": "./Ref/chr21-gencode.v24.annotation.gtf"
+    },
+    "genome_dir_name": "Dex",
+    "genome_fastas": [
+        {
+            "class": "File",
+            "path": "./Ref/chr21-GRCh38.fa"
+        }
+    ],
+    "nthreads": 6,
+    "sjdb_overhang": null
+}
+

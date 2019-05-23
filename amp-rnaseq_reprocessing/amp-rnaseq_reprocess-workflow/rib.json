@@ -1,0 +1,11 @@
+{
+    "aligned_reads_sam": {
+        "class": "File",
+        "path": "./STARAligned.out.bam"
+    },
+    "genemodel_gtf": {
+        "class": "File",
+        "path": "./Ref/chr21-gencode.v24.annotation.gtf"
+    }
+}
+

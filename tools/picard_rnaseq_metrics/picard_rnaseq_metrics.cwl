@@ -132,4 +132,4 @@ outputs:
     doc: Picard CollectRnaSeqMetrics results
     type: File
     outputBinding:
-      glob: "*.CollectRnaSeqMetrics"
+      glob: "*txt"

@@ -40,4 +40,4 @@ outputs:
     doc: Combined metrics table saved as CSV text file
     type: File
     outputBinding:
-      glob: "*_picard.CombinedMetrics.csv"
+      glob: "*txt"

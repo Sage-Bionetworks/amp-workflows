@@ -56,4 +56,4 @@ outputs:
     doc: Output combined metrics matrix saved as tab-delimited text file.
     type: File
     outputBinding:
-      glob: "*_all_metrics_matrix.txt"
+      glob: "*txt"
