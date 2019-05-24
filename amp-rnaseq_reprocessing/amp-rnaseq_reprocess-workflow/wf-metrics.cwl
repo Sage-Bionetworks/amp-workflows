@@ -1,8 +1,8 @@
 class: Workflow
 cwlVersion: v1.0
-label: Metrics sub-workflow
 doc: |
   Align RNA-seq data for each sample using STAR.
+label: Metrics sub-workflow
 $namespaces:
   dct: 'http://purl.org/dc/terms/'
   foaf: 'http://xmlns.com/foaf/0.1/'
@@ -22,12 +22,16 @@ inputs:
     'sbg:y': 39
   - id: picard_riboints
     type: File
-    'sbg:x': -347.39886474609375
-    'sbg:y': -112
+    'sbg:x': -486
+    'sbg:y': -178
   - id: output_metrics_filename
-    type: File
-    'sbg:x': -400
-    'sbg:y': -150
+    type: string
+    'sbg:x': -499
+    'sbg:y': -77
+  - id: combined_metrics_filename
+    type: string
+    'sbg:x': 174
+    'sbg:y': 71
 outputs:
   - id: combined_metrics_csv
     outputSource:
@@ -60,6 +64,8 @@ steps:
         source: aligned_reads_sam
       - id: genome_fasta
         source: genome_fasta
+      - id: output_metrics_filename
+        source: output_metrics_filename
     out:
       - id: alignmentsummarymetrics_txt
     run: steps/picard_alignmentsummary_metrics.cwl
@@ -72,6 +78,8 @@ steps:
         source:
           - picard_alignmentsummarymetrics/alignmentsummarymetrics_txt
           - picard_rnaseqmetrics/rnaseqmetrics_txt
+      - id: combined_metrics_filename
+        source: combined_metrics_filename
     out:
       - id: combined_metrics_csv
     run: steps/combine_metrics_sample.cwl
@@ -84,3 +92,5 @@ requirements:
   '@id': 'http://orcid.org/0000-0001-9758-0176'
   'foaf:mbox': 'mailto:james.a.eddy@gmail.com'
   'foaf:name': James Eddy
+
+
