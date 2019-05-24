@@ -58,7 +58,7 @@ inputs:
       names from this file will be used in all output alignment files (such as
       .sam). The tabs are not allowed in chromosomes names, and spaces are not
       recommended.
-    type: File[]
+    type: File
     inputBinding:
       prefix: --genomeFastaFiles
 

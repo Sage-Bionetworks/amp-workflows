@@ -9,7 +9,7 @@ $namespaces:
   sbg: 'https://www.sevenbridges.com/'
 inputs:
   - id: genome_fastas
-    type: 'File[]'
+    type: 'File'
     'sbg:x': -836
     'sbg:y': -463
   - id: genemodel_gtf
