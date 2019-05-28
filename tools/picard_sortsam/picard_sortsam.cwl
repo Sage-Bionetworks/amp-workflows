@@ -39,7 +39,7 @@ inputs:
       prefix: VALIDATION_STRINGENCY=
       separate: false
     label: Validation stringency
-  - default: 0
+  - default: 5
     id: compression_level
     type: int
     inputBinding:
