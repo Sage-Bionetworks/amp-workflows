@@ -22,7 +22,7 @@ inputs:
     'sgb:y': -270
     'sbg:y': -581
   - id: genome_dir_name
-    type: string
+    type: string?
     'sbg:x': -852
     'sbg:y': -340
 outputs:

@@ -14,7 +14,7 @@ inputs:
     'sbg:x': -459
     'sbg:y': 21
   - id: genome_dir
-    type: Directory
+    type: Directory?
     'sbg:x': 273.41412353515625
     'sbg:y': 167.5
   - id: sorted_reads_filename

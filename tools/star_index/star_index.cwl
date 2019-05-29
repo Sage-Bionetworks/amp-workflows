@@ -90,7 +90,8 @@ inputs:
     inputBinding:
       prefix: --sjdbOverhang
 
-  - id: genome_dir_name
+  - default: Dex
+    id: genome_dir_name
     type: string
 
 outputs:

@@ -61,6 +61,9 @@ inputs:
     doc: |
       path to the directory where genome files are stored
     type: Directory
+    default:
+      - class: Directory
+      - path: "Dex"
     inputBinding:
       prefix: --genomeDir
 
