@@ -29,7 +29,7 @@ inputs:
     type: string?
     'sbg:x': -271
     'sbg:y': 318
-  - id: num_threads
+  - id: nthreads
     type: int
     'sbg:x': 418
     'sbg:y': 255
@@ -104,8 +104,8 @@ steps:
         source: picard_samtofastq/mate_2
       - id: genome_dir
         source: genome_dir
-      - id: num_threads
-        source: num_threads
+      - id: nthreads
+        source: nthreads
     out:
       - id: aligned_reads_sam
       - id: reads_per_gene

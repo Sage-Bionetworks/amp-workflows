@@ -64,7 +64,7 @@ inputs:
     inputBinding:
       prefix: --genomeDir
 
-  - id: num_threads
+  - id: nthreads
     label: Number of threads
     doc: |
       defines the number of threads to be used for genome generation, it has
