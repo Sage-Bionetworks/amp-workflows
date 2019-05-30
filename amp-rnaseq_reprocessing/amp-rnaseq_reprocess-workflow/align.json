@@ -1,8 +1,13 @@
 {
+    "synapse_config": {
+        "class": "File",
+        "path": ".synapseConfig"
+    },
+    "synapseid": "syn18822534",
     "aligned_reads_sam": {
         "class": "File",
         "metadata": {},
-        "path": "./subset.bam",
+        "path": "/home/wpoehlm/Testing/CWL/example_bam/SRR6047148.filtered.bam",
         "secondaryFiles": []
     },
     "genome_dir": {

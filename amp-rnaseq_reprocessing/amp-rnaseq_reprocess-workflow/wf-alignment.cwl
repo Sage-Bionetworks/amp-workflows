@@ -11,72 +11,86 @@ $namespaces:
 inputs:
   - id: aligned_reads_sam
     type: File
-    'sbg:x': -459
-    'sbg:y': 21
+    'sbg:x': 0
+    'sbg:y': 548.5
   - id: genome_dir
     type: Directory?
-    'sbg:x': 273.41412353515625
-    'sbg:y': 167.5
-  - id: sorted_reads_filename
-    type: string
-    'sbg:x': -579
-    'sbg:y': -41
+    'sbg:x': 769.881103515625
+    'sbg:y': 321
   - id: reads_r1_fastq
     type: string
-    'sbg:x': -427
-    'sbg:y': 249
+    'sbg:x': 0
+    'sbg:y': 428
   - id: reads_r2_fastq
     type: string?
-    'sbg:x': -271
-    'sbg:y': 318
+    'sbg:x': 391
+    'sbg:y': -189
   - id: nthreads
     type: int
-    'sbg:x': 418
-    'sbg:y': 255
+    'sbg:x': 946.881103515625
+    'sbg:y': -24
+  - id: sorted_reads_filename
+    type: string
+    'sbg:x': 336
+    'sbg:y': 36
+  - id: synapse_config
+    type: File
+    'sbg:x': 0
+    'sbg:y': 107
+  - id: synapseid
+    type: string
+    'sbg:x': 0
+    'sbg:y': 0
 outputs:
   - id: splice_junctions
     outputSource:
       - star_align/splice_junctions
     type: File
-    'sbg:x': 592
-    'sbg:y': -98
+    'sbg:x': 1399.3011474609375
+    'sbg:y': 53.5
   - id: reads_per_gene
     outputSource:
       - star_align/reads_per_gene
     type: File
-    'sbg:x': 664
-    'sbg:y': 5
+    'sbg:x': 1399.3011474609375
+    'sbg:y': 267.5
   - id: logs
     outputSource:
       - star_align/logs
     type: 'File[]'
-    'sbg:x': 660
-    'sbg:y': 150
+    'sbg:x': 1399.3011474609375
+    'sbg:y': 374.5
   - id: realigned_reads_sam
     outputSource:
       - star_align/aligned_reads_sam
     type: File
-    'sbg:x': 601
-    'sbg:y': 247
-#  - id: output_fq
-#    outputSource:
-#      - picard_samtofastq/output_fq
-#    type: File[]
-#    'sbg:x': -11.111109733581543
-#    'sbg:y': 229.41175842285156
+    'sbg:x': 1410.3011474609375
+    'sbg:y': 504.5
 steps:
+  - id: syn_get
+    in:
+      - id: synapse_config
+        source: synapse_config
+      - id: synapseid
+        source: synapseid
+    out:
+      - id: filepath
+    run: steps/synapse-get-tool.cwl
+    label: Download BAM from Synapse
+    'sbg:x': 233.5
+    'sbg:y': 207
   - id: picard_sortsam
     in:
       - id: aligned_reads_sam
-        source: aligned_reads_sam
+        source: syn_get/filepath
       - id: sorted_reads_filename
         source: sorted_reads_filename
     out:
       - id: sorted_reads_bam
     run: steps/picard_sortsam.cwl
     label: Picard SortSam
-    'sbg:x': -307
-    'sbg:y': -10
+    'sbg:x': 458.3077392578125
+    'sbg:y': 207
   - id: picard_samtofastq
     in:
       - id: aligned_reads_sam
@@ -90,14 +104,10 @@ steps:
       - id: mate_2
     run: steps/picard_samtofastq.cwl
     label: Picard SamToFastq
-    'sbg:x': -147
-    'sbg:y': 116
+    'sbg:x': 769.881103515625
+    'sbg:y': 93
   - id: star_align
     in:
-#      - id: unaligned_reads_fastq
-#        source:
-#          - picard_samtofastq/output_fq
-
       - id: mate_1_fastq
         source: picard_samtofastq/mate_1
       - id: mate_2_fastq
@@ -113,8 +123,8 @@ steps:
       - id: logs
     run: steps/star_align.cwl
     label: STAR spliced alignment
-    'sbg:x': 440
-    'sbg:y': 58
+    'sbg:x': 1044.3306884765625
+    'sbg:y': 193
 requirements: []
 'dct:creator':
   '@id': 'http://orcid.org/0000-0001-9758-0176'
