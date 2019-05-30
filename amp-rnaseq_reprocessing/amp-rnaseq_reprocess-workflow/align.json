@@ -1,22 +1,12 @@
 {
     "synapse_config": {
         "class": "File",
-        "path": ".synapseConfig"
+        "path": "/home/wpoehlm/.synapseConfig"
     },
     "synapseid": "syn18822534",
-    "aligned_reads_sam": {
-        "class": "File",
-        "metadata": {},
-        "path": "./subset.bam",
-        "secondaryFiles": []
-    },
     "genome_dir": {
         "class": "Directory",
         "path": "./Dex"
     },
     "nthreads": 3,
-    "output_basename": "test",
-    "reads_r1_fastq": "test_1.fastq",
-    "reads_r2_fastq": "test_2.fastq",
-    "sorted_reads_filename": "test.sorted.bam"
 }

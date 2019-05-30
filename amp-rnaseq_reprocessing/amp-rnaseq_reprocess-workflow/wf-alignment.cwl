@@ -9,30 +9,14 @@ $namespaces:
   foaf: 'http://xmlns.com/foaf/0.1/'
   sbg: 'https://www.sevenbridges.com/'
 inputs:
-  - id: aligned_reads_sam
-    type: File
-    'sbg:x': 0
-    'sbg:y': 548.5
   - id: genome_dir
-    type: Directory?
+    type: Directory
     'sbg:x': 769.881103515625
     'sbg:y': 321
-  - id: reads_r1_fastq
-    type: string
-    'sbg:x': 0
-    'sbg:y': 428
-  - id: reads_r2_fastq
-    type: string?
-    'sbg:x': 391
-    'sbg:y': -189
   - id: nthreads
     type: int
     'sbg:x': 946.881103515625
     'sbg:y': -24
-  - id: sorted_reads_filename
-    type: string
-    'sbg:x': 336
-    'sbg:y': 36
   - id: synapse_config
     type: File
     'sbg:x': 0
@@ -84,7 +68,7 @@ steps:
       - id: aligned_reads_sam
         source: syn_get/filepath
       - id: sorted_reads_filename
-        source: sorted_reads_filename
+        valueFrom: $(inputs.aligned_reads_sam.nameroot).sorted.bam
     out:
       - id: sorted_reads_bam
     run: steps/picard_sortsam.cwl
@@ -96,9 +80,9 @@ steps:
       - id: aligned_reads_sam
         source: picard_sortsam/sorted_reads_bam
       - id: reads_r1_fastq
-        source: reads_r1_fastq
+        valueFrom: $(inputs.aligned_reads_sam.nameroot)_1.fastq
       - id: reads_r2_fastq
-        source: reads_r2_fastq
+        valueFrom: $(inputs.aligned_reads_sam.nameroot)_2.fastq
     out:
       - id: mate_1
       - id: mate_2
@@ -125,7 +109,8 @@ steps:
     label: STAR spliced alignment
     'sbg:x': 1044.3306884765625
     'sbg:y': 193
-requirements: []
+requirements: 
+  StepInputExpressionRequirement: {}
 'dct:creator':
   '@id': 'http://orcid.org/0000-0001-9758-0176'
   'foaf:mbox': 'mailto:james.a.eddy@gmail.com'
