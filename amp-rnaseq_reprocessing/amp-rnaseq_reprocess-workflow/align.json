@@ -7,7 +7,7 @@
     "aligned_reads_sam": {
         "class": "File",
         "metadata": {},
-        "path": "/home/wpoehlm/Testing/CWL/example_bam/SRR6047148.filtered.bam",
+        "path": "./subset.bam",
         "secondaryFiles": []
     },
     "genome_dir": {
