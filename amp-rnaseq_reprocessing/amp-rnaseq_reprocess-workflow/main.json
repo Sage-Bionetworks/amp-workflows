@@ -1,0 +1,16 @@
+{
+    "genemodel_gtf": {
+        "class": "File",
+        "path": "./Ref/chr21-gencode.v24.annotation.gtf"
+    },
+    "genome_fastas": {
+        "class": "File",
+        "path": "./Ref/chr21-GRCh38.fa"
+    },
+    "synapse_config": {
+        "class": "File",
+        "path": "/home/wpoehlm/.synapseConfig"
+    },
+    "synapseid": "syn18822534"
+}
+
