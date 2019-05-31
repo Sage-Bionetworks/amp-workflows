@@ -24,14 +24,14 @@ inputs:
     type: File
     'sbg:x': -486
     'sbg:y': -178
+  - id: basef
+    type: string
+    'sbg:x': 100
+    'sbg:y': 199
   - id: output_metrics_filename
-    type: string
-    'sbg:x': -499
-    'sbg:y': -77
-  - id: combined_metrics_filename
-    type: string
-    'sbg:x': 174
-    'sbg:y': 71
+    type: string?
+    'sbg:x': 211
+    'sbg:y': 232
 outputs:
   - id: combined_metrics_csv
     outputSource:
@@ -78,8 +78,10 @@ steps:
         source:
           - picard_alignmentsummarymetrics/alignmentsummarymetrics_txt
           - picard_rnaseqmetrics/rnaseqmetrics_txt
+      - id: basef
+        source: basef
       - id: combined_metrics_filename
-        source: combined_metrics_filename
+        valueFrom: $(inputs.basef).csv
     out:
       - id: combined_metrics_csv
     run: steps/combine_metrics_sample.cwl
@@ -87,7 +89,8 @@ steps:
     'sbg:x': 192.60113525390625
     'sbg:y': -121
 requirements:
-  - class: MultipleInputFeatureRequirement
+  MultipleInputFeatureRequirement: {}
+  StepInputExpressionRequirement: {}
 'dct:creator':
   '@id': 'http://orcid.org/0000-0001-9758-0176'
   'foaf:mbox': 'mailto:james.a.eddy@gmail.com'

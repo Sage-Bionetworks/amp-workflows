@@ -120,6 +120,7 @@ inputs:
 
   - id: output_metrics_filename
     type: string
+    default: output_metrics.txt
     inputBinding:
       position: 11
       prefix: OUTPUT=

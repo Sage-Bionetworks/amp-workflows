@@ -12,14 +12,15 @@ doc: |
 baseCommand: ['combine_metrics_sample.py']
 
 requirements:
-  - class: InlineJavascriptRequirement
+  StepInputExpressionRequirement: {}
 
 hints:
   - class: DockerRequirement
     dockerPull: 'wpoehlm/ngstools:picard'
 
 inputs:
-
+  - id: basef
+    type: string
   - id: picard_metrics
     label: Picard metrics files to combine
     type: File[]
@@ -40,4 +41,4 @@ outputs:
     doc: Combined metrics table saved as CSV text file
     type: File
     outputBinding:
-      glob: "*txt"
+      glob: "*csv"

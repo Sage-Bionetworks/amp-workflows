@@ -3,12 +3,10 @@
         "class": "File",
         "path": "./STARAligned.out.bam"
     },
-    "combined_metrics_filename": "combined_metrics.txt",
     "genome_fasta": {
         "class": "File",
         "path": "./Ref/chr21-GRCh38.fa"
     },
-    "output_metrics_filename": "output_metrics.txt",
     "picard_refflat": {
         "class": "File",
         "path": "./chr21-gencode.v24.refFlat.txt"
@@ -16,6 +14,7 @@
     "picard_riboints": {
         "class": "File",
         "path": "./chr21-gencode.v24.rRNA.interval_list"
-    }
+    },
+    "basef": "test"
 }
 
