@@ -11,6 +11,7 @@
         "class": "File",
         "path": "/home/wpoehlm/.synapseConfig"
     },
-    "synapseid": "syn18822534"
+    "synapseid": "syn18822534",
+    "nthreads": 3
 }
 

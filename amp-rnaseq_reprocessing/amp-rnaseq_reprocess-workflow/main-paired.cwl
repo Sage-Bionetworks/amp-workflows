@@ -21,6 +21,10 @@ inputs:
     type: string
     'sbg:x': -405
     'sbg:y': -412
+  - id: nthreads
+    type: int
+    'sbg:x': -422
+    'sbg:y': -411
 outputs:
   - id: reads_per_gene
     outputSource:
@@ -47,6 +51,8 @@ steps:
         source: genome_fastas
       - id: genemodel_gtf
         source: genemodel_gtf
+      - id: nthreads
+        source: nthreads
     out:
       - id: genome_dir
     run: ./wf-buildindexes.cwl
@@ -61,6 +67,8 @@ steps:
         source: synapse_config
       - id: synapseid
         source: synapseid
+      - id: nthreads
+        source: nthreads
     out:
       - id: splice_junctions
       - id: reads_per_gene
@@ -93,6 +101,8 @@ steps:
         source: wf_buildrefs/picard_refflat
       - id: picard_riboints
         source: wf_buildrefs/picard_riboints
+      - id: basef
+        source: synapseid
     out:
       - id: combined_metrics_csv
     run: ./wf-metrics.cwl
