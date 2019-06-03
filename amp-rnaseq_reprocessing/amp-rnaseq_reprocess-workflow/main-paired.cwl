@@ -18,7 +18,7 @@ inputs:
     'sbg:x': -522.0704956054688
     'sbg:y': -348.93670654296875
   - id: synapseid
-    type: string
+    type: string[]
     'sbg:x': -405
     'sbg:y': -412
   - id: nthreads
@@ -29,19 +29,19 @@ outputs:
   - id: reads_per_gene
     outputSource:
       - wf_alignment/reads_per_gene
-    type: File
+    type: File[]
     'sbg:x': -148
     'sbg:y': -351
   - id: realigned_reads_sam
     outputSource:
       - wf_alignment/realigned_reads_sam
-    type: File
+    type: File[]
     'sbg:x': -178
     'sbg:y': -472
   - id: combined_metrics_csv
     outputSource:
       - wf_metrics/combined_metrics_csv
-    type: File
+    type: File[]
     'sbg:x': 386.2437744140625
     'sbg:y': -182.75
 steps:
@@ -63,12 +63,12 @@ steps:
     in:
       - id: genome_dir
         source: wf_buildindexes/genome_dir
+      - id: nthreads
+        source: nthreads
       - id: synapse_config
         source: synapse_config
       - id: synapseid
         source: synapseid
-      - id: nthreads
-        source: nthreads
     out:
       - id: splice_junctions
       - id: reads_per_gene
@@ -76,6 +76,9 @@ steps:
       - id: realigned_reads_sam
     run: ./wf-alignment.cwl
     label: Alignment sub-workflow
+    scatter:
+      - synapseid
+    scatterMethod: dotproduct
     'sbg:x': -310.91680908203125
     'sbg:y': -200.39964294433594
   - id: wf_buildrefs
@@ -89,6 +92,9 @@ steps:
       - id: picard_refflat
     run: ./wf-buildrefs.cwl
     label: Reference building sub-workflow
+    scatter:
+      - aligned_reads_sam
+    scatterMethod: dotproduct
     'sbg:x': -516
     'sbg:y': 12
   - id: wf_metrics
@@ -107,7 +113,14 @@ steps:
       - id: combined_metrics_csv
     run: ./wf-metrics.cwl
     label: Metrics sub-workflow
+    scatter:
+      - aligned_reads_sam
+      - picard_refflat
+      - picard_riboints
+      - basef
+    scatterMethod: dotproduct
     'sbg:x': 128
     'sbg:y': -185
 requirements:
   - class: SubworkflowFeatureRequirement
+  - class: ScatterFeatureRequirement
