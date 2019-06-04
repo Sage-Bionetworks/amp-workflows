@@ -26,12 +26,6 @@ inputs:
     'sbg:x': -422
     'sbg:y': -411
 outputs:
-  - id: reads_per_gene
-    outputSource:
-      - wf_alignment/reads_per_gene
-    type: 'File[]'
-    'sbg:x': -148
-    'sbg:y': -351
   - id: realigned_reads_sam
     outputSource:
       - wf_alignment/realigned_reads_sam

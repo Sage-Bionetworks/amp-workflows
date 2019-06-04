@@ -7,11 +7,14 @@
         "class": "File",
         "path": "./Ref/chr21-GRCh38.fa"
     },
+    "nthreads": 3,
     "synapse_config": {
         "class": "File",
         "path": "/home/wpoehlm/.synapseConfig"
     },
-    "synapseid": "syn18822534",
-    "nthreads": 3
+    "synapseid": [
+        "syn18822534",
+        "syn18822535"
+    ]
 }
 
