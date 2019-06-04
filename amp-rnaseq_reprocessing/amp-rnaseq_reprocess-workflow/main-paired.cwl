@@ -18,7 +18,7 @@ inputs:
     'sbg:x': -522.0704956054688
     'sbg:y': -348.93670654296875
   - id: synapseid
-    type: string[]
+    type: 'string[]'
     'sbg:x': -405
     'sbg:y': -412
   - id: nthreads
@@ -29,21 +29,27 @@ outputs:
   - id: reads_per_gene
     outputSource:
       - wf_alignment/reads_per_gene
-    type: File[]
+    type: 'File[]'
     'sbg:x': -148
     'sbg:y': -351
   - id: realigned_reads_sam
     outputSource:
       - wf_alignment/realigned_reads_sam
-    type: File[]
+    type: 'File[]'
     'sbg:x': -178
     'sbg:y': -472
   - id: combined_metrics_csv
     outputSource:
       - wf_metrics/combined_metrics_csv
-    type: File[]
+    type: 'File[]'
     'sbg:x': 386.2437744140625
     'sbg:y': -182.75
+  - id: combined_counts
+    outputSource:
+      - combine_counts/combined_counts
+    type: File
+    'sbg:x': 57.103759765625
+    'sbg:y': 47.5
 steps:
   - id: wf_buildindexes
     in:
@@ -121,6 +127,17 @@ steps:
     scatterMethod: dotproduct
     'sbg:x': 128
     'sbg:y': -185
+  - id: combine_counts
+    in:
+      - id: read_counts
+        source:
+          - wf_alignment/reads_per_gene
+    out:
+      - id: combined_counts
+    run: steps/combine_counts_study.cwl
+    label: Combine read counts across samples
+    'sbg:x': -63.8984375
+    'sbg:y': 31.5
 requirements:
   - class: SubworkflowFeatureRequirement
   - class: ScatterFeatureRequirement

@@ -35,6 +35,7 @@ inputs:
     doc: |
       Prefix for output file (i.e., <prefix>_all_counts_matrix.txt).
     type: string
+    default: gene
     inputBinding:
       position: 1
       prefix: --out_prefix
