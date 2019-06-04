@@ -100,6 +100,8 @@ steps:
         source: genome_dir
       - id: nthreads
         source: nthreads
+      - id: output_dir_name
+        source: synapseid
     out:
       - id: aligned_reads_sam
       - id: reads_per_gene
