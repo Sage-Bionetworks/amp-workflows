@@ -119,7 +119,7 @@ inputs:
       separate: false
 
   - id: output_metrics_filename
-    type: string
+    type: string?
     default: output_metrics.txt
     inputBinding:
       position: 11

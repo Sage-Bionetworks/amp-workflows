@@ -25,6 +25,10 @@ inputs:
     type: int
     'sbg:x': -422
     'sbg:y': -411
+  - id: genome_dir_name
+    type: string?
+  - id: output_metrics_filename
+    type: string?
 outputs:
   - id: realigned_reads_sam
     outputSource:
@@ -53,6 +57,8 @@ steps:
         source: genemodel_gtf
       - id: nthreads
         source: nthreads
+      - id: genome_dir_name
+        source: genome_dir_name
     out:
       - id: genome_dir
     run: ./wf-buildindexes.cwl
@@ -109,6 +115,8 @@ steps:
         source: wf_buildrefs/picard_riboints
       - id: basef
         source: synapseid
+      - id: output_metrics_filename
+        source: output_metrics_filename
     out:
       - id: combined_metrics_csv
     run: ./wf-metrics.cwl
