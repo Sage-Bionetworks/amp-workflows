@@ -25,7 +25,7 @@ inputs:
     type: int
     'sbg:x': -422
     'sbg:y': -411
-  - id: genome_dir_name
+  - id: genstr
     type: string?
   - id: output_metrics_filename
     type: string?
@@ -57,8 +57,8 @@ steps:
         source: genemodel_gtf
       - id: nthreads
         source: nthreads
-      - id: genome_dir_name
-        source: genome_dir_name
+      - id: genstr
+        source: genstr
     out:
       - id: genome_dir
     run: ./wf-buildindexes.cwl
@@ -75,6 +75,8 @@ steps:
         source: synapse_config
       - id: synapseid
         source: synapseid
+      - id: genstr
+        source: genstr
     out:
       - id: splice_junctions
       - id: reads_per_gene

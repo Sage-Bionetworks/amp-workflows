@@ -18,10 +18,16 @@ hints:
   - class: DockerRequirement
     dockerPull: 'wpoehlm/ngstools:star'
 
+requirements:
+  InitialWorkDirRequirement:
+    listing:
+      - $(inputs.genome_dir)
+
 baseCommand: ['STAR', '--runMode', 'alignReads']
 
 arguments:
-
+#  - prefix: --genomeDir
+#    valueFrom: "$(runtime.outdir)/$(inputs.genstr)"
   - prefix: --outFileNamePrefix
     valueFrom: "$(runtime.outdir)/$(inputs.output_dir_name)"
 
@@ -37,7 +43,6 @@ inputs:
 #      prefix: --readFilesIn
 #      itemSeparator: ' '
 #      shellQuote: false
-
   - id: mate_1_fastq
     type: File
     inputBinding:
@@ -56,14 +61,16 @@ inputs:
 #    inputBinding:
 #      prefix: --readFilesCommand
 
-  - id: genome_dir
+  - id: genstr
     label: Reference genome directory
     doc: |
       path to the directory where genome files are stored
-    type: Directory
+    type: string?
+    default: .
     inputBinding:
       prefix: --genomeDir
-
+  - id: genome_dir
+    type: File[]
   - id: nthreads
     label: Number of threads
     doc: |

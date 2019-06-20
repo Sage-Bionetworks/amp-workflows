@@ -21,7 +21,7 @@ inputs:
     'sbg:x': -722
     'sgb:y': -270
     'sbg:y': -581
-  - id: genome_dir_name
+  - id: genstr
     type: string?
     'sbg:x': -852
     'sbg:y': -340
@@ -29,7 +29,7 @@ outputs:
   - id: genome_dir
     outputSource:
       - star_index/genome_dir
-    type: Directory
+    type: File[]
     'sbg:x': -335.5869140625
     'sbg:y': -355
 steps:
@@ -42,8 +42,8 @@ steps:
           - genome_fastas
       - id: genemodel_gtf
         source: genemodel_gtf
-      - id: genome_dir_name
-        source: genome_dir_name
+      - id: genstr
+        source: genstr
     out:
       - id: genome_dir
     run: steps/star_index.cwl

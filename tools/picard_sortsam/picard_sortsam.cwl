@@ -76,9 +76,6 @@ label: Picard SortSam
 arguments:
   - position: 0
 requirements:
-  - class: ResourceRequirement
-    ramMin: 100
-    coresMin: 1
   - class: InlineJavascriptRequirement
 hints:
   - class: DockerRequirement

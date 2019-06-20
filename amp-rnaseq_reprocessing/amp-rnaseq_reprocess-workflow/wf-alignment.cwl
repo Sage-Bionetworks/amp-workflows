@@ -10,9 +10,11 @@ $namespaces:
   sbg: 'https://www.sevenbridges.com/'
 inputs:
   - id: genome_dir
-    type: Directory
+    type: File[]
     'sbg:x': 769.881103515625
     'sbg:y': 321
+  - id: genstr
+    type: string?
   - id: nthreads
     type: int
     'sbg:x': 946.881103515625
@@ -102,6 +104,8 @@ steps:
         source: nthreads
       - id: output_dir_name
         source: synapseid
+      - id: genstr
+        source: genstr
     out:
       - id: aligned_reads_sam
       - id: reads_per_gene
