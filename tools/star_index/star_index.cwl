@@ -88,6 +88,17 @@ inputs:
   - id: genstr
     type: string?
     default: .
+
+  - id: memory_limit
+    label: memory limit for STAR
+    doc: |
+      This parameter sets the maxiumum amount of RAM
+      that STAR will use
+    inputBinding:
+      prefix: --limitGenomeGenerateRAM
+    type: string?
+    default: "150000000000"
+
 outputs:
 
   - id: genome_dir
