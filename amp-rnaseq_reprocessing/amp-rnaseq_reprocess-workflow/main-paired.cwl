@@ -36,18 +36,18 @@ outputs:
     type: 'File[]'
     'sbg:x': -178
     'sbg:y': -472
-  - id: combined_metrics_csv
-    outputSource:
-      - wf_metrics/combined_metrics_csv
-    type: 'File[]'
-    'sbg:x': 386.2437744140625
-    'sbg:y': -182.75
   - id: combined_counts
     outputSource:
       - combine_counts/combined_counts
     type: File
     'sbg:x': 57.103759765625
     'sbg:y': 47.5
+  - id: combined_metrics
+    outputSource:
+      - combine_metrics/combined_metrics
+    type: File
+    'sbg:x': 550
+    'sbg:y': -160
 steps:
   - id: wf_buildindexes
     in:
@@ -68,15 +68,16 @@ steps:
   - id: wf_alignment
     in:
       - id: genome_dir
-        source: wf_buildindexes/genome_dir
+        source:
+          - wf_buildindexes/genome_dir
+      - id: genstr
+        source: genstr
       - id: nthreads
         source: nthreads
       - id: synapse_config
         source: synapse_config
       - id: synapseid
         source: synapseid
-      - id: genstr
-        source: genstr
     out:
       - id: splice_junctions
       - id: reads_per_gene
@@ -142,6 +143,17 @@ steps:
     label: Combine read counts across samples
     'sbg:x': -63.8984375
     'sbg:y': 31.5
+  - id: combine_metrics
+    in:
+      - id: picard_metrics
+        source:
+          - wf_metrics/combined_metrics_csv
+    out:
+      - id: combined_metrics
+    run: steps/combine_metrics_study.cwl
+    label: Combine Picard metrics across samples
+    'sbg:x': 343.8936767578125
+    'sbg:y': -158.5
 requirements:
   - class: SubworkflowFeatureRequirement
   - class: ScatterFeatureRequirement
