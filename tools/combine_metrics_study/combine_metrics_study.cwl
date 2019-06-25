@@ -15,7 +15,7 @@ requirements:
 
 hints:
   - class: DockerRequirement
-    dockerPull: 'quay.io/sage-bionetworks/picard_utils:1.0'
+    dockerPull: 'wpoehlm/ngstools:picard'
 
 arguments:
 
@@ -34,7 +34,8 @@ inputs:
     label: Output counts file prefix
     doc: |
       Prefix for output file (i.e., <prefix>_all_metrics_matrix.txt)).
-    type: string
+    type: string?
+    default: "Study"
     inputBinding:
       position: 1
       prefix: --out_prefix
@@ -44,7 +45,7 @@ inputs:
     doc: |
       Suffix to strip from sample filename [default %(default)s].
     type: string
-    default: "_picard.CombinedMetrics.csv"
+    default: ".csv"
     inputBinding:
       position: 2
       prefix: --sample_suffix
@@ -56,4 +57,4 @@ outputs:
     doc: Output combined metrics matrix saved as tab-delimited text file.
     type: File
     outputBinding:
-      glob: "*_all_metrics_matrix.txt"
+      glob: "*txt"

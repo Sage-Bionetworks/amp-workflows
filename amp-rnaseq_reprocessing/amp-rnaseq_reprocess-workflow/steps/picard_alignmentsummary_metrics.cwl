@@ -1,1 +1,1 @@
-/Users/jaeddy/code/github/projects/amp-workflows/tools/picard_alignmentsummary_metrics/picard_alignmentsummary_metrics.cwl
+../../../tools/picard_alignmentsummary_metrics/picard_alignmentsummary_metrics.cwl

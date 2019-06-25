@@ -15,7 +15,7 @@ requirements:
 
 hints:
   - class: DockerRequirement
-    dockerPull: 'quay.io/sage-bionetworks/star_utils:1.0'
+    dockerPull: 'wpoehlm/ngstools:star'
 
 arguments:
 
@@ -35,6 +35,7 @@ inputs:
     doc: |
       Prefix for output file (i.e., <prefix>_all_counts_matrix.txt).
     type: string
+    default: gene
     inputBinding:
       position: 1
       prefix: --out_prefix

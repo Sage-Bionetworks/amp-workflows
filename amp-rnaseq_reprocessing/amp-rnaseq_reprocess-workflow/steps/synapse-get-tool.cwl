@@ -1,0 +1,1 @@
+../../../tools/synapse/synapse-get-tool.cwl

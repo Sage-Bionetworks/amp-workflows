@@ -9,28 +9,41 @@ $namespaces:
   sbg: 'https://www.sevenbridges.com/'
 inputs:
   - id: genome_fastas
-    type: 'File[]'
-    'sbg:x': -682.5869140625
-    'sbg:y': -429
+    type: 'File'
+    'sbg:x': -836
+    'sbg:y': -463
   - id: genemodel_gtf
     type: File
-    'sbg:x': -690.5869140625
-    'sbg:y': -266
+    'sbg:x': -888
+    'sbg:y': -180
+  - id: nthreads
+    type: int
+    'sbg:x': -722
+    'sgb:y': -270
+    'sbg:y': -581
+  - id: genstr
+    type: string?
+    'sbg:x': -852
+    'sbg:y': -340
 outputs:
   - id: genome_dir
     outputSource:
       - star_index/genome_dir
-    type: Directory
+    type: File[]
     'sbg:x': -335.5869140625
     'sbg:y': -355
 steps:
   - id: star_index
     in:
+      - id: nthreads
+        source: nthreads
       - id: genome_fastas
         source:
           - genome_fastas
       - id: genemodel_gtf
         source: genemodel_gtf
+      - id: genstr
+        source: genstr
     out:
       - id: genome_dir
     run: steps/star_index.cwl

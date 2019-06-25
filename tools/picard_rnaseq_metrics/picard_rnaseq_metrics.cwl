@@ -30,7 +30,7 @@ requirements:
 
 hints:
   - class: DockerRequirement
-    dockerPull: 'quay.io/sage-bionetworks/picard_utils:1.0'
+    dockerPull: 'wpoehlm/ngstools:picard'
 
 inputs:
 
@@ -119,7 +119,8 @@ inputs:
       separate: false
 
   - id: output_metrics_filename
-    type: string
+    type: string?
+    default: output_metrics.txt
     inputBinding:
       position: 11
       prefix: OUTPUT=
@@ -132,4 +133,4 @@ outputs:
     doc: Picard CollectRnaSeqMetrics results
     type: File
     outputBinding:
-      glob: "*.CollectRnaSeqMetrics"
+      glob: "*txt"

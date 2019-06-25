@@ -9,86 +9,103 @@ $namespaces:
   foaf: 'http://xmlns.com/foaf/0.1/'
   sbg: 'https://www.sevenbridges.com/'
 inputs:
-  - id: aligned_reads_sam
-    type: File
-    'sbg:x': -451.2436218261719
-    'sbg:y': -10
   - id: genome_dir
-    type: Directory
-    'sbg:x': 273.41412353515625
-    'sbg:y': 167.5
+    type: File[]
+    'sbg:x': 769.881103515625
+    'sbg:y': 321
+  - id: genstr
+    type: string?
+  - id: nthreads
+    type: int
+    'sbg:x': 946.881103515625
+    'sbg:y': -24
+  - id: synapse_config
+    type: File
+    'sbg:x': 0
+    'sbg:y': 107
+  - id: synapseid
+    type: string
+    'sbg:x': 0
+    'sbg:y': 0
 outputs:
   - id: splice_junctions
     outputSource:
       - star_align/splice_junctions
     type: File
-    'sbg:x': 592
-    'sbg:y': -98
+    'sbg:x': 1399.3011474609375
+    'sbg:y': 53.5
   - id: reads_per_gene
     outputSource:
       - star_align/reads_per_gene
     type: File
-    'sbg:x': 664
-    'sbg:y': 5
+    'sbg:x': 1399.3011474609375
+    'sbg:y': 267.5
   - id: logs
     outputSource:
       - star_align/logs
     type: 'File[]'
-    'sbg:x': 660
-    'sbg:y': 150
+    'sbg:x': 1399.3011474609375
+    'sbg:y': 374.5
   - id: realigned_reads_sam
     outputSource:
       - star_align/aligned_reads_sam
     type: File
-    'sbg:x': 601
-    'sbg:y': 247
+    'sbg:x': 1410.3011474609375
+    'sbg:y': 504.5
 steps:
+  - id: syn_get
+    in:
+      - id: synapse_config
+        source: synapse_config
+      - id: synapseid
+        source: synapseid
+    out:
+      - id: filepath
+    run: steps/synapse-get-tool.cwl
+    label: Download BAM from Synapse
+    'sbg:x': 233.5
+    'sbg:y': 207
   - id: picard_sortsam
     in:
       - id: aligned_reads_sam
-        source: aligned_reads_sam
+        source: syn_get/filepath
+      - id: sorted_reads_filename
+        valueFrom: $(inputs.aligned_reads_sam.nameroot).sorted.bam
     out:
       - id: sorted_reads_bam
     run: steps/picard_sortsam.cwl
     label: Picard SortSam
-    'sbg:x': -307
-    'sbg:y': -10
+    'sbg:x': 458.3077392578125
+    'sbg:y': 207
   - id: picard_samtofastq
     in:
       - id: aligned_reads_sam
         source: picard_sortsam/sorted_reads_bam
+      - id: reads_r1_fastq
+        valueFrom: $(inputs.aligned_reads_sam.nameroot)_1.fastq
+      - id: reads_r2_fastq
+        valueFrom: $(inputs.aligned_reads_sam.nameroot)_2.fastq
     out:
-      - id: output
+      - id: mate_1
+      - id: mate_2
     run: steps/picard_samtofastq.cwl
     label: Picard SamToFastq
-    'sbg:x': -147
-    'sbg:y': 116
-  - id: gzip
-    in:
-      - id: input_file
-        source: picard_samtofastq/output
-    out:
-      - id: output_gz
-    run: steps/gzip.cwl
-    'sbg:x': -28
-    'sbg:y': -9
-  - id: zcat
-    in:
-      - id: input_gzs
-        source:
-          - gzip/output_gz
-    out:
-      - id: output_gz
-    run: steps/zcat.cwl
-    'sbg:x': 165
-    'sbg:y': -8
+    'sbg:x': 769.881103515625
+    'sbg:y': 93
   - id: star_align
     in:
-      - id: unaligned_reads_fastq
-        source:
-          - zcat/output_gz
+      - id: mate_1_fastq
+        source: picard_samtofastq/mate_1
+      - id: mate_2_fastq
+        source: picard_samtofastq/mate_2
       - id: genome_dir
         source: genome_dir
+      - id: nthreads
+        source: nthreads
+      - id: output_dir_name
+        source: synapseid
+      - id: genstr
+        source: genstr
     out:
       - id: aligned_reads_sam
       - id: reads_per_gene
@@ -96,9 +113,10 @@ steps:
       - id: logs
     run: steps/star_align.cwl
     label: STAR spliced alignment
-    'sbg:x': 440
-    'sbg:y': 58
-requirements: []
+    'sbg:x': 1044.3306884765625
+    'sbg:y': 193
+requirements: 
+  StepInputExpressionRequirement: {}
 'dct:creator':
   '@id': 'http://orcid.org/0000-0001-9758-0176'
   'foaf:mbox': 'mailto:james.a.eddy@gmail.com'

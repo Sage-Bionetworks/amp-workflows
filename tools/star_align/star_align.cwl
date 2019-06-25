@@ -16,35 +16,62 @@ dct:creator:
 
 hints:
   - class: DockerRequirement
-    dockerPull: 'quay.io/sage-bionetworks/star_utils:1.0'
+    dockerPull: 'wpoehlm/ngstools:star'
+
+requirements:
+  InitialWorkDirRequirement:
+    listing:
+      - $(inputs.genome_dir)
 
 baseCommand: ['STAR', '--runMode', 'alignReads']
 
 arguments:
-
+#  - prefix: --genomeDir
+#    valueFrom: "$(runtime.outdir)/$(inputs.genstr)"
   - prefix: --outFileNamePrefix
     valueFrom: "$(runtime.outdir)/$(inputs.output_dir_name)"
 
 inputs:
 
-  - id: unaligned_reads_fastq
-    label: Unaligned reads FASTQ
-    doc: |
-      paths to files that contain input read1 (and, if needed, read2)
-    type: File[]
+#  - id: unaligned_reads_fastq
+#    label: Unaligned reads FASTQ
+#    doc: |
+#      paths to files that contain input read1 (and, if needed, read2)
+#    type: File[]
+#    inputBinding:
+#      position: 1
+#      prefix: --readFilesIn
+#      itemSeparator: ' '
+#      shellQuote: false
+  - id: mate_1_fastq
+    type: File
     inputBinding:
+      position: 1
       prefix: --readFilesIn
-      itemSeparator: ","
 
-  - id: genome_dir
+  - id: mate_2_fastq
+    type: File?
+    inputBinding:
+      position: 2
+
+#  - id: read_files_command
+#    label: Read files command
+#    type: string
+#    default: "cat - "
+#    inputBinding:
+#      prefix: --readFilesCommand
+
+  - id: genstr
     label: Reference genome directory
     doc: |
       path to the directory where genome files are stored
-    type: Directory
+    type: string?
+    default: .
     inputBinding:
       prefix: --genomeDir
-
-  - id: num_threads
+  - id: genome_dir
+    type: File[]
+  - id: nthreads
     label: Number of threads
     doc: |
       defines the number of threads to be used for genome generation, it has
@@ -97,7 +124,7 @@ inputs:
       types of quantification requested. -: none, TranscriptomeSAM: output
       SAM/BAM alignments to transcriptome into a separate file, GeneCounts:
       count reads per gene
-    type: string[]
+    type: string
     default: "GeneCounts"
     inputBinding:
       prefix: --quantMode
@@ -114,174 +141,6 @@ inputs:
     default: "Basic"
     inputBinding:
       prefix: --twopassMode
-
-  - id: read_files_command
-    label: Read files command
-    type: string
-    inputBinding:
-      prefix: --readFilesCommand
-
-  # - id: outSJfilterReads
-  #   label: which reads to consider for collapsed splice junctions output
-  #   doc: |
-  #     which reads to consider for collapsed splice junctions output. All: all
-  #     reads, unique- and multi-mappers, Unique: uniquely mapping reads only.
-  #   type: string
-  #   default: "Unique"
-  #   inputBinding:
-  #     prefix: --outSJfilterReads
-  #
-  # - id: outFilterType
-  #   label: Filter type
-  #   doc: |
-  #     Normal: standard filtering using only current alignment, BySJout: keep
-  #     only those reads that contain junctions that passed filtering into
-  #     SJ.out.tab
-  #   type: string
-  #   default: "BySJout"
-  #   inputBinding:
-  #     prefix: --outFilterType
-  #
-  # - id: output_sam_attributes
-  #   label: Output SAM attributes
-  #   doc: |
-  #     NH: any combination in any order, Standard: NH HI AS nM, All: NH HI AS
-  #     nM NM MD jM jI ch, None: no attributes
-  #   type: string[]
-  #   default: ["NH", "HI", "AS", "NM", "MD"]
-  #   inputBinding:
-  #     prefix: --outSAMattributes
-  #
-  # - id: outFilterMultimapNmax
-  #   label: Maximum loci mappings
-  #   doc: |
-  #     maximum number of loci the read is allowed to map to. Alignments (all of
-  #     them) will be output only if the read maps to no more loci than this
-  #     value. Otherwise no alignments will be output, and the read will be
-  #     counted as ”mapped to too many loci” in the Log.final.out .
-  #   type: int
-  #   default: 20
-  #   inputBinding:
-  #     prefix: --outFilterMultimapNmax
-  #
-  # - id: outFilterMismatchNmax
-  #   label: alignment will be output only if it has no more mismatches than this value
-  #   doc: |
-  #       alignment will be output only if it has no more mismatches than this
-  #       value
-  #   type: int
-  #   default: 999
-  #   inputBinding:
-  #     prefix: --outFilterMismatchNmax
-  #
-  # - id: alignIntronMin
-  #   label: Minimum intron size
-  #   doc: |
-  #     minimum intron size: genomic gap is considered intron if its
-  #     length>=alignIntronMin, otherwise it is considered Deletion
-  #   type: int
-  #   default: 20
-  #   inputBinding:
-  #     prefix: --alignIntronMin
-  #
-  # - id: outFilterMismatchNoverReadLmax
-  #   label: Maximum mistmatch rate
-  #   doc: |
-  #     alignment will be output only if its ratio of mismatches to *read*
-  #     length is less than or equal to this value.
-  #   type: float
-  #   default: 0.04
-  #   inputBinding:
-  #     prefix: --outFilterMismatchNoverReadLmax
-  #
-  # - id: alignIntronMax
-  #   label: Maximum intron size
-  #   doc: |
-  #     maximum intron size, if 0, max intron size will be determined by
-  #     (2ˆwinBinNbits)*winAnchorDistNbins
-  #   type: int
-  #   default: 1000000
-  #   inputBinding:
-  #     prefix: --alignIntronMax
-  #
-  # - id: alignMatesGapMax
-  #   label: Maximum between-mates gap
-  #   doc: |
-  #     maximum gap between two mates, if 0, max intron gap will be determined
-  #     by (2ˆwinBinNbits)*winAnchorDistNbins
-  #   type: int
-  #   default: 1000000
-  #   inputBinding:
-  #     prefix: --alignMatesGapMax
-  #
-  # - id: alignSJoverhangMin
-  #   label: Minimum spliced alignments overhang
-  #   doc: |
-  #     minimum overhang (i.e. block size) for spliced alignments
-  #   type: int
-  #   default: 8
-  #   inputBinding:
-  #     prefix: --alignSJoverhangMin
-  #
-  # - id: alignSJDBoverhangMin
-  #   label: Minimum annotated (sjdb) spliced alignments overhang
-  #   doc: |
-  #     minimum overhang (i.e. block size) for annotated (sjdb) spliced
-  #     alignments
-  #   type: int
-  #   default: 1
-  #   inputBinding:
-  #     prefix: --alignSJDBoverhangMin
-  #
-  # - id: sjdb_score
-  #   label: Spice junction database score
-  #   doc: |
-  #     extra alignment score for alignments that cross database junctions
-  #   type: int
-  #   default: 1
-  #   inputBinding:
-  #     prefix: --sjdbScore
-  #
-  # - id: bam_compression
-  #   label: BAM compression level
-  #   doc: |
-  #     BAM compression level, -1=default compression (6?), 0=no compression,
-  #     10=maximum compression
-  #   type: int
-  #   default: 10
-  #   inputBinding:
-  #     prefix: --outBAMcompression
-  #
-  # - id: sort_mem_limit
-  #   label: Maximum RAM for sorting BAM
-  #   doc: |
-  #     maximum available RAM for sorting BAM. If =0, it will be set to the
-  #     genome index size. 0 value can only be used with –genomeLoad
-  #     NoSharedMemory option
-  #   type: long?
-  #   inputBinding:
-  #     prefix: --limitBAMsortRAM
-  #
-  # - id: transcriptome_bam_compression
-  #   label: Transcriptome BAM compression level
-  #   doc: |
-  #     transcriptome BAM compression level, -1=default compression (6?), 0=no
-  #     compression, 10=maximum compression
-  #   type: int
-  #   default: 10
-  #   inputBinding:
-  #     prefix: --quantTranscriptomeBAMcompression
-  #
-  # - id: strand_field_flag
-  #   label: Strand field flag
-  #   doc: |
-  #     Cuffinks-like strand field flag. None: not used, intronMotif: strand
-  #     derived from the intron motif. Reads with inconsistent and/or
-  #     non-canonical introns are filtered out.
-  #   type: string
-  #   default: "intronMotif"
-  #   inputBinding:
-  #     prefix: --outSAMstrandField
 
 outputs:
   - id: aligned_reads_sam

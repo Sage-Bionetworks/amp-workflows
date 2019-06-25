@@ -22,7 +22,7 @@ requirements:
 
 hints:
   - class: DockerRequirement
-    dockerPull: 'quay.io/sage-bionetworks/picard_utils:1.0'
+    dockerPull: 'wpoehlm/ngstools:picard'
 
 inputs:
 
@@ -60,10 +60,22 @@ inputs:
       separate: false
 
 outputs:
+#  - id: output_fq
+#    label: fastq
+#    type: File[]
+#    outputBinding:
+#      glob: "*fastq"
 
-  - id: output
-    label: Unaligned reads FASTQ
-    doc: Unaligned reads in FASTQ file format
+  - id: mate_1
+    label: mate 1 fastq
     type: File
     outputBinding:
-      glob: "*.fastq"
+      glob: "*_1.fastq"
+
+  - id: mate_2
+    label: mate 2 fastq
+    type: File
+    outputBinding:
+      glob: "*_2.fastq"
+
+

@@ -1,1 +1,1 @@
-/Users/jaeddy/code/github/projects/amp-workflows/utils/slice_file_array/slice_file_array.cwl
+../../../utils/slice_file_array/slice_file_array.cwl

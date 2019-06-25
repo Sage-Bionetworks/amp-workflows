@@ -1,1 +1,1 @@
-/Users/jaeddy/code/github/projects/amp-workflows/tools/picard_samtofastq/picard_samtofastq.cwl
+../../../tools/picard_samtofastq/picard_samtofastq.cwl

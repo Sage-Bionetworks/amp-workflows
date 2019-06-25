@@ -1,10 +1,66 @@
-#!/usr/bin/env cwl-runner
-
 class: CommandLineTool
 cwlVersion: v1.0
+$namespaces:
+  sbg: 'https://www.sevenbridges.com'
 id: picard_sortsam
-label: Picard SortSam
-
+baseCommand:
+  - picard.sh
+  - SortSam
+inputs:
+  - id: aligned_reads_sam
+    type: File
+    inputBinding:
+      position: 1
+      prefix: INPUT=
+      separate: false
+    label: Aligned reads SAM
+    doc: Reads data file in SAM (or BAM) format
+  - default: queryname
+    id: sort_order
+    type: string
+    inputBinding:
+      position: 2
+      prefix: SORT_ORDER=
+      separate: false
+    label: Sort order
+  - default: 'true'
+    id: quiet
+    type: string
+    inputBinding:
+      position: 3
+      prefix: QUIET=
+      separate: false
+    label: Verbosity (QUIET)
+  - default: SILENT
+    id: validation_stringency
+    type: string
+    inputBinding:
+      position: 4
+      prefix: VALIDATION_STRINGENCY=
+      separate: false
+    label: Validation stringency
+  - default: 5
+    id: compression_level
+    type: int
+    inputBinding:
+      position: 5
+      prefix: COMPRESSION_LEVEL=
+      separate: false
+    label: Compression level
+  - id: sorted_reads_filename
+    type: string
+    inputBinding:
+      position: 6
+      prefix: OUTPUT=
+      separate: false
+    label: Sorted SAM filename
+outputs:
+  - id: sorted_reads_bam
+    doc: Sorted SAM (or BAM) file
+    label: Sorted reads SAM
+    type: File
+    outputBinding:
+      glob: '*.bam'
 doc: |
   Use Picard to sort a SAM or BAM file.
 
@@ -16,76 +72,11 @@ doc: |
     QUIET=true \
     VALIDATION_STRINGENCY=SILENT \
     COMPRESSION_LEVEL=0
-
-baseCommand: ['picard.sh', 'SortSam']
-
+label: Picard SortSam
+arguments:
+  - position: 0
 requirements:
   - class: InlineJavascriptRequirement
-
 hints:
   - class: DockerRequirement
-    dockerPull: 'quay.io/sage-bionetworks/picard_utils:1.0'
-
-inputs:
-
-  - id: aligned_reads_sam
-    label: Aligned reads SAM
-    doc: Reads data file in SAM (or BAM) format
-    type: File
-    inputBinding:
-      position: 1
-      prefix: INPUT=
-      separate: false
-
-  - id: sort_order
-    label: Sort order
-    type: string
-    default: "queryname"
-    inputBinding:
-      position: 2
-      prefix: SORT_ORDER=
-      separate: false
-
-  - id: quiet
-    label: Verbosity (QUIET)
-    type: string
-    default: "true"
-    inputBinding:
-      position: 3
-      prefix: QUIET=
-      separate: false
-
-  - id: validation_stringency
-    label: Validation stringency
-    default: "SILENT"
-    type: string
-    inputBinding:
-      position: 4
-      prefix: VALIDATION_STRINGENCY=
-      separate: false
-
-  - id: compression_level
-    label: Compression level
-    default: 0
-    type: int
-    inputBinding:
-      position: 4
-      prefix: COMPRESSION_LEVEL=
-      separate: false
-
-  - id: sorted_reads_filename
-    label: Sorted SAM filename
-    type: string
-    inputBinding:
-      position: 5
-      prefix: OUTPUT=
-      separate: false
-
-outputs:
-
-  - id: sorted_reads_bam
-    label: Sorted reads SAM
-    doc: Sorted SAM (or BAM) file
-    type: File
-    outputBinding:
-      glob: '*.bam'
+    dockerPull: 'wpoehlm/ngstools:picard'

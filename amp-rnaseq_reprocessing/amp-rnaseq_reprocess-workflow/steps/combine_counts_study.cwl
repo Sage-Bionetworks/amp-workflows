@@ -1,1 +1,1 @@
-/Users/jaeddy/code/github/projects/amp-workflows/tools/combine_counts_study/combine_counts_study.cwl
+../../../tools/combine_counts_study/combine_counts_study.cwl

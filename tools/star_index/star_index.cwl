@@ -19,23 +19,18 @@ dct:creator:
 hints:
 
   - class: DockerRequirement
-    dockerPull: 'quay.io/sage-bionetworks/star_utils:1.0'
+    dockerPull: 'wpoehlm/ngstools:star'
 
 requirements:
 
   - class: InlineJavascriptRequirement
-  - class: InitialWorkDirRequirement
-    listing:
-      - entry: "$({class: 'Directory', listing: []})"
-        entryname: $(inputs.genome_dir_name)
-        writable: true
-
+  - class: StepInputExpressionRequirement
 baseCommand: ['STAR', '--runMode', 'genomeGenerate']
 
 arguments:
 
   - prefix: --genomeDir
-    valueFrom: $(runtime.outdir + '/' + inputs.genome_dir_name)
+    valueFrom: $(inputs.genstr)
 
 inputs:
 
@@ -58,7 +53,7 @@ inputs:
       names from this file will be used in all output alignment files (such as
       .sam). The tabs are not allowed in chromosomes names, and spaces are not
       recommended.
-    type: File[]
+    type: File
     inputBinding:
       prefix: --genomeFastaFiles
 
@@ -90,13 +85,24 @@ inputs:
     inputBinding:
       prefix: --sjdbOverhang
 
-  - id: genome_dir_name
-    type: string
+  - id: genstr
+    type: string?
+    default: .
+
+  - id: memory_limit
+    label: memory limit for STAR
+    doc: |
+      This parameter sets the maxiumum amount of RAM
+      that STAR will use
+    inputBinding:
+      prefix: --limitGenomeGenerateRAM
+    type: string?
+    default: "150000000000"
 
 outputs:
 
   - id: genome_dir
     label: Reference genome directory
-    type: Directory
+    type: File[]
     outputBinding:
-      glob: "*$(inputs.genome_dir_name)"
+      glob: "*"

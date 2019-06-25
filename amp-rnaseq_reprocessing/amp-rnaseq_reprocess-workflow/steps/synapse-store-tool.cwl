@@ -1,0 +1,1 @@
+../../../tools/synapse/synapse-store-tool.cwl
