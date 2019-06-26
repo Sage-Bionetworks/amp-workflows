@@ -16,7 +16,7 @@ toil-cwl-runner --provisioner aws \
 --batchSystem mesos \
 --logLevel DEBUG \
 --logFile /var/log/toil/rna.log \
---disableCaching
+--disableCaching \
 --retryCount 1 \
 --metrics \
 --runCwlInternalJobsOnWorkers \
