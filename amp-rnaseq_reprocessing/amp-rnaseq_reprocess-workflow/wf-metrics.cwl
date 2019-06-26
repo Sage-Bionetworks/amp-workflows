@@ -89,8 +89,13 @@ steps:
     'sbg:x': 192.60113525390625
     'sbg:y': -121
 requirements:
-  MultipleInputFeatureRequirement: {}
-  StepInputExpressionRequirement: {}
+  - class: MultipleInputFeatureRequirement 
+  - class: StepInputExpressionRequirement
+  - class: ResourceRequirement
+    ramMin: 16000
+    coresMin: 7
+    tmpdirMin: 30000
+    outdirMin: 30000
 'dct:creator':
   '@id': 'http://orcid.org/0000-0001-9758-0176'
   'foaf:mbox': 'mailto:james.a.eddy@gmail.com'

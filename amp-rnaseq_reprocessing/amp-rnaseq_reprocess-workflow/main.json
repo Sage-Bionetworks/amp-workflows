@@ -7,7 +7,7 @@
         "class": "File",
         "path": "./Ref/chr21-GRCh38.fa"
     },
-    "nthreads": 3,
+    "nthreads": 7,
     "synapse_config": {
         "class": "File",
         "path": "/home/wpoehlm/.synapseConfig"
