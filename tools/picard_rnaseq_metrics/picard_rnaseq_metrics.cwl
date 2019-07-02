@@ -33,6 +33,13 @@ hints:
     dockerPull: 'wpoehlm/ngstools:picard'
 
 inputs:
+#  - id: memory
+#    label: java memory allocation
+#    type: string?
+#    default: -Xmx50g
+#    inputBinding:
+#      prefix: default_jvm_mem_opts=
+#      separate: false
 
   - id: aligned_reads_sam
     label: Aligned reads SAM

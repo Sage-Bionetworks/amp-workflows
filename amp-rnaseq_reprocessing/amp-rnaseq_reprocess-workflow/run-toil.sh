@@ -3,6 +3,7 @@
 set -x
 
 export TOIL_AWS_ZONE=us-east-1a
+export TMPDIR=/var/lib/toil
 
 JOBSTORE=aws:us-east-1:rna-seq-reprocessing-toil-cluster-v001-rna
 

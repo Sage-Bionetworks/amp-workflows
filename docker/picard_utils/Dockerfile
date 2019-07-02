@@ -36,5 +36,5 @@ RUN chmod a+x /usr/local/bin/combine_metrics_study.R
 RUN chmod a+x /usr/local/bin/make_refflat.sh
 RUN chmod a+x /usr/local/bin/make_riboints.sh
 RUN chmod a+x /usr/local/bin/picard.sh
-
+RUN sed -i s/Xmx1g/Xmx50g/ /usr/local/bin/picard.sh
 CMD ["/bin/bash"]
