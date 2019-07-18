@@ -20,3 +20,7 @@ Users must modify the *main.json* file to point to their synapse config file.  I
 chmod +x run-toil.sh
 ./run-toil.sh
 ```
+
+#### Single End Sequencing Reads
+
+To run the workflow using datasets that contain single end sequencing reads, follow the above directions but replace `main-paired.cwl` with `main-single.cwl`
