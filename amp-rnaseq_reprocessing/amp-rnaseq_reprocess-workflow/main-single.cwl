@@ -48,6 +48,13 @@ outputs:
     type: File
     'sbg:x': 550
     'sbg:y': -160
+  - id: logs
+    outputSource:
+      - wf_alignment/logs
+    type: File[]
+    'sbg:x': -204.7860107421875
+    'sbg:y': 209.5
+
 steps:
   - id: wf_buildindexes
     in:

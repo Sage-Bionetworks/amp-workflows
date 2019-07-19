@@ -163,7 +163,7 @@ outputs:
 
   - id: logs
     label: STAR logs
-    type: File[]
+    type: File
     outputBinding:
-      glob: "*.out"
+      glob: "*Log.final.out"
 

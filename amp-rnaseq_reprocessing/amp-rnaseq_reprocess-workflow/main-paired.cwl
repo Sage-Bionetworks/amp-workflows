@@ -18,7 +18,7 @@ inputs:
     'sbg:x': -522.0704956054688
     'sbg:y': -348.93670654296875
   - id: synapseid
-    type: 'string[]'
+    type: string[]
     'sbg:x': -405
     'sbg:y': -412
   - id: nthreads
@@ -33,7 +33,7 @@ outputs:
   - id: realigned_reads_sam
     outputSource:
       - wf_alignment/realigned_reads_sam
-    type: 'File[]'
+    type: File[]
     'sbg:x': -178
     'sbg:y': -472
   - id: combined_counts
@@ -48,6 +48,12 @@ outputs:
     type: File
     'sbg:x': 550
     'sbg:y': -160
+  - id: logs
+    outputSource:
+      - wf_alignment/logs
+    type: File[]
+    'sbg:x': -204.7860107421875
+    'sbg:y': 209.5
 steps:
   - id: wf_buildindexes
     in:

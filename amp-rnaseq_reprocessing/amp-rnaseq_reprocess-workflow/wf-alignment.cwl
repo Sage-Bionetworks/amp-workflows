@@ -43,7 +43,7 @@ outputs:
   - id: logs
     outputSource:
       - star_align/logs
-    type: 'File[]'
+    type: File
     'sbg:x': 1399.3011474609375
     'sbg:y': 374.5
   - id: realigned_reads_sam
