@@ -18,7 +18,7 @@ inputs:
     'sbg:x': -522.0704956054688
     'sbg:y': -348.93670654296875
   - id: synapseid
-    type: string[]
+    type: 'string[]'
     'sbg:x': -405
     'sbg:y': -412
   - id: nthreads
@@ -33,7 +33,7 @@ outputs:
   - id: realigned_reads_sam
     outputSource:
       - wf_alignment/realigned_reads_sam
-    type: File[]
+    type: 'File[]'
     'sbg:x': -178
     'sbg:y': -472
   - id: combined_counts
@@ -48,12 +48,12 @@ outputs:
     type: File
     'sbg:x': 550
     'sbg:y': -160
-  - id: logs
+  - id: starlog_merged
     outputSource:
-      - wf_alignment/logs
-    type: File[]
-    'sbg:x': -204.7860107421875
-    'sbg:y': 209.5
+      - merge_starlog/starlog_merged
+    type: File
+    'sbg:x': 50.2137451171875
+    'sbg:y': 299.5
 steps:
   - id: wf_buildindexes
     in:
@@ -160,6 +160,17 @@ steps:
     label: Combine Picard metrics across samples
     'sbg:x': 343.8936767578125
     'sbg:y': -158.5
+  - id: merge_starlog
+    in:
+      - id: logs
+        source:
+          - wf_alignment/logs
+    out:
+      - id: starlog_merged
+    run: steps/merge_starlog.cwl
+    label: merge_starlog
+    'sbg:x': -132.7860107421875
+    'sbg:y': 294.5
 requirements:
   - class: SubworkflowFeatureRequirement
   - class: ScatterFeatureRequirement
