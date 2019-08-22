@@ -10,7 +10,7 @@ $namespaces:
   sbg: 'https://www.sevenbridges.com/'
 inputs:
   - id: genome_dir
-    type: File[]
+    type: 'File[]'
     'sbg:x': 769.881103515625
     'sbg:y': 321
   - id: genstr
@@ -27,6 +27,10 @@ inputs:
     type: string
     'sbg:x': 0
     'sbg:y': 0
+  - id: synfd
+    type: string
+    'sbg:x': 7
+    'sbg:y': -284
 outputs:
   - id: splice_junctions
     outputSource:
@@ -95,15 +99,16 @@ steps:
   - id: star_align
     in:
       - id: mate_1_fastq
-        source: picard_samtofastq/mate_1
+        source: concat_fq/fqmerged
+      - id: genstr
+        source: genstr
       - id: genome_dir
-        source: genome_dir
+        source:
+          - genome_dir
       - id: nthreads
         source: nthreads
       - id: output_dir_name
         source: synapseid
-      - id: genstr
-        source: genstr
     out:
       - id: aligned_reads_sam
       - id: reads_per_gene
@@ -113,8 +118,35 @@ steps:
     label: STAR spliced alignment
     'sbg:x': 1044.3306884765625
     'sbg:y': 193
-requirements: 
+  - id: concat_fq
+    in:
+      - id: input1
+        source: picard_samtofastq/mate_1
+      - id: input2
+        source: synapse_get_tool/filepath
+      - id: outname
+        source: picard_samtofastq/mate_1
+        valueFrom: $(self.nameroot).fastq
+    out:
+      - id: fqmerged
+    run: steps/concat_fq.cwl
+    label: concat_fq
+    'sbg:x': 636.0625
+    'sbg:y': -146
+  - id: synapse_get_tool
+    in:
+      - id: synapse_config
+        source: synapse_config
+      - id: synapseid
+        source: synfd
+    out:
+      - id: filepath
+    run: steps/synapse-get-tool.cwl
+    'sbg:x': 310
+    'sbg:y': -256
+requirements:
   - class: StepInputExpressionRequirement
+  - class: InlineJavascriptRequirement
   - class: ResourceRequirement
     ramMin: 16000
     coresMin: 7
@@ -124,3 +156,5 @@ requirements:
   '@id': 'http://orcid.org/0000-0001-9758-0176'
   'foaf:mbox': 'mailto:james.a.eddy@gmail.com'
   'foaf:name': James Eddy
+
+

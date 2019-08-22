@@ -29,6 +29,8 @@ inputs:
     type: string?
   - id: output_metrics_filename
     type: string?
+  - id: synfd
+    type: string[]
 outputs:
   - id: realigned_reads_sam
     outputSource:
@@ -48,13 +50,12 @@ outputs:
     type: File
     'sbg:x': 550
     'sbg:y': -160
-  - id: logs
+  - id: starlog_merged
     outputSource:
-      - wf_alignment/logs
-    type: File[]
-    'sbg:x': -204.7860107421875
-    'sbg:y': 209.5
-
+      - merge_starlog/starlog_merged
+    type: File
+    'sbg:x': 50.2137451171875
+    'sbg:y': 299.5
 steps:
   - id: wf_buildindexes
     in:
@@ -85,6 +86,8 @@ steps:
         source: synapse_config
       - id: synapseid
         source: synapseid
+      - id: synfd
+        source: synfd
     out:
       - id: splice_junctions
       - id: reads_per_gene
@@ -94,6 +97,7 @@ steps:
     label: Alignment sub-workflow
     scatter:
       - synapseid
+      - synfd
     scatterMethod: dotproduct
     'sbg:x': -310.91680908203125
     'sbg:y': -200.39964294433594
@@ -161,6 +165,18 @@ steps:
     label: Combine Picard metrics across samples
     'sbg:x': 343.8936767578125
     'sbg:y': -158.5
+  - id: merge_starlog
+    in:
+      - id: logs
+        source:
+          - wf_alignment/logs
+    out:
+      - id: starlog_merged
+    run: steps/merge_starlog.cwl
+    label: merge_starlog
+    'sbg:x': -132.7860107421875
+    'sbg:y': 294.5
 requirements:
   - class: SubworkflowFeatureRequirement
   - class: ScatterFeatureRequirement
+
