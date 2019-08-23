@@ -107,14 +107,15 @@ steps:
         source: genemodel_gtf
       - id: aligned_reads_sam
         source: wf_alignment/realigned_reads_sam
+        valueFrom: $(self[0])
     out:
       - id: picard_riboints
       - id: picard_refflat
     run: ./wf-buildrefs.cwl
     label: Reference building sub-workflow
-    scatter:
-      - aligned_reads_sam
-    scatterMethod: dotproduct
+#    scatter:
+#      - aligned_reads_sam
+#    scatterMethod: dotproduct
     'sbg:x': -516
     'sbg:y': 12
   - id: wf_metrics
@@ -137,8 +138,8 @@ steps:
     label: Metrics sub-workflow
     scatter:
       - aligned_reads_sam
-      - picard_refflat
-      - picard_riboints
+ #     - picard_refflat
+ #     - picard_riboints
       - basef
     scatterMethod: dotproduct
     'sbg:x': 128
@@ -179,4 +180,6 @@ steps:
 requirements:
   - class: SubworkflowFeatureRequirement
   - class: ScatterFeatureRequirement
+  - class: InlineJavascriptRequirement
+  - class: StepInputExpressionRequirement
 
