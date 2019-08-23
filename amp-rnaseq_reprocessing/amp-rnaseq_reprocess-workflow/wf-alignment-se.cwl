@@ -123,7 +123,7 @@ steps:
       - id: input1
         source: picard_samtofastq/mate_1
       - id: input2
-        source: synapse_get_tool/filepath
+        source: zcat/output_uncompressed
       - id: outname
         source: picard_samtofastq/mate_1
         valueFrom: $(self.nameroot).fastq
@@ -144,17 +144,22 @@ steps:
     run: steps/synapse-get-tool.cwl
     'sbg:x': 310
     'sbg:y': -256
-requirements:
-  - class: StepInputExpressionRequirement
-  - class: InlineJavascriptRequirement
-  - class: ResourceRequirement
-    ramMin: 16000
-    coresMin: 7
-    tmpdirMin: 30000
-    outdirMin: 30000
+  - id: zcat
+    in:
+      - id: input_gzs
+        source:
+          - synapse_get_tool/filepath
+      - id: output_basename
+        source: synapse_get_tool/filepath
+        valueFrom: $(self.nameroot).txt
+    out:
+      - id: output_uncompressed
+    run: steps/zcat.cwl
+    'sbg:x': 534.0625
+    'sbg:y': -348
+requirements: []
 'dct:creator':
   '@id': 'http://orcid.org/0000-0001-9758-0176'
   'foaf:mbox': 'mailto:james.a.eddy@gmail.com'
   'foaf:name': James Eddy
-
 

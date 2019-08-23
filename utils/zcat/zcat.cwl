@@ -10,8 +10,8 @@ requirements:
 inputs:
 
   - id: input_gzs
-    label: Input gzipped files
-    type: File[]
+    label: Input gzipped file
+    type: File
     inputBinding:
       position: 1
 
