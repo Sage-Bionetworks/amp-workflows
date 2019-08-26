@@ -104,5 +104,5 @@ subprocess.check_output(["toil-cwl-runner",
   "--preemptableCompensation", preemptable_compensation,
   "--rescueJobsFrequency", rescue_frequency,
   #"--restart",
-  "main-paired.cwl", "main.json"
+  "main-paired-get-index.cwl", "main.json"
 ])
