@@ -115,13 +115,13 @@ steps:
     label: STAR spliced alignment
     'sbg:x': 1044.3306884765625
     'sbg:y': 193
-requirements: 
+requirements:
   - class: StepInputExpressionRequirement
   - class: ResourceRequirement
-    ramMin: 16000
-    coresMin: 7
-    tmpdirMin: 30000
-    outdirMin: 30000
+    ramMin: 60000
+    coresMin: 15
+    tmpdirMin: 225000
+    outdirMin: 225000
 'dct:creator':
   '@id': 'http://orcid.org/0000-0001-9758-0176'
   'foaf:mbox': 'mailto:james.a.eddy@gmail.com'
