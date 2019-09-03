@@ -60,16 +60,16 @@ retry_count = "10"
 target_time = "1"  # this makes autoscaling aggressive
 default_disk = "450G"  # is this necessary if we use destBucket?
 node_types = "m5.4xlarge:{}".format(our_bid)
-max_nodes = "25"
+max_nodes = "50"
 node_storage = "500"
 preemptable_compensation = "0.5"
 rescue_frequency = "9000"
 
 # Clean jobstore. Comment this out if you plan to add restart below.
 
-#logging.info("Cleaning up jobstore")
+logging.info("Cleaning up jobstore")
 
-#subprocess.call(["toil", "clean", jobstore])
+subprocess.call(["toil", "clean", jobstore])
 
 # Make log directories.
 logging.info("Making log directories: {}".format(log_path))
@@ -103,6 +103,6 @@ subprocess.check_output(["toil-cwl-runner",
   "--disableChaining",
   "--preemptableCompensation", preemptable_compensation,
   "--rescueJobsFrequency", rescue_frequency,
-  "--restart",
+  #"--restart",
   "main-paired-get-index.cwl", "main.json"
 ])
