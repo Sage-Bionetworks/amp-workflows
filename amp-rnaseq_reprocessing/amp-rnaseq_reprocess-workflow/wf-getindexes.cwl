@@ -11,8 +11,13 @@ inputs:
 outputs:
   - id: files
     type: File[]
-    outputSource: 
-      - convert_dir/files
+    outputSource: convert_dir/files
+  - id: genome_fasta
+    type: File
+    outputSource: pick_fasta/file
+  - id: genemodel_gtf
+    type: File
+    outputSource: pick_gtf/file
 steps:
   - id: syn_get_index
     in:
@@ -28,9 +33,30 @@ steps:
     in:
       - id: dir
         source: syn_get_index/output_dir
-    out: [files]
+    out:
+      - id: files
     run: steps/directory-to-file-list-tool.cwl
     label: Convert Directory to File List
+  - id: pick_fasta
+    in:
+      - id: files
+        source: convert_dir/files
+      - id: regex
+        default: ".fa$"
+    out:
+      - id: file
+    run: steps/pick-file-from-array.cwl
+    label: Isolate the fasta file from the index array
+  - id: pick_gtf
+    in:
+      - id: files
+        source: convert_dir/files
+      - id: regex
+        default: ".gtf$"
+    out:
+      - id: file
+    run: steps/pick-file-from-array.cwl
+    label: Isolate the gtf file from the index array
 requirements: 
   - class: StepInputExpressionRequirement
   - class: ResourceRequirement
