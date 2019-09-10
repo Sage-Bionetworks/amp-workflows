@@ -5,10 +5,6 @@ label: main-paired
 inputs:
   - id: index_synapseid
     type: string
-  - id: genome_fastas
-    type: File
-  - id: genemodel_gtf
-    type: File
   - id: synapse_config
     type: File
   - id: synapseid
@@ -45,6 +41,8 @@ steps:
         source: synapse_config
     out:
       - id: files
+      - id: genome_fasta
+      - id: genemodel_gtf
     run: ./wf-getindexes.cwl
     label: Get index files
   - id: wf_alignment
@@ -72,7 +70,7 @@ steps:
   - id: wf_buildrefs
     in:
       - id: genemodel_gtf
-        source: genemodel_gtf
+        source: wf_getindexes/genemodel_gtf
       - id: aligned_reads_sam
         source: wf_alignment/realigned_reads_sam
         valueFrom: $(self[0])
@@ -84,7 +82,7 @@ steps:
   - id: wf_metrics
     in:
       - id: genome_fasta
-        source: genome_fastas
+        source: wf_getindexes/genome_fasta
       - id: aligned_reads_sam
         source: wf_alignment/realigned_reads_sam
       - id: picard_refflat
