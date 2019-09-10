@@ -1,13 +1,18 @@
 #!/usr/bin/env cwl-runner
 
-# from https://github.com/common-workflow-language/common-workflow-language/issues/700
-
 cwlVersion: v1.0
 class: ExpressionTool
-requirements: { InlineJavascriptRequirement: {} }
+id: directory-to-file-list
+label: Transform Directory type to File type
+doc: Convert a directory type input to a file array output.
+
+requirements:
+  - class: InlineJavascriptRequirement
+
 inputs:
   - id: dir
     type: Directory
+
 expression: |
   ${
     var filtered = []
@@ -19,7 +24,12 @@ expression: |
     }
     return { "files": filtered }
   }
+
 outputs:
   - id: files
     type: File[]
 
+'dct:creator':
+  '@id': 'http://orcid.org/0000-0002-4475-8396'
+  'foaf:name': 'Tess Thyer'
+  'foaf:mbox': 'mailto:tess.thyer@sagebionetworks.org'
