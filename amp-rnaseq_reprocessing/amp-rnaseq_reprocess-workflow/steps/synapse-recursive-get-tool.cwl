@@ -1,13 +1,12 @@
 #!/usr/bin/env cwl-runner
-#
 
 cwlVersion: v1.0
 class: CommandLineTool
-baseCommand: synapse
+id: synapse-recursive-get
+label: Recursive synapse get
+doc: Get all children of a particular synapse id
 
-hints:
-  DockerRequirement:
-    dockerPull: sagebionetworks/synapsepythonclient:v1.9.2
+baseCommand: synapse
 
 inputs:
   - id: synapse_config
@@ -16,10 +15,12 @@ inputs:
     type: string
 
 requirements:
-  InitialWorkDirRequirement:
+  - class: InitialWorkDirRequirement
     listing:
       - entryname: .synapseConfig
         entry: $(inputs.synapse_config)
+  - class: DockerRequirement
+    dockerPull: sagebionetworks/synapsepythonclient:v1.9.2
 
 arguments: ["get", "-r", $(inputs.synapseid)]
      
@@ -28,4 +29,3 @@ outputs:
     type: Directory
     outputBinding:
       glob: '.'
-
