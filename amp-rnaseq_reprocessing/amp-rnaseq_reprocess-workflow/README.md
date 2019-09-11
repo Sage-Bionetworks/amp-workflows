@@ -24,3 +24,7 @@ chmod +x run-toil.sh
 #### Single End Sequencing Reads
 
 To run the workflow using datasets that contain single end sequencing reads, follow the above directions but replace `main-paired.cwl` with `main-single.cwl`
+
+### Development
+
+Use the `run-tests.sh` script to run tests. This script runs the [cwltest tool](https://github.com/common-workflow-language/cwltest/) inside a Docker container.
