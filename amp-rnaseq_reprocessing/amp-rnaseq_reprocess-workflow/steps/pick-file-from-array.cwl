@@ -17,6 +17,9 @@ inputs:
 
 expression: |
   ${
+    if (inputs.files.length === 0) {
+      throw new Error("'files' is empty.")
+    }
     var regex = RegExp(inputs.regex)
     var the_file = inputs.files.find(function(item) {
       return regex.test(item.basename)
