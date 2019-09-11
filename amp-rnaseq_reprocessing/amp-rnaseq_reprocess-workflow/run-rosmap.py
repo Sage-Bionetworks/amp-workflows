@@ -56,11 +56,11 @@ log_level = "DEBUG"
 log_file = "/var/log/toil/{}.log".format(run_name)
 log_path = "/var/log/toil/workers/{}".format(run_name)
 worker_logs_dir = "/var/log/toil/workers/{}".format(run_name)
-retry_count = "5"
+retry_count = "10"
 target_time = "1"  # this makes autoscaling aggressive
-#default_disk = "450G"  # is this necessary if we use destBucket?
-node_types = "m5.12xlarge,m5.4xlarge:{}".format(our_bid)
-max_nodes = "1,50"
+default_disk = "450G"  # is this necessary if we use destBucket?
+node_types = "m5.4xlarge:{},m5.4xlarge".format(our_bid)
+max_nodes = "45,5"
 node_storage = "500"
 preemptable_compensation = "0.5"
 rescue_frequency = "9000"
@@ -92,16 +92,17 @@ subprocess.check_output(["toil-cwl-runner",
   "--writeLogs", worker_logs_dir,
   "--retryCount", retry_count,
   "--metrics",
-  #"--runCwlInternalJobsOnWorkers",
+  "--runCwlInternalJobsOnWorkers",
   "--targetTime", target_time,
-  #"--defaultDisk", default_disk,
+  "--defaultDisk", default_disk,
   "--nodeTypes", node_types,
   "--maxNodes", max_nodes,
   "--nodeStorage", node_storage,
   "--destBucket", dest_bucket,
   "--defaultPreemptable",
+  "--disableChaining",
   "--preemptableCompensation", preemptable_compensation,
   "--rescueJobsFrequency", rescue_frequency,
   #"--restart",
-  "main-paired.cwl", "main.json"
+  "main-paired-get-index.cwl", "main.json"
 ])
