@@ -12,16 +12,23 @@ requirements:
 inputs:
   - id: dir
     type: Directory
-
+  - id: recurse
+    type: boolean?
+    default: true
 expression: |
   ${
     var filtered = []
-    for (var n in inputs.dir.listing) {
-      var o = inputs.dir.listing[n]
-      if (o.class == "File"){
-        filtered.push(o)
-      }
+    function filesFromDir(dir) {
+      for (var n in dir.listing) {
+        var item = dir.listing[n]
+        if (item.class == "File"){
+          filtered.push(item)
+        } else if (item.class == "Directory" && inputs.recurse) {
+          filesFromDir(item)
+        }
+      } 
     }
+    filesFromDir(inputs.dir)
     return { "files": filtered }
   }
 
