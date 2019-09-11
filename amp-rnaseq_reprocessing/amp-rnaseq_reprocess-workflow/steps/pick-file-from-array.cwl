@@ -20,6 +20,10 @@ inputs:
 
 expression: |
   ${
+    
+    // This script looks for the first file in the input array
+    // that matches the input regex.
+
     if (inputs.files.length === 0) {
       throw new Error("'files' is empty.")
     }

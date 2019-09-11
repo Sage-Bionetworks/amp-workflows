@@ -20,7 +20,13 @@ inputs:
     default: true
 expression: |
   ${
+
+    // Adds only items of class "File" to the filtered array
+    // If a "Directory" is encountered, and recurse is selected,
+    // look for files in there as well.
+
     var filtered = []
+
     function filesFromDir(dir) {
       for (var n in dir.listing) {
         var item = dir.listing[n]
@@ -31,7 +37,9 @@ expression: |
         }
       } 
     }
+
     filesFromDir(inputs.dir)
+    
     return { "files": filtered }
   }
 

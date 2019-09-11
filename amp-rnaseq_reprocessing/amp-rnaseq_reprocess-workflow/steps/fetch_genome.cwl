@@ -2,6 +2,7 @@
 
 class: CommandLineTool
 cwlVersion: v1.0
+id: fetch-genome
 doc: Retrieve genome files for indexing.
 label: Genome fetching tool.
 $namespaces:
@@ -16,6 +17,8 @@ requirements:
       - entryname: fetch_genome.sh
         entry: |-
           #!/usr/bin/env bash
+
+          # Retrieve files at the input urls and decompress
 
           wget -q -O $(inputs.annotation_gtf_filename).gz $(inputs.annotation_gtf_url)
           wget -q -O $(inputs.genome_fasta_filename).gz $(inputs.genome_fasta_url)
