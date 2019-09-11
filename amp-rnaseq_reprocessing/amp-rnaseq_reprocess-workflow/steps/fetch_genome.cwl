@@ -32,6 +32,7 @@ inputs:
     type: string
   annotation_gtf_filename:
     type: string
+
 outputs:
   - id: genome_fasta_file
     type: File

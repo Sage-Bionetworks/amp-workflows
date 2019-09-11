@@ -10,7 +10,7 @@ $namespaces:
   sbg: 'https://www.sevenbridges.com/'
 inputs:
   - id: genome_dir
-    type: 'File[]'
+    type: File[]
     'sbg:x': 769.881103515625
     'sbg:y': 321
   - id: genstr

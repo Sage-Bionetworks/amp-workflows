@@ -5,6 +5,9 @@ class: ExpressionTool
 id: pick-file-from-array
 label: Pick a single file from a file array
 doc: Returns the first file that matches a regex from a file array.
+$namespaces:
+  dct: 'http://purl.org/dc/terms/'
+  foaf: 'http://xmlns.com/foaf/0.1/'
 
 requirements:
   - class: InlineJavascriptRequirement

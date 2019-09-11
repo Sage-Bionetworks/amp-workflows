@@ -46,6 +46,7 @@ inputs:
     type: File
   - id: genome_index_files
     type: File[]
+
 outputs: []
 
 'dct:creator':

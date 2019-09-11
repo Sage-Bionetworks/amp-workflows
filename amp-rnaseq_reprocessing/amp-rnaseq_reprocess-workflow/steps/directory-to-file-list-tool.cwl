@@ -5,7 +5,10 @@ class: ExpressionTool
 id: directory-to-file-list
 label: Transform Directory type to File type
 doc: Convert a directory type input to a file array output.
-
+$namespaces:
+  dct: 'http://purl.org/dc/terms/'
+  foaf: 'http://xmlns.com/foaf/0.1/'
+  
 requirements:
   - class: InlineJavascriptRequirement
 
