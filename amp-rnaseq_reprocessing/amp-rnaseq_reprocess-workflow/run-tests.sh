@@ -9,9 +9,11 @@ set -x
 IMAGE=amp-rnaseq_reprocess-workflow-tester
 WORKDIR=/work
 
-# Build the docker image 
 docker build -t $IMAGE .
 
-# Run the cwltest command inside the docker container
-docker run --rm -v $(PWD):$WORKDIR -w=$WORKDIR $IMAGE \
-  cwltest --test test-descriptions.yaml --tool cwltool
+docker run \
+  --rm \
+  -v "$(pwd)":$WORKDIR \
+  -w=$WORKDIR \
+  $IMAGE \
+  ./run-tests.py
