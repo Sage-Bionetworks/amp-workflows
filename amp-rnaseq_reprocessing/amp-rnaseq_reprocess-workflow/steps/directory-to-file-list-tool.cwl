@@ -17,7 +17,7 @@ inputs:
     type: Directory
   - id: recurse
     type: boolean?
-    default: true
+    default: false
 expression: |
   ${
 
