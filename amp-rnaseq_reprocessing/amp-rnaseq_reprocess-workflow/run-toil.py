@@ -11,6 +11,7 @@ import sys
 
 default_jobdir = 'jobs/default'
 default_options_path = 'jobs/default/options.json'
+synapse_config_path = './.synapseConfig'
 
 script = os.path.basename(__file__)
 log = logging.getLogger(script)
@@ -157,18 +158,22 @@ def parse_args():
 
 
 def directory_exists(dir_path):
-    return os.path.exists(dir_path) and not os.path.isfile(dir_path)
+    error_message = 'directory missing: {}'.format(dir_path)
+    test = os.path.exists(dir_path) and not os.path.isfile(dir_path)
+    assert test, error_message
 
 
 def file_exists(file_path):
-    return os.path.exists(file_path) and os.path.isfile(file_path)
+    error_message = 'file missing: {}'.format(file_path)
+    test = os.path.exists(file_path) and os.path.isfile(file_path)
+    assert test, error_message
 
 
 # Validate directories and files are present
 def validate_paths(job_directory, custom_options_path, cwl_args_path):
-    assert directory_exists(job_directory)
-    assert file_exists(custom_options_path)
-    assert file_exists(cwl_args_path)
+    directory_exists(job_directory)
+    file_exists(custom_options_path)
+    file_exists(cwl_args_path)
 
 
 def make_log_directories(log_path):
@@ -242,7 +247,10 @@ def main():
     options = get_opts(default_options_path, args)
 
     # Validate that the specified cwl file exists
-    assert file_exists(options.cwl)
+    file_exists(options.cwl)
+
+    # Validate that the .synapseConfig file is present
+    file_exists(synapse_config_path)
 
     # Clean jobstore
     if args.clean:
