@@ -63,7 +63,8 @@ class Options(object):
     # Verify all the expected fields are present
     def _validate(self):
         for field in self.fields:
-            assert field in self.__dict__
+            error_message = 'required option missing: {}'.format(field)
+            assert field in self.__dict__, error_message
 
     # Print all fields
     def print(self):
