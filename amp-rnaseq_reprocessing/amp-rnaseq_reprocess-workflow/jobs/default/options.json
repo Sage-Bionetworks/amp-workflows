@@ -1,7 +1,6 @@
 {
   "zone": "us-east-1a",
   "tmpdir": "/var/lib/toil",
-  "cluster_name": "rna-seq-reprocessing-scicomp-toil-cluster-v001",
   "run_name": "def",
   "log_level": "INFO",
   "retry_count": "3",
