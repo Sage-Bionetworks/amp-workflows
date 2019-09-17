@@ -9,6 +9,10 @@ import os
 import subprocess
 import sys
 
+from utils.linkresources import symlink_resources
+from utils.unlinkresources import unlink_resources
+
+
 default_jobdir = 'jobs/default'
 default_options_path = 'jobs/default/options.json'
 synapse_config_path = './.synapseConfig'
@@ -18,7 +22,8 @@ log = logging.getLogger(script)
 log.setLevel(logging.DEBUG)
 handler = logging.StreamHandler(sys.stdout)
 handler.setLevel(logging.DEBUG)
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+formatter = logging.Formatter(
+    '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 handler.setFormatter(formatter)
 log.addHandler(handler)
 
@@ -222,30 +227,6 @@ def get_opts(default_options_path, args):
     return Options(opts)
 
 
-# Find resource files in a given directory
-def get_resource_files(dir_path):
-    return {
-        filename: '{}/{}'.format(dir_path, filename)
-        for filename in os.listdir(dir_path)
-        if filename.startswith('resource')
-        }
-
-
-# Create symlinks to resource files in default and job directories
-# Register handler to remove the symlinks when script exits.
-def symlink_resources(job_directory):
-    def unlink_resources(links):
-        for filename in links:
-            os.unlink(filename)
-
-    resources = get_resource_files(default_jobdir)
-    resources.update(get_resource_files(job_directory))
-    for filename, src_path in resources.items():
-        os.symlink(src_path, filename)
-
-    atexit.register(unlink_resources, resources.keys())
-
-
 def main():
     args = parse_args()
 
@@ -266,7 +247,8 @@ def main():
     make_log_directories(options.log_path)
 
     # symlink resource files to script directory
-    symlink_resources(options.job_directory)
+    links = symlink_resources(options.job_directory)
+    atexit.register(unlink_resources, links)
 
     # Run the toil job
     ToilRunCommand(options).run()

@@ -7,15 +7,29 @@ This workflow automates and standardizes the re-processing of RNASeq datasets fr
 * A CWL execution engine ([cwltool](https://github.com/common-workflow-language/cwltool) or [toil](https://toil.readthedocs.io/en/latest/))
 
 ### Usage
-Create or symlink a synapse config file in this directory.
-Modify the `main.json` file to point to a
-[synapse config file](https://docs.synapse.org/articles/client_configuration.html#customize-the-synapse-configuration-file).
-In addition, they must provide an array of synapse IDs that correspond
-to the BAM files that they would like to process.  
+Whichever tool you choose to use, you will need to create or symlink a 
+[synapse config file](https://docs.synapse.org/articles/client_configuration.html#customize-the-synapse-configuration-file)
+in this directory.
 
-#### cwltool execution 
+Subfolders under the `jobs` folder supply the following
+* `options.json`, used in `run-toil.py`, see instructions below
+* `job.json`, used to supply the cwl arguments, regardless of tool choice
+* requirements files that supply the resource requirements to CWL workflows
 
-`cwl-runner main-paired.cwl main.json`
+#### cwltool execution
+The following instructions are for running the `cwl-runner` in BASH. In the
+example below, the job directory "jobs/test-main-paired" is used.
+
+```bash
+# Create symlinks to resource files
+links=$(utils/linkresources.py jobs/test-main-paired)
+
+# Use cwltool to run a workflow
+cwl-runner main-paired.cwl jobs/test-main-paired/job.json
+
+# Remove symlinks
+utils/unlinkresources.py $links
+```
 
 #### toil execution 
 
@@ -27,7 +41,7 @@ to the BAM files that they would like to process.
 Run `./run-toil.py -h` to see more options. Note that there is a `--dry-run`
 option, which can help you to become familiar with the tool.
 
-#### add more jobs
+### How to Add More Jobs
 To add a new job, create a new directory under `jobs`.
 
 Each job directory requires an `options.json`, the set of options used by toil.
