@@ -137,7 +137,13 @@ class ToilRunCommand(ToilCommand):
 
 
 def parse_args():
-    parser = argparse.ArgumentParser()
+    description = (
+        'run-toil.py will run a cwl workflow with configuration-driven options.'
+        'Run example: ./run-toil.py --dry-run jobs/test-main-paired'
+        'Run ./run-toil.py -h for more information, or see the README'
+        'in this directory.'
+        )
+    parser = argparse.ArgumentParser(description=description)
     parser.add_argument(
         'job_directory',
         help='Directory containing options.json and requirements files')
