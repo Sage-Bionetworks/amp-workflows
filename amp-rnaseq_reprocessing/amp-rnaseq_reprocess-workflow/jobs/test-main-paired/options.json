@@ -1,11 +1,13 @@
 {
+  "cluster_name": "rna-seq-reprocessing-toil-cluster-v001",
   "run_name": "tst",
   "log_level": "DEBUG",
   "retry_count": "2",
   "target_time": "1",
   "default_disk": "450G",
   "node_types": "m5.4xlarge",
-  "preemptable_compensation": "0.5",
+  "max_nodes": "5",
+  "node_storage": "500",
   "rescue_frequency": "9000",
   "cwl": "main-paired.cwl"
 }
