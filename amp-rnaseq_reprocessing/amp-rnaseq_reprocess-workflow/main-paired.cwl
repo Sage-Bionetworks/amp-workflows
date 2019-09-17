@@ -5,14 +5,8 @@ label: main-paired
 $namespaces:
   sbg: 'https://www.sevenbridges.com'
 inputs:
-  - id: genome_fastas
-    type: File
-    'sbg:x': -781.206298828125
-    'sbg:y': -256.5
-  - id: genemodel_gtf
-    type: File
-    'sbg:x': -795.1556396484375
-    'sbg:y': -109.12567901611328
+  - id: index_synapseid
+    type: string
   - id: synapse_config
     type: File
     'sbg:x': -522.0704956054688
@@ -55,27 +49,22 @@ outputs:
     'sbg:x': 50.2137451171875
     'sbg:y': 299.5
 steps:
-  - id: wf_buildindexes
+  - id: wf_getindexes
     in:
-      - id: genome_fastas
-        source: genome_fastas
-      - id: genemodel_gtf
-        source: genemodel_gtf
-      - id: nthreads
-        source: nthreads
-      - id: genstr
-        source: genstr
+      - id: synapseid
+        source: index_synapseid
+      - id: synapse_config
+        source: synapse_config
     out:
-      - id: genome_dir
-    run: ./wf-buildindexes.cwl
-    label: Index building sub-workflow
-    'sbg:x': -639.203125
-    'sbg:y': -182.5
+      - id: files
+      - id: genome_fasta
+      - id: genemodel_gtf
+    run: ./wf-getindexes.cwl
+    label: Get index files
   - id: wf_alignment
     in:
       - id: genome_dir
-        source:
-          - wf_buildindexes/genome_dir
+        source: wf_getindexes/files
       - id: genstr
         source: genstr
       - id: nthreads
@@ -99,7 +88,7 @@ steps:
   - id: wf_buildrefs
     in:
       - id: genemodel_gtf
-        source: genemodel_gtf
+        source: wf_getindexes/genemodel_gtf
       - id: aligned_reads_sam
         source: wf_alignment/realigned_reads_sam
         valueFrom: $(self[0])
@@ -113,7 +102,7 @@ steps:
   - id: wf_metrics
     in:
       - id: genome_fasta
-        source: genome_fastas
+        source: wf_getindexes/genome_fasta
       - id: aligned_reads_sam
         source: wf_alignment/realigned_reads_sam
       - id: picard_refflat
@@ -130,8 +119,6 @@ steps:
     label: Metrics sub-workflow
     scatter:
       - aligned_reads_sam
-#      - picard_refflat
-#      - picard_riboints
       - basef
     scatterMethod: dotproduct
     'sbg:x': 128

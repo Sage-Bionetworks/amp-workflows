@@ -92,10 +92,7 @@ requirements:
   - class: MultipleInputFeatureRequirement 
   - class: StepInputExpressionRequirement
   - class: ResourceRequirement
-    ramMin: 60000
-    coresMin: 15
-    tmpdirMin: 225000
-    outdirMin: 225000
+    $mixin: resources-metrics.yaml
 'dct:creator':
   '@id': 'http://orcid.org/0000-0001-9758-0176'
   'foaf:mbox': 'mailto:james.a.eddy@gmail.com'

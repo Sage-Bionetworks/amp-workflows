@@ -1,0 +1,6 @@
+files:
+  - class: File
+    path: './test-dir/data-bar.txt'
+  - class: File
+    path: './test-dir/data-foo.txt'
+regex: '.txt$'

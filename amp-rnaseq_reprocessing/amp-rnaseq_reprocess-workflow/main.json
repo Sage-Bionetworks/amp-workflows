@@ -1,17 +1,9 @@
 {
-    "genemodel_gtf": {
-        "class": "File",
-        "path": "./Ref/gencode.v31.annotation.gtf"
-    },
-    "genome_fastas": {
-        "class": "File",
-        "path": "./Ref/GRCh38.primary_assembly.genome.fa"
-    },
     "index_synapseid": "syn20645801",
     "nthreads": 15,
     "synapse_config": {
         "class": "File",
-        "path": "/home/wpoehlm/.synapseConfig"
+        "path": "./.synapseConfig"
     },
     "synapseid": [
         "syn4212535",
