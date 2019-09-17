@@ -1,0 +1,13 @@
+{
+  "cluster_name": "rna-seq-reprocessing-toil-cluster-v001",
+  "run_name": "idx",
+  "log_level": "DEBUG",
+  "retry_count": "5",
+  "target_time": "1",
+  "default_disk": "450G",
+  "node_types": "m5.12xlarge",
+  "max_nodes": "1",
+  "node_storage": "500",
+  "rescue_frequency": "9000",
+  "cwl": "wf-buildindexes.cwl"
+}
