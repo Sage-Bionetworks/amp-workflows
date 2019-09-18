@@ -6,7 +6,7 @@
     "nthreads": 45,
     "synapse_config": {
         "class": "File",
-        "path": "../../.synapseConfig"
+        "path": "/etc/synapse/.synapseConfig"
     },
     "output_synapse_id": "syn20675525"
 }

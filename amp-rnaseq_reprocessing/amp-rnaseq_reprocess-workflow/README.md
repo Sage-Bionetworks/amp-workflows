@@ -16,7 +16,9 @@ This workflow automates and standardizes the re-processing of RNASeq datasets fr
 ### Usage
 Whichever tool you choose to use, you will need to create or symlink a 
 [synapse config file](https://docs.synapse.org/articles/client_configuration.html#customize-the-synapse-configuration-file)
-in this directory.
+to the path in `job.json` you run. The path we've chosen to add to the
+`job.json` files is `/etc/synapse/.synapseConfig`. If you choose to place your
+config file in a different location, remember to edit the path in `job.json`.
 
 Subfolders under the `jobs` folder supply the following
 * `options.json`, used in `run-toil.py`, see instructions below
