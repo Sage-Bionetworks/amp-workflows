@@ -59,6 +59,25 @@ requirement files that can be overwritten, and their default values, may be
 found in `jobs/default`. Create files with the same name in your job directory
 to overwrite the values.
 
+#### Spot Bids
+We provide a utility, `utils/aws-spotbid.py`, to generate a spot bid from aws.
+Run this before you run your workflow to get a bid for your instance type, zone,
+and ratio-of-max bid. This will give you a bid that you can used to modify your
+`options.json` which will trigger the toil engine to request spot instances
+instead of on-demand instances. For example, if I choose to use spot instances
+in `jobs/test-main-paired/options.json`, I would run
+`utils/aws-spotbid.py m5.4xlarge`, and the response will look something like
+
+```
+Based on ratio of 1.1, the recommended bid is 0.42449.
+For comparision, the on-demand price is 0.768.
+```
+
+Then I would edit the `node_types` value in `options.json` to add the bid using
+the syntax required by the toil engine:`m5.4xlarge:0.42449`
+
+For more information on the utility's options, run  `utils/aws-spotbid.py -h`.
+
 #### Single End Sequencing Reads
 
 To run the workflow using datasets that contain single end sequencing reads, follow the above directions but replace `main-paired.cwl` with `main-single.cwl`
