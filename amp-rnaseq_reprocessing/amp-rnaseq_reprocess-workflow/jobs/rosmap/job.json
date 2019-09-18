@@ -3,7 +3,7 @@
     "nthreads": 15,
     "synapse_config": {
         "class": "File",
-        "path": "./.synapseConfig"
+        "path": "../../.synapseConfig"
     },
     "synapseid": [
         "syn4212535",

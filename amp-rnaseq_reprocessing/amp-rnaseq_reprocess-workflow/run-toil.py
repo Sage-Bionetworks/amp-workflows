@@ -1,103 +1,257 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 
-import boto3
-import datetime
+import argparse
+import atexit
+import errno
+import json
+import logging
 import os
 import subprocess
-import errno
-import logging
 import sys
 
-logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
+from utils.linkresources import symlink_resources
+from utils.unlinkresources import unlink_resources
 
-# The first section of this script deals with creating a bid
-# for the majority of our worker nodes.
-ondemand = 0.768
-instance_type = "m5.4xlarge"
-region = "us-east-1"
-zone = "us-east-1a"
-last_week = (datetime.datetime.now() - datetime.timedelta(days=7)).isoformat()
 
-client = boto3.client('ec2', region_name=region)
-response = client.describe_spot_price_history(
-        AvailabilityZone=zone,
-        InstanceTypes=[instance_type],
-        StartTime=last_week,
-        ProductDescriptions=["Linux/UNIX"]
-)
+default_jobdir = 'jobs/default'
+default_options_path = 'jobs/default/options.json'
+synapse_config_path = './.synapseConfig'
 
-prices = [h["SpotPrice"] for h in response.get("SpotPriceHistory")]
+script = os.path.basename(__file__)
+log = logging.getLogger(script)
+log.setLevel(logging.DEBUG)
+handler = logging.StreamHandler(sys.stdout)
+handler.setLevel(logging.DEBUG)
+formatter = logging.Formatter(
+    '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+handler.setFormatter(formatter)
+log.addHandler(handler)
 
-max_price = max(prices)
 
-ratio_of_max = 1.1  # nudge bid slightly over max to ensure we obtain nodes
-our_bid = float(max_price) * ratio_of_max
-our_bid = our_bid if our_bid < ondemand else ondemand
+class Options(object):
+    fields = [
+        'cluster_name',
+        'run_name',
+        'log_level',
+        'retry_count',
+        'target_time',
+        'default_disk',
+        'node_types',
+        'max_nodes',
+        'node_storage',
+        'preemptable_compensation',
+        'rescue_frequency',
+        'cwl',
+        'job_directory',
+        'custom_options_path',
+        'cwl_args_path',
+        'restart',
+        'dry_run',
+        'jobstore',
+        'dest_bucket',
+        'log_file',
+        'log_path',
+        'worker_logs_dir'
+    ]
 
-logging.info("Our bid is {}, {}%% of the maximum bid of {} over the last week."
-  .format(our_bid, int(ratio_of_max * 100.0), max_price))
+    def __init__(self, options_dict):
+        self.__dict__.update(options_dict)
 
-# Set environment variables necessary to toil.
-os.environ["TOIL_AWS_ZONE"] = "us-east-1a"
-os.environ["TMPDIR"] = "/var/lib/toil"
+        self.jobstore = 'aws:{}:{}-{}'.format(
+            self.zone[:-1], self.cluster_name, self.run_name)
+        self.dest_bucket = 's3://{}-out'.format(self.cluster_name)
+        self.log_file = '/var/log/toil/{}.log'.format(self.run_name)
+        self.log_path = '/var/log/toil/workers/{}'.format(self.run_name)
+        self.worker_logs_dir = '/var/log/toil/workers/{}'.format(self.run_name)
+        self._validate()
+        self.print()
 
-# Pick a cluster. This could be a script argument.
-#cluster_name = "rna-seq-reprocessing-toil-cluster-v001"           # sandbox
-cluster_name = "rna-seq-reprocessing-scicomp-toil-cluster-v001"  # scicomp
+    # Verify all the expected fields are present
+    def _validate(self):
+        for field in self.fields:
+            error_message = 'required option missing: {}'.format(field)
+            assert field in self.__dict__, error_message
 
-# Toil options
-run_name = "rna"
-jobstore = "aws:us-east-1:{}-{}".format(cluster_name, run_name)
-dest_bucket = "s3://{}-out".format(cluster_name)
-log_level = "DEBUG"
-log_file = "/var/log/toil/{}.log".format(run_name)
-log_path = "/var/log/toil/workers/{}".format(run_name)
-worker_logs_dir = "/var/log/toil/workers/{}".format(run_name)
-retry_count = "3"
-target_time = "1"  # this makes autoscaling aggressive
-default_disk = "450G"  # is this necessary if we use destBucket?
-node_types = "m5.12xlarge,m5.4xlarge:{}".format(our_bid)
-max_nodes = "1,5"
-node_storage = "500"
-preemptable_compensation = "0.5"
-rescue_frequency = "9000"
+    # Print all fields
+    def print(self):
+        log.debug('OPTIONS:')
+        for key, value in self.__dict__.items():
+            log.debug('{} = {}'.format(key, value))
 
-# Clean jobstore. Comment this out if you plan to add restart below.
-logging.info("Cleaning up jobstore")
-subprocess.call(["toil", "clean", jobstore])
 
-# Make log directories.
-logging.info("Making log directories: {}".format(log_path))
-try:
-    os.makedirs(log_path)
-    logging.info("Path {} created.".format(log_path))
-except OSError as e:
-    if e.errno == errno.EEXIST:
-        logging.warn("Directory {} already exists.".format(log_path))
-    else:
-        raise
+class ToilCommand:
+    def __init__(self, options):
+        self.options = options
 
-# Run toil job.
-logging.info("Running new toil job")
-subprocess.check_output(["toil-cwl-runner",
-  "--provisioner", "aws",
-  "--batchSystem", "mesos",
-  "--jobStore", jobstore,
-  "--logLevel", log_level,
-  "--logFile", log_file,
-  "--writeLogs", worker_logs_dir,
-  "--retryCount", retry_count,
-  "--metrics",
-  "--runCwlInternalJobsOnWorkers",
-  "--targetTime", target_time,
-  "--defaultDisk", default_disk,
-  "--nodeTypes", node_types,
-  "--maxNodes", max_nodes,
-  "--nodeStorage", node_storage,
-  "--destBucket", dest_bucket,
-  "--defaultPreemptable",
-  "--preemptableCompensation", preemptable_compensation,
-  "--rescueJobsFrequency", rescue_frequency,
-  #"--restart",
-  "main-paired.cwl", "main.json"
-])
+    def run(self):
+        command_str = ' '.join(self.command)
+        if self.options.dry_run:
+            log.info('TOIL COMMAND DRY RUN: {}'.format(command_str))
+        else:
+            log.info('RUNNING TOIL COMMAND: {}'.format(command_str))
+            subprocess.call(self.command)
+
+
+class ToilCleanCommand(ToilCommand):
+    def __init__(self, options):
+        super().__init__(options)
+        self.command = ['toil', 'clean', options.jobstore]
+
+
+class ToilRunCommand(ToilCommand):
+    provisioner = 'aws'
+    batch_system = 'mesos'
+
+    def __init__(self, options):
+        super().__init__(options)
+        # Set environment variables necessary to toil
+        os.environ['TOIL_AWS_ZONE'] = options.zone
+        os.environ['TMPDIR'] = options.tmpdir
+
+        self.command = [
+            'toil-cwl-runner',
+            '--provisioner', 'aws',
+            '--batchSystem', 'mesos',
+            '--jobStore', options.jobstore,
+            '--logLevel', options.log_level,
+            '--logFile', options.log_file,
+            '--writeLogs', options.worker_logs_dir,
+            '--retryCount', options.retry_count,
+            '--metrics',
+            '--runCwlInternalJobsOnWorkers',
+            '--targetTime', options.target_time,
+            '--defaultDisk', options.default_disk,
+            '--nodeTypes', options.node_types,
+            '--maxNodes', options.max_nodes,
+            '--nodeStorage', options.node_storage,
+            '--destBucket', options.dest_bucket,
+            '--rescueJobsFrequency', options.rescue_frequency
+        ]
+        # Add some options only if node_types contains the spot syntax
+        if options.node_types.find(':') > -1:
+            self.command.extend([
+                '--defaultPreemptable',
+                '--preemptableCompensation', options.preemptable_compensation
+            ])
+
+        if options.restart:
+            self.command.append('--restart')
+
+        # Finally, add the cwl file and its arguments file
+        self.command.extend([options.cwl, options.cwl_args_path])
+
+
+def parse_args():
+    description = (
+        'run-toil.py will run a cwl workflow with configuration-driven options.'
+        'Run example: ./run-toil.py --dry-run jobs/test-main-paired'
+        'Run ./run-toil.py -h for more information, or see the README'
+        'in this directory.'
+        )
+    parser = argparse.ArgumentParser(description=description)
+    parser.add_argument(
+        'job_directory',
+        help='Directory containing options.json and requirements files')
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument(
+        '--clean',
+        help='Clean (remove) the jobstore, and start the job fresh',
+        action='store_true')
+    group.add_argument(
+        '--restart',
+        help='Restart a job that was previously interrupted',
+        action='store_true')
+    parser.add_argument(
+        '--dry-run',
+        help='Show the toil command that would be run, but don\'t run it',
+        action='store_true')
+    return parser.parse_args()
+
+
+def directory_exists(dir_path):
+    error_message = 'directory missing: {}'.format(dir_path)
+    test = os.path.exists(dir_path) and not os.path.isfile(dir_path)
+    assert test, error_message
+
+
+def file_exists(file_path):
+    error_message = 'file missing: {}'.format(file_path)
+    test = os.path.exists(file_path) and os.path.isfile(file_path)
+    assert test, error_message
+
+
+# Validate directories and files are present
+def validate_paths(job_directory, custom_options_path, cwl_args_path):
+    directory_exists(job_directory)
+    file_exists(custom_options_path)
+    file_exists(cwl_args_path)
+
+
+def make_log_directories(log_path):
+    log.debug('Making log directories: {}'.format(log_path))
+    try:
+        os.makedirs(log_path)
+        log.debug('Path {} created.'.format(log_path))
+    except OSError as e:
+        if e.errno == errno.EEXIST:
+            log.warning('Directory {} already exists.'.format(log_path))
+        else:
+            raise
+
+
+def get_opts(default_options_path, args):
+    job_directory = args.job_directory
+    custom_options_path = '{}/options.json'.format(job_directory)
+    cwl_args_path = '{}/job.json'.format(job_directory)
+
+    validate_paths(job_directory, custom_options_path, cwl_args_path)
+
+    # load default options
+    with open(default_options_path) as json_file:
+        opts = json.load(json_file)
+
+    # load custom options
+    with open(custom_options_path) as json_file:
+        custom_opts = json.load(json_file)
+
+    # merge custom options into defaults
+    opts.update(custom_opts)
+
+    # Add argument-based options
+    opts['job_directory'] = job_directory
+    opts['custom_options_path'] = custom_options_path
+    opts['cwl_args_path'] = cwl_args_path
+    opts['restart'] = args.restart
+    opts['dry_run'] = args.dry_run
+
+    return Options(opts)
+
+
+def main():
+    args = parse_args()
+
+    # Get the options object
+    options = get_opts(default_options_path, args)
+
+    # Validate that the specified cwl file exists
+    file_exists(options.cwl)
+
+    # Validate that the .synapseConfig file is present
+    file_exists(synapse_config_path)
+
+    # Clean jobstore
+    if args.clean:
+        ToilCleanCommand(options).run()
+
+    # Make directories for main and worker logs
+    make_log_directories(options.log_path)
+
+    # symlink resource files to script directory
+    links = symlink_resources(options.job_directory)
+    atexit.register(unlink_resources, links)
+
+    # Run the toil job
+    ToilRunCommand(options).run()
+
+
+main()

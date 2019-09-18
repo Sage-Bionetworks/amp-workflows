@@ -12,21 +12,78 @@ This workflow automates and standardizes the re-processing of RNASeq datasets fr
 ### Dependencies 
 * Docker
 * A CWL execution engine ([cwltool](https://github.com/common-workflow-language/cwltool) or [toil](https://toil.readthedocs.io/en/latest/))
-### Usage
-Users must modify the *main.json* file to point to their synapse config file.  In addition, they must provide an array of synapse ID's that correspond to the BAM files that they would like to process.  
 
-#### cwltool execution 
-`cwl-runner main-paired.cwl main.json`
+### Usage
+Whichever tool you choose to use, you will need to create or symlink a 
+[synapse config file](https://docs.synapse.org/articles/client_configuration.html#customize-the-synapse-configuration-file)
+in this directory.
+
+Subfolders under the `jobs` folder supply the following
+* `options.json`, used in `run-toil.py`, see instructions below
+* `job.json`, used to supply the cwl arguments, regardless of tool choice
+* requirements files that supply the resource requirements to CWL workflows
+
+#### cwltool execution
+The following instructions are for running the `cwl-runner` in BASH. In the
+example below, the job directory "jobs/test-main-paired" is used.
+
+```bash
+# Create symlinks to resource files
+links=$(utils/linkresources.py jobs/test-main-paired)
+
+# Use cwltool to run a workflow
+cwl-runner main-paired.cwl jobs/test-main-paired/job.json
+
+# Remove symlinks
+utils/unlinkresources.py $links
+```
 
 #### toil execution 
 
 - ssh to toil cluster leader node
-- modify `run-toil.sh` to specify resource requests
-- execute toil run script:
-```bash
-chmod +x run-toil.sh
-./run-toil.sh
+- from this directory (presuming the git repo was cloned to the leader),
+- choose a job directory, for example, `jobs/test-main-paired`
+- execute toil run script: `./run-toil.py jobs/test-main-paired`
+
+Run `./run-toil.py -h` to see more options. Note that there is a `--dry-run`
+option, which can help you to become familiar with the tool.
+
+### How to Add More Jobs
+To add a new job, create a new directory under `jobs`.
+
+Each job directory requires an `options.json`, the set of options used by toil.
+The `options.json` in `jobs/default` contains default options. Additional ones
+can be added (or overwritten) in your job directory's `options.json`. The
+`run-toil.py` script will warn you if any are missing.
+
+Each job directory also requires a `job.json`. This contains the arguments that
+are supplied to the CWL that you specify in your `options.json`.
+
+For examples of both `options.json` and `job.json`, see `jobs/test-main-paired`.
+
+Additionally, you can fine-tune the resource requirements. The resource 
+requirement files that can be overwritten, and their default values, may be
+found in `jobs/default`. Create files with the same name in your job directory
+to overwrite the values.
+
+#### Spot Bids
+We provide a utility, `utils/aws-spotbid.py`, to generate a spot bid from aws.
+Run this before you run your workflow to get a bid for your instance type, zone,
+and ratio-of-max bid. This will give you a bid that you can used to modify your
+`options.json` which will trigger the toil engine to request spot instances
+instead of on-demand instances. For example, if I choose to use spot instances
+in `jobs/test-main-paired/options.json`, I would run
+`utils/aws-spotbid.py m5.4xlarge`, and the response will look something like
+
 ```
+Based on ratio of 1.1, the recommended bid is 0.42449.
+For comparision, the on-demand price is 0.768.
+```
+
+Then I would edit the `node_types` value in `options.json` to add the bid using
+the syntax required by the toil engine:`m5.4xlarge:0.42449`
+
+For more information on the utility's options, run  `utils/aws-spotbid.py -h`.
 
 #### Single End Sequencing Reads
 
