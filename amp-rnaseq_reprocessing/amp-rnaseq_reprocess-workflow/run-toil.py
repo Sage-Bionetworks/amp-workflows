@@ -15,7 +15,7 @@ from utils.unlinkresources import unlink_resources
 
 default_jobdir = 'jobs/default'
 default_options_path = 'jobs/default/options.json'
-synapse_config_path = './.synapseConfig'
+synapse_config_path = '/etc/synapse/.synapseConfig'
 
 script = os.path.basename(__file__)
 log = logging.getLogger(script)
