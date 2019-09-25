@@ -9,6 +9,7 @@ import os
 import subprocess
 import sys
 
+from utils.giturl import github_url
 from utils.linkresources import symlink_resources
 from utils.unlinkresources import unlink_resources
 
@@ -231,6 +232,8 @@ def get_opts(default_options_path, args):
 # add values to environment to pass to ToilRunCommand
 def add_environment_vars(options):
     os.environ['CWL_ARGS_PATH'] = options.cwl_args_path
+    os.environ['WORKFLOW_URL'] = github_url()
+    os.environ['CWL_ARGS_URL'] = github_url(options.cwl_args_path)
 
 
 def main():
