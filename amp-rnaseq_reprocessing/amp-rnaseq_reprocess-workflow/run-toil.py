@@ -75,9 +75,9 @@ class Options(object):
 
     # Print all fields
     def print(self):
-        log.debug('OPTIONS:')
-        for key, value in self.__dict__.items():
-            log.debug('{} = {}'.format(key, value))
+        for key in sorted(self.__dict__.keys()):
+            value = self.__dict__[key]
+            log.debug(f'opts: {key} = {value}')
 
 
 class ToilCommand:
