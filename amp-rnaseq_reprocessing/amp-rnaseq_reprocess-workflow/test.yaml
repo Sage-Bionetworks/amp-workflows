@@ -1,3 +1,0 @@
-job_args_path: jobs/test-main-paired/job.json
-git_dir: /Users/tthyer/Code/sage/amp-workflows/.git
-job_args_url: https://github.com/Sage-Bionetworks/amp-workflows/blob/89c4448d281b280c8a081810a91b5f803be69cf2/amp-rnaseq_reprocessing/amp-rnaseq_reprocess-workflow/jobs/test-main-paired/job.json
