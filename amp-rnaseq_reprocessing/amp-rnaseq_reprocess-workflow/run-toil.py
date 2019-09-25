@@ -105,9 +105,6 @@ class ToilRunCommand(ToilCommand):
 
     def __init__(self, options):
         super().__init__(options)
-        # Set environment variables necessary to toil
-        os.environ['TOIL_AWS_ZONE'] = options.zone
-        os.environ['TMPDIR'] = options.tmpdir
 
         self.command = [
             'toil-cwl-runner',
@@ -231,9 +228,14 @@ def get_opts(default_options_path, args):
 
 # add values to environment to pass to ToilRunCommand
 def add_environment_vars(options):
+    os.environ['TOIL_AWS_ZONE'] = options.zone
+    os.environ['TMPDIR'] = options.tmpdir
     os.environ['CWL_ARGS_PATH'] = options.cwl_args_path
     os.environ['WORKFLOW_URL'] = github_url()
     os.environ['CWL_ARGS_URL'] = github_url(options.cwl_args_path)
+    for key in sorted(os.environ.keys()):
+        value = os.environ[key]
+        log.debug(f'env: {key} = {value}')
 
 
 def main():
