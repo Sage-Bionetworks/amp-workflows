@@ -125,7 +125,8 @@ class ToilRunCommand(ToilCommand):
             '--maxNodes', options.max_nodes,
             '--nodeStorage', options.node_storage,
             '--destBucket', options.dest_bucket,
-            '--rescueJobsFrequency', options.rescue_frequency
+            '--rescueJobsFrequency', options.rescue_frequency,
+            '--preserve-entire-environment'
         ]
         # Add some options only if node_types contains the spot syntax
         if options.node_types.find(':') > -1:
@@ -227,6 +228,11 @@ def get_opts(default_options_path, args):
     return Options(opts)
 
 
+# add values to environment to pass to ToilRunCommand
+def add_environment_vars(options):
+    os.environ['CWL_ARGS_PATH'] = options.cwl_args_path
+
+
 def main():
     args = parse_args()
 
@@ -249,6 +255,8 @@ def main():
     # symlink resource files to script directory
     links = symlink_resources(options.job_directory)
     atexit.register(unlink_resources, links)
+
+    add_environment_vars(options)
 
     # Run the toil job
     ToilRunCommand(options).run()
