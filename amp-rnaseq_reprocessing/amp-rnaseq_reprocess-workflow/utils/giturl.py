@@ -5,7 +5,7 @@ import git
 import os
 
 
-def github_url(path='.'):
+def github_url(path='.', raw=False):
     repo = git.Repo('.', search_parent_directories=True)
     assert not repo.bare
     # TODO: handle case where the remote is not named 'origin'
@@ -24,6 +24,12 @@ def github_url(path='.'):
     if remote_url.endswith('.git'):
         remote_url = remote_url[:-4]
 
+    blob = 'blob/'
+    if raw:
+        # make it the raw url
+        remote_url = remote_url.replace('github', 'raw.githubusercontent')
+        blob = ''
+
     # path to object relative to repo root
     abs_path = os.path.abspath(path)
     path_from_root = abs_path.replace(repo.working_tree_dir,'')
@@ -31,7 +37,7 @@ def github_url(path='.'):
     # latest commit SHA
     sha = repo.rev_parse('HEAD').hexsha
 
-    return f'{remote_url}/blob/{sha}{path_from_root}'
+    return f'{remote_url}/{blob}{sha}{path_from_root}'
 
 
 def main():
@@ -40,8 +46,12 @@ def main():
         '--path',
         default='.',
         help='Relative path')
+    parser.add_argument(
+        '--raw',
+        action='store_true',
+        help='Optionally generate the url to the raw file')
     args = parser.parse_args()
-    print(github_url(args.path))
+    print(github_url(args.path, args.raw))
 
 
 if __name__ == '__main__':
