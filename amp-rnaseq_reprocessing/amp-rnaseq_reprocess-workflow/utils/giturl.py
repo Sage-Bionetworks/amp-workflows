@@ -17,6 +17,8 @@ def github_url(path='.'):
         remote_url = remote_url[4:]
         # replace colon with forward-slash
         remote_url = remote_url.replace(':', '/')
+        # add https protocol
+        remote_url = f'https://{remote_url}'
 
     # remove .git from end
     if remote_url.endswith('.git'):
@@ -29,13 +31,14 @@ def github_url(path='.'):
     # latest commit SHA
     sha = repo.rev_parse('HEAD').hexsha
 
-    return f'https://{remote_url}/blob/{sha}{path_from_root}'
+    return f'{remote_url}/blob/{sha}{path_from_root}'
 
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument(
         '--path',
+        default='.',
         help='Relative path')
     args = parser.parse_args()
     print(github_url(args.path))
