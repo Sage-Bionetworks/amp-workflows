@@ -1,0 +1,16 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+toil = {extras = ["aws", "cwl"],version = ">=3.20.0"}
+cwltest = ">=1.0.*"
+cwlref-runner = ">=1.0.*"
+boto3 = ">=1.9"
+gitpython = "*"
+
+[requires]
+python_version = "3.7"

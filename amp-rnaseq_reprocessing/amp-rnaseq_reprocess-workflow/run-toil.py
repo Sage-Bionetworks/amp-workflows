@@ -7,8 +7,8 @@ import json
 import logging
 import os
 import subprocess
-import sys
 
+from utils.giturl import github_url
 from utils.linkresources import symlink_resources
 from utils.unlinkresources import unlink_resources
 
@@ -17,15 +17,11 @@ default_jobdir = 'jobs/default'
 default_options_path = 'jobs/default/options.json'
 synapse_config_path = '/etc/synapse/.synapseConfig'
 
-script = os.path.basename(__file__)
-log = logging.getLogger(script)
+log_format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+logging.basicConfig(format=log_format)
+script_name = os.path.basename(__file__)
+log = logging.getLogger(script_name)
 log.setLevel(logging.DEBUG)
-handler = logging.StreamHandler(sys.stdout)
-handler.setLevel(logging.DEBUG)
-formatter = logging.Formatter(
-    '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-handler.setFormatter(formatter)
-log.addHandler(handler)
 
 
 class Options(object):
@@ -64,7 +60,6 @@ class Options(object):
         self.log_path = '/var/log/toil/workers/{}'.format(self.run_name)
         self.worker_logs_dir = '/var/log/toil/workers/{}'.format(self.run_name)
         self._validate()
-        self.print()
 
     # Verify all the expected fields are present
     def _validate(self):
@@ -74,9 +69,9 @@ class Options(object):
 
     # Print all fields
     def print(self):
-        log.debug('OPTIONS:')
-        for key, value in self.__dict__.items():
-            log.debug('{} = {}'.format(key, value))
+        for key in sorted(self.__dict__.keys()):
+            value = self.__dict__[key]
+            log.debug(f'opts: {key} = {value}')
 
 
 class ToilCommand:
@@ -85,10 +80,8 @@ class ToilCommand:
 
     def run(self):
         command_str = ' '.join(self.command)
-        if self.options.dry_run:
-            log.info('TOIL COMMAND DRY RUN: {}'.format(command_str))
-        else:
-            log.info('RUNNING TOIL COMMAND: {}'.format(command_str))
+        log.info(f'Toil Command: {command_str}')
+        if not self.options.dry_run:
             subprocess.call(self.command)
 
 
@@ -104,9 +97,6 @@ class ToilRunCommand(ToilCommand):
 
     def __init__(self, options):
         super().__init__(options)
-        # Set environment variables necessary to toil
-        os.environ['TOIL_AWS_ZONE'] = options.zone
-        os.environ['TMPDIR'] = options.tmpdir
 
         self.command = [
             'toil-cwl-runner',
@@ -125,7 +115,8 @@ class ToilRunCommand(ToilCommand):
             '--maxNodes', options.max_nodes,
             '--nodeStorage', options.node_storage,
             '--destBucket', options.dest_bucket,
-            '--rescueJobsFrequency', options.rescue_frequency
+            '--rescueJobsFrequency', options.rescue_frequency,
+            '--preserve-entire-environment'
         ]
         # Add some options only if node_types contains the spot syntax
         if options.node_types.find(':') > -1:
@@ -227,11 +218,27 @@ def get_opts(default_options_path, args):
     return Options(opts)
 
 
+# add values to environment to pass to ToilRunCommand
+def add_environment_vars(options):
+    os.environ['TOIL_AWS_ZONE'] = options.zone
+    os.environ['TMPDIR'] = options.tmpdir
+    os.environ['CWL_ARGS_PATH'] = options.cwl_args_path
+    os.environ['WORKFLOW_URL'] = github_url()
+    os.environ['CWL_ARGS_URL'] = github_url(options.cwl_args_path)
+    for key in sorted(os.environ.keys()):
+        value = os.environ[key]
+        log.debug(f'env: {key} = {value}')
+
+
 def main():
     args = parse_args()
 
     # Get the options object
     options = get_opts(default_options_path, args)
+
+    header = 'BEGIN TOIL DRY RUN' if options.dry_run else 'BEGIN TOIL RUN'
+    log.info(f'---------- {header} ----------')
+    options.print()
 
     # Validate that the specified cwl file exists
     file_exists(options.cwl)
@@ -239,16 +246,19 @@ def main():
     # Validate that the .synapseConfig file is present
     file_exists(synapse_config_path)
 
-    # Clean jobstore
-    if args.clean:
-        ToilCleanCommand(options).run()
+    # Add environment variables that will be passed to Toil
+    add_environment_vars(options)
+
+    # Symlink resource files to script directory
+    links = symlink_resources(options.job_directory)
+    atexit.register(unlink_resources, links)
 
     # Make directories for main and worker logs
     make_log_directories(options.log_path)
 
-    # symlink resource files to script directory
-    links = symlink_resources(options.job_directory)
-    atexit.register(unlink_resources, links)
+    # Clean jobstore
+    if args.clean:
+        ToilCleanCommand(options).run()
 
     # Run the toil job
     ToilRunCommand(options).run()
