@@ -1,11 +1,23 @@
 #! /usr/bin/env python3
 
+"""Git URL
+
+Creates a github url for a resource in clone repository.
+"""
+
+
 import argparse
 import git
 import os
 
 
 def github_url(path='.', raw=False):
+    """ Construct a github url
+
+    Args:
+        path (str): path to a resource in current clone
+        raw (bool): whether url should be the raw file or a regular github url
+    """
     repo = git.Repo('.', search_parent_directories=True)
     assert not repo.bare
     # TODO: handle case where the remote is not named 'origin'
@@ -41,7 +53,9 @@ def github_url(path='.', raw=False):
 
 
 def main():
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(
+        description=__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument(
         '--path',
         default='.',

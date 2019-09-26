@@ -1,5 +1,16 @@
 #! /usr/bin/env python3
 
+"""Run Toil
+
+Runs a CWL (https://www.commonwl.org/) workflow on a toil
+(http://toil.ucsc-cgl.org/) cluster in AWS. This uses configuration-driven
+options. The configuration directory is "jobs".
+
+Run example: ./run-toil.py --dry-run jobs/test-main-paired
+Run ./run-toil.py -h for more information on the tool arguments, or see the
+README in this directory for further usage and configuration advice.
+"""
+
 import argparse
 import atexit
 import errno
@@ -25,6 +36,12 @@ log.setLevel(logging.DEBUG)
 
 
 class Options(object):
+    """
+    Options contains configuration for running a workflow.
+
+    Attributes:
+        fields (list of str): the list of required option fields
+    """
     fields = [
         'cluster_name',
         'run_name',
@@ -51,6 +68,15 @@ class Options(object):
     ]
 
     def __init__(self, options_dict):
+        """
+        Creates an Options instance. Fields are created dynamically from the
+        dictionary used to initialize the class instance. Some further fields
+        will be derived from those. The instance will fail validation if any
+        required fields are missing.
+
+        Args:
+        options_dict: a dictionary of configuration options
+        """
         self.__dict__.update(options_dict)
 
         self.jobstore = 'aws:{}:{}-{}'.format(
@@ -61,20 +87,28 @@ class Options(object):
         self.worker_logs_dir = '/var/log/toil/workers/{}'.format(self.run_name)
         self._validate()
 
-    # Verify all the expected fields are present
     def _validate(self):
+        """Verifies that all the expected fields are present"""
         for field in self.fields:
             error_message = 'required option missing: {}'.format(field)
             assert field in self.__dict__, error_message
 
-    # Print all fields
     def print(self):
+        """Prints all fields"""
         for key in sorted(self.__dict__.keys()):
             value = self.__dict__[key]
             log.debug(f'opts: {key} = {value}')
 
 
 class ToilCommand:
+    """
+    Base class for toil commands.
+
+    Attributes:
+        options (Options): configuration object used to construct the command
+    """
+    command = ['echo', 'No toil command set']
+
     def __init__(self, options):
         self.options = options
 
@@ -86,12 +120,26 @@ class ToilCommand:
 
 
 class ToilCleanCommand(ToilCommand):
+    """
+    Cleans a jobstore.
+
+    Attributes:
+        options (Options): configuration object used to construct the command
+    """
     def __init__(self, options):
         super().__init__(options)
         self.command = ['toil', 'clean', options.jobstore]
 
 
 class ToilRunCommand(ToilCommand):
+    """
+    Cleans a jobstore.
+
+    Attributes:
+        options (Options): configuration object used to construct the command
+        provisioner (str): the cloud provisioner for the cluster (AWS)
+        batch_system (str): the workflow orchestrator (Mesos)
+    """
     provisioner = 'aws'
     batch_system = 'mesos'
 
@@ -133,13 +181,9 @@ class ToilRunCommand(ToilCommand):
 
 
 def parse_args():
-    description = (
-        'run-toil.py will run a cwl workflow with configuration-driven options.'
-        'Run example: ./run-toil.py --dry-run jobs/test-main-paired'
-        'Run ./run-toil.py -h for more information, or see the README'
-        'in this directory.'
-        )
-    parser = argparse.ArgumentParser(description=description)
+    parser = argparse.ArgumentParser(
+        description=__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument(
         'job_directory',
         help='Directory containing options.json and requirements files')
@@ -160,25 +204,28 @@ def parse_args():
 
 
 def directory_exists(dir_path):
+    """Check that the directory at dir_path exists"""
     error_message = 'directory missing: {}'.format(dir_path)
     test = os.path.exists(dir_path) and not os.path.isfile(dir_path)
     assert test, error_message
 
 
 def file_exists(file_path):
+    """Check that the file at file_path exists"""
     error_message = 'file missing: {}'.format(file_path)
     test = os.path.exists(file_path) and os.path.isfile(file_path)
     assert test, error_message
 
 
-# Validate directories and files are present
 def validate_paths(job_directory, custom_options_path, cwl_args_path):
+    """Validate directories and files are present"""
     directory_exists(job_directory)
     file_exists(custom_options_path)
     file_exists(cwl_args_path)
 
 
 def make_log_directories(log_path):
+    """Make directories for the main toil log and the worker logs"""
     log.debug('Making log directories: {}'.format(log_path))
     try:
         os.makedirs(log_path)
@@ -191,6 +238,10 @@ def make_log_directories(log_path):
 
 
 def get_opts(default_options_path, args):
+    """
+    Merge custom options into defaults and add some args. Use this to construct
+    an Options instance.
+    """
     job_directory = args.job_directory
     custom_options_path = '{}/options.json'.format(job_directory)
     cwl_args_path = '{}/job.json'.format(job_directory)
@@ -218,8 +269,8 @@ def get_opts(default_options_path, args):
     return Options(opts)
 
 
-# add values to environment to pass to ToilRunCommand
 def add_environment_vars(options):
+    """Add values to environment that will be used by ToilRunCommand"""
     os.environ['TOIL_AWS_ZONE'] = options.zone
     os.environ['TMPDIR'] = options.tmpdir
     os.environ['WORKFLOW_URL'] = github_url()
