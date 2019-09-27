@@ -18,5 +18,5 @@ outputs:
 label: merge_starlog
 requirements:
   - class: DockerRequirement
-    dockerPull: 'wpoehlm/ngstools:pyscript'
+    dockerPull: 'wpoehlm/ngstools:pyscript-8f5f7d9'
   - class: InlineJavascriptRequirement

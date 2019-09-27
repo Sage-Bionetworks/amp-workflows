@@ -23,13 +23,9 @@ inputs:
     type: string?
   - id: output_metrics_filename
     type: string?
+  - id: parentid
+    type: string
 outputs:
-  - id: realigned_reads_sam
-    outputSource:
-      - wf_alignment/realigned_reads_sam
-    type: 'File[]'
-    'sbg:x': -178
-    'sbg:y': -472
   - id: combined_counts
     outputSource:
       - combine_counts/combined_counts
@@ -49,6 +45,40 @@ outputs:
     'sbg:x': 50.2137451171875
     'sbg:y': 299.5
 steps:
+  - id: get_argurl
+    in: []
+    out:
+      - id: cwl_args_url
+    run: steps/grab-argurl.cwl
+  - id: get_wfurl
+    in: []
+    out:
+      - id: cwl_wf_url
+    run: steps/grab-wfurl.cwl
+  - id: input_provenance
+    in:
+      - id: argurl
+        source: get_argurl/cwl_args_url
+      - id: synapseconfig
+        source: synapse_config
+    out:
+      - id: provenance_csv
+    run: steps/provenance.cwl
+    label: gather sample provenance
+  - id: upload_provenance
+    in:
+      - id: infile
+        source: input_provenance/provenance_csv
+      - id: parentid
+        source: parentid
+      - id: synapseconfig
+        source: synapse_config
+      - id: argurl
+        source: get_argurl/cwl_args_url
+      - id: wfurl
+        source: get_wfurl/cwl_wf_url
+    out: []
+    run: steps/upload_synapse.cwl
   - id: wf_getindexes
     in:
       - id: synapseid
@@ -134,6 +164,20 @@ steps:
     label: Combine read counts across samples
     'sbg:x': -63.8984375
     'sbg:y': 31.5
+  - id: upload_counts
+    in:
+      - id: infile
+        source: combine_counts/combined_counts
+      - id: parentid
+        source: parentid
+      - id: synapseconfig
+        source: synapse_config
+      - id: argurl
+        source: get_argurl/cwl_args_url
+      - id: wfurl
+        source: get_wfurl/cwl_wf_url
+    out: []
+    run: steps/upload_synapse.cwl
   - id: combine_metrics
     in:
       - id: picard_metrics
@@ -145,6 +189,20 @@ steps:
     label: Combine Picard metrics across samples
     'sbg:x': 343.8936767578125
     'sbg:y': -158.5
+  - id: upload_metrics
+    in:
+      - id: infile
+        source: combine_metrics/combined_metrics
+      - id: parentid
+        source: parentid
+      - id: synapseconfig
+        source: synapse_config
+      - id: argurl
+        source: get_argurl/cwl_args_url
+      - id: wfurl
+        source: get_wfurl/cwl_wf_url
+    out: []
+    run: steps/upload_synapse.cwl
   - id: merge_starlog
     in:
       - id: logs
@@ -156,6 +214,20 @@ steps:
     label: merge_starlog
     'sbg:x': -132.7860107421875
     'sbg:y': 294.5
+  - id: upload_starlog
+    in:
+      - id: infile
+        source: merge_starlog/starlog_merged
+      - id: parentid
+        source: parentid
+      - id: synapseconfig
+        source: synapse_config
+      - id: argurl
+        source: get_argurl/cwl_args_url
+      - id: wfurl
+        source: get_wfurl/cwl_wf_url
+    out: []
+    run: steps/upload_synapse.cwl
 requirements:
   - class: SubworkflowFeatureRequirement
   - class: ScatterFeatureRequirement

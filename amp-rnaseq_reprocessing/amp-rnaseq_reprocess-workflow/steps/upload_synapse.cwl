@@ -1,0 +1,1 @@
+../../../tools/python_utils/upload_synapse.cwl
