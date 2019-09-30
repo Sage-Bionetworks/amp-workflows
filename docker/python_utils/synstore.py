@@ -18,10 +18,6 @@ wflink = sys.argv[5]
 syn = sc.Synapse(configPath=synconf)
 syn.login()
 
-# Get the github url for the workflow
-#wflink = os.getenv('WORKFLOW_URL')
-#usedent = os.getenv('CWL_ARGS_URL')
-
 file = sc.File(path=infile, parent=parentid)
 print(file)
 file = syn.store(file, executed=wflink,used=usedent)

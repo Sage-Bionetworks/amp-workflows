@@ -23,7 +23,7 @@ inputs:
     type: string?
   - id: output_metrics_filename
     type: string?
-  - id: parentid
+  - id: synapse_parentid
     type: string
 outputs:
   - id: combined_counts
@@ -69,8 +69,8 @@ steps:
     in:
       - id: infile
         source: input_provenance/provenance_csv
-      - id: parentid
-        source: parentid
+      - id: synapse_parentid
+        source: synapse_parentid
       - id: synapseconfig
         source: synapse_config
       - id: argurl
@@ -168,8 +168,8 @@ steps:
     in:
       - id: infile
         source: combine_counts/combined_counts
-      - id: parentid
-        source: parentid
+      - id: synapse_parentid
+        source: synapse_parentid
       - id: synapseconfig
         source: synapse_config
       - id: argurl
@@ -193,8 +193,8 @@ steps:
     in:
       - id: infile
         source: combine_metrics/combined_metrics
-      - id: parentid
-        source: parentid
+      - id: synapse_parentid
+        source: synapse_parentid
       - id: synapseconfig
         source: synapse_config
       - id: argurl
@@ -218,8 +218,8 @@ steps:
     in:
       - id: infile
         source: merge_starlog/starlog_merged
-      - id: parentid
-        source: parentid
+      - id: synapse_parentid
+        source: synapse_parentid
       - id: synapseconfig
         source: synapse_config
       - id: argurl

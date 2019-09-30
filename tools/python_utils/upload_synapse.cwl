@@ -13,7 +13,7 @@ inputs:
     type: File
     inputBinding:
       position: 1
-  - id: parentid
+  - id: synapse_parentid
     type: string
     inputBinding:
       position: 2
