@@ -2,7 +2,7 @@
   "cluster_name": "rna-seq-reprocessing-scicomp-toil-cluster-v001",
   "run_name": "myo",
   "log_level": "DEBUG",
-  "retry_count": "3",
+  "retry_count": "5",
   "target_time": "1",
   "default_disk": "450G",
   "node_types": "m5.4xlarge",
