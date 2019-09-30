@@ -1,17 +1,19 @@
 #!/usr/bin/env python
+import os
 import synapseclient as sc
 import sys
+import urllib.request
 
 #The file to be uploaded to synapse
 infile = sys.argv[1]
-#The github link to the workflow code that was executed
-wflink = sys.argv[2]
 #The folder on synapse that will host the uploaded file
-parentid = sys.argv[3]
-#The input file that was run through the workflow
-usedent = sys.argv[4]
+parentid = sys.argv[2]
 #Synapse config file
-synconf = sys.argv[5]
+synconf = sys.argv[3]
+#URL for job args file
+usedent = sys.argv[4]
+#URL for workflow
+wflink = sys.argv[5]
 
 syn = sc.Synapse(configPath=synconf)
 syn.login()

@@ -5,7 +5,7 @@ $namespaces:
 id: upload_synapse
 hints:
   DockerRequirement:
-    dockerPull: 'wpoehlm/ngstools:pyscript-89c4448'
+    dockerPull: 'wpoehlm/ngstools:pyscript-8f5f7d9'
 baseCommand:
   - synstore.py
 inputs:
@@ -13,20 +13,20 @@ inputs:
     type: File
     inputBinding:
       position: 1
-  - id: wflink
+  - id: synapse_parentid
     type: string
     inputBinding:
       position: 2
-  - id: parentid
-    type: string
+  - id: synapseconfig
+    type: File
     inputBinding:
       position: 3
-  - id: usedent
+  - id: argurl
     type: string
     inputBinding:
       position: 4
-  - id: synapseconfig
-    type: File
+  - id: wfurl
+    type: string
     inputBinding:
       position: 5
 outputs: []

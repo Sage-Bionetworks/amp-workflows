@@ -7,9 +7,6 @@ import sys
 import os
 import glob
 
-#outpath = sys.argv[1]
-#os.chdir(outpath)
-
 inputs =  []
 for i in sys.argv[1:]:
     inputs.append(i)

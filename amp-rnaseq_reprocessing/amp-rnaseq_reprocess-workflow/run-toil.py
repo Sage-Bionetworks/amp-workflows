@@ -82,7 +82,7 @@ class ToilCommand:
         command_str = ' '.join(self.command)
         log.info(f'Toil Command: {command_str}')
         if not self.options.dry_run:
-            subprocess.call(self.command)
+            subprocess.check_output(self.command)
 
 
 class ToilCleanCommand(ToilCommand):
@@ -222,9 +222,8 @@ def get_opts(default_options_path, args):
 def add_environment_vars(options):
     os.environ['TOIL_AWS_ZONE'] = options.zone
     os.environ['TMPDIR'] = options.tmpdir
-    os.environ['CWL_ARGS_PATH'] = options.cwl_args_path
     os.environ['WORKFLOW_URL'] = github_url()
-    os.environ['CWL_ARGS_URL'] = github_url(options.cwl_args_path)
+    os.environ['CWL_ARGS_URL'] = github_url(options.cwl_args_path, raw=True)
     for key in sorted(os.environ.keys()):
         value = os.environ[key]
         log.debug(f'env: {key} = {value}')
