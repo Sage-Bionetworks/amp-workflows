@@ -1,1 +1,1 @@
-../../../tools/synapse/pick-file-from-array.cwl
+../../../tools/cwlutils/pick-file-from-array.cwl

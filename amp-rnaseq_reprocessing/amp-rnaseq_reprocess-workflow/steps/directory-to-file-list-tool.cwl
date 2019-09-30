@@ -1,1 +1,1 @@
-../../../tools/synapse/directory-to-file-list-tool.cwl
+../../../tools/cwlutils/directory-to-file-list-tool.cwl
