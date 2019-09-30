@@ -1,7 +1,7 @@
 {
     "index_synapseid": "syn19985744",
     "nthreads": 15,
-    "parentid": "syn20783166",
+    "synapse_parentid": "syn20783166",
     "synapse_config": {
         "class": "File",
         "path": "/etc/synapse/.synapseConfig"
