@@ -12,7 +12,7 @@ doc: |
   java -Xmx8G -jar $PICARD CollectRnaSeqMetrics \
     VALIDATION_STRINGENCY=LENIENT \
     MAX_RECORDS_IN_RAM=4000000 \
-    STRAND_SPECIFICITY=FIRST_READ_TRANSCRIPTION_STRAND \
+    STRAND_SPECIFICITY=NONE \
     MINIMUM_LENGTH=500 \
     RRNA_FRAGMENT_PERCENTAGE=0.8 \
     METRIC_ACCUMULATION_LEVEL=ALL_READS \
@@ -87,7 +87,7 @@ inputs:
 
   - id: strand_specificity
     type: string
-    default: "SECOND_READ_TRANSCRIPTION_STRAND"
+    default: "NONE"
     inputBinding:
       position: 6
       prefix: STRAND_SPECIFICITY=
