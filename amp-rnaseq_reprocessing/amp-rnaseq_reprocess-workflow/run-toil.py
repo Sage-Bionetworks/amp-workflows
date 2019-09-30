@@ -82,7 +82,7 @@ class ToilCommand:
         command_str = ' '.join(self.command)
         log.info(f'Toil Command: {command_str}')
         if not self.options.dry_run:
-            subprocess.call(self.command)
+            subprocess.check_output(self.command)
 
 
 class ToilCleanCommand(ToilCommand):
