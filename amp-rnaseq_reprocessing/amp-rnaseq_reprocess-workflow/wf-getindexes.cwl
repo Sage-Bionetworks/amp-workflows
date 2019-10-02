@@ -18,6 +18,9 @@ outputs:
   - id: genemodel_gtf
     type: File
     outputSource: pick_gtf/file
+  - id: genome_dir
+    type: Directory
+    outputSource: syn_get_index/output_dir
 steps:
   - id: syn_get_index
     in:

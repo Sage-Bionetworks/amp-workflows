@@ -25,6 +25,10 @@ inputs:
     type: string?
   - id: synapse_parentid
     type: string
+  - id: cwl_args_url
+    type: string
+  - id: cwl_wf_url
+    type: string
 outputs:
   - id: combined_counts
     outputSource:
@@ -45,20 +49,10 @@ outputs:
     'sbg:x': 50.2137451171875
     'sbg:y': 299.5
 steps:
-  - id: get_argurl
-    in: []
-    out:
-      - id: cwl_args_url
-    run: steps/grab-argurl.cwl
-  - id: get_wfurl
-    in: []
-    out:
-      - id: cwl_wf_url
-    run: steps/grab-wfurl.cwl
   - id: input_provenance
     in:
       - id: argurl
-        source: get_argurl/cwl_args_url
+        source: cwl_args_url
       - id: synapseconfig
         source: synapse_config
     out:
@@ -74,9 +68,9 @@ steps:
       - id: synapseconfig
         source: synapse_config
       - id: argurl
-        source: get_argurl/cwl_args_url
+        source: cwl_args_url
       - id: wfurl
-        source: get_wfurl/cwl_wf_url
+        source: cwl_wf_url
     out: []
     run: steps/upload_synapse.cwl
   - id: wf_getindexes
@@ -89,12 +83,14 @@ steps:
       - id: files
       - id: genome_fasta
       - id: genemodel_gtf
+      - id: genome_dir
     run: ./wf-getindexes.cwl
     label: Get index files
   - id: wf_alignment
     in:
       - id: genome_dir
-        source: wf_getindexes/files
+        #source: wf_getindexes/files
+        source: wf_getindexes/genome_dir
       - id: genstr
         source: genstr
       - id: nthreads
@@ -173,9 +169,9 @@ steps:
       - id: synapseconfig
         source: synapse_config
       - id: argurl
-        source: get_argurl/cwl_args_url
+        source: cwl_args_url
       - id: wfurl
-        source: get_wfurl/cwl_wf_url
+        source: cwl_wf_url
     out: []
     run: steps/upload_synapse.cwl
   - id: combine_metrics
@@ -198,9 +194,9 @@ steps:
       - id: synapseconfig
         source: synapse_config
       - id: argurl
-        source: get_argurl/cwl_args_url
+        source: cwl_args_url
       - id: wfurl
-        source: get_wfurl/cwl_wf_url
+        source: cwl_wf_url
     out: []
     run: steps/upload_synapse.cwl
   - id: merge_starlog
@@ -223,9 +219,9 @@ steps:
       - id: synapseconfig
         source: synapse_config
       - id: argurl
-        source: get_argurl/cwl_args_url
+        source: cwl_args_url
       - id: wfurl
-        source: get_wfurl/cwl_wf_url
+        source: cwl_wf_url
     out: []
     run: steps/upload_synapse.cwl
 requirements:

@@ -18,10 +18,10 @@ hints:
   - class: DockerRequirement
     dockerPull: 'wpoehlm/ngstools:star'
 
-requirements:
-  InitialWorkDirRequirement:
-    listing:
-      - $(inputs.genome_dir)
+#requirements:
+#  InitialWorkDirRequirement:
+#    listing:
+#      - $(inputs.genome_dir)
 
 baseCommand: ['STAR', '--runMode', 'alignReads']
 
@@ -61,16 +61,19 @@ inputs:
 #    inputBinding:
 #      prefix: --readFilesCommand
 
-  - id: genstr
-    label: Reference genome directory
-    doc: |
-      path to the directory where genome files are stored
-    type: string?
-    default: .
+#  - id: genstr
+#    label: Reference genome directory
+#    doc: |
+#      path to the directory where genome files are stored
+#    type: string?
+#    default: .
+#    inputBinding:
+#      prefix: --genomeDir
+  - id: genome_dir
+    #type: File[]
+    type: Directory
     inputBinding:
       prefix: --genomeDir
-  - id: genome_dir
-    type: File[]
   - id: nthreads
     label: Number of threads
     doc: |

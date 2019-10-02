@@ -10,7 +10,8 @@ $namespaces:
   sbg: 'https://www.sevenbridges.com/'
 inputs:
   - id: genome_dir
-    type: File[]
+    #type: File[]
+    type: Directory
     'sbg:x': 769.881103515625
     'sbg:y': 321
   - id: genstr
@@ -98,11 +99,10 @@ steps:
         source: picard_samtofastq/mate_1
       - id: mate_2_fastq
         source: picard_samtofastq/mate_2
-      - id: genstr
-        source: genstr
+      #- id: genstr
+      #  source: genstr
       - id: genome_dir
-        source:
-          - genome_dir
+        source: genome_dir
       - id: nthreads
         source: nthreads
       - id: output_dir_name
