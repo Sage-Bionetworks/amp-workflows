@@ -1,0 +1,80 @@
+{
+  "args": {
+    "language": "cwl",
+    "cwl_version": "v1",
+    "cwl_directory_local": "/Users/tthyer/Code/sage/amp-workflows/amp-rnaseq_reprocessing/amp-rnaseq_reprocess-workflow",
+    "cwl_main_filename": "main-paired.cwl",
+    "cwl_child_filenames": [
+      "steps/combine_counts_study.cwl",
+      "steps/combine_metrics_sample.cwl",
+      "steps/combine_metrics_study.cwl",
+      "steps/concat_fq.cwl",
+      "steps/directory-to-file-list-tool.cwl",
+      "steps/fetch_genome.cwl",
+      "steps/grab-argurl.cwl",
+      "steps/grab-wfurl.cwl",
+      "steps/gzip.cwl",
+      "steps/merge_starlog.cwl",
+      "steps/picard_alignmentsummary_metrics.cwl",
+      "steps/picard_rnaseq_metrics.cwl",
+      "steps/picard_samtofastq.cwl",
+      "steps/picard_sortsam.cwl",
+      "steps/pick-file-from-array.cwl",
+      "steps/prep_refflat.cwl",
+      "steps/prep_riboints.cwl",
+      "steps/provenance.cwl",
+      "steps/slice_file_array.cwl",
+      "steps/star_align-se.cwl",
+      "steps/star_align.cwl",
+      "steps/star_index.cwl",
+      "steps/store-indexed-product.cwl",
+      "steps/syn-get.cwl",
+      "steps/synapse-get-tool.cwl",
+      "steps/synapse-recursive-get-tool.cwl",
+      "steps/synapse-store-tool.cwl",
+      "steps/upload_synapse.cwl",
+      "steps/wf-buildindexes.cwl",
+      "steps/wf-buildrefs.cwl",
+      "steps/wf-getindexes.cwl",
+      "steps/wf-metrics.cwl",
+      "steps/zcat.cwl",
+      "wf-alignment.cwl",
+      "wf-buildindexes.cwl",
+      "wf-buildrefs.cwl",
+      "wf-getindexes.cwl",
+      "wf-metrics.cwl",
+      "resources-alignment.yaml",
+      "resources-buildindexes.yaml",
+      "resources-buildrefs.yaml",
+      "resources-getindexes.yaml",
+      "resources-metrics.yaml"
+    ],
+    "input_files": {
+      "synapse_config": {
+        "bucket_name": "minneker-sandbox",
+        "object_key": "creds/.synapseConfig"
+      }
+    },
+    "input_parameters": {
+      "index_synapseid": "syn19985744",
+      "nthreads": 15,
+      "synapseid": [
+        "syn18901007",
+        "syn18901017"
+      ],
+      "synapse_parentid": "syn20675525",
+      "cwl_args_url": "https://raw.githubusercontent.com/Sage-Bionetworks/amp-workflows/543cec971bb2de5d820df405d949d000959da8cd/amp-rnaseq_reprocessing/amp-rnaseq_reprocess-workflow/jobs/test-main-paired/tibanna.json",
+      "cwl_wf_url": "https://github.com/Sage-Bionetworks/amp-workflows/blob/21f081663a0595e6a9315a5153064371b17a6698/amp-rnaseq_reprocessing/amp-rnaseq_reprocess-workflow"
+    },
+    "output_S3_bucket": "minneker-sandbox"
+  },
+  "config": {
+    "run_name": "main-paired-test-tthyer-tibanna",
+    "log_bucket": "minneker-sandbox",
+    "instance_type": "m5a.4xlarge",
+    "key_name": "toil",
+    "mem": 64,
+    "root_ebs_size": 40,
+    "shutdown_min": 10
+  }
+}
