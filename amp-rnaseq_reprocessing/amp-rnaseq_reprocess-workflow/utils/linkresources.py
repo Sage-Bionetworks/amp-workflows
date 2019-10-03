@@ -1,11 +1,19 @@
 #! /usr/bin/env python3
 
+"""Link Resources
+
+Create symlinks to resource files in default and job directories.
+"""
+
 import argparse
 import os
 
 
-# Find resource files in a given directory
+default_jobdir = 'jobs/default'
+
+
 def get_resource_files(dir_path):
+    """Finds resource files in a given directory."""
     return {
         filename: '{}/{}'.format(dir_path, filename)
         for filename in os.listdir(dir_path)
@@ -13,10 +21,11 @@ def get_resource_files(dir_path):
         }
 
 
-# Create symlinks to resource files in default and job directories
-# Register handler to remove the symlinks when script exits.
 def symlink_resources(job_directory):
-    resources = get_resource_files('jobs/default')
+    """Create symlinks for resource files in the current directory. Chooses
+    any resource files found in job_directory over default_jobdir, effectively
+    overriding the defaults."""
+    resources = get_resource_files(default_jobdir)
     resources.update(get_resource_files(job_directory))
     cur_dir = os.curdir
     for filename, src_path in resources.items():
@@ -25,7 +34,9 @@ def symlink_resources(job_directory):
 
 
 def main():
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(
+        description=__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument(
         'job_directory',
         help='Directory containing requirements files')

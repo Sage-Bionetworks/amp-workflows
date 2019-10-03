@@ -1,10 +1,16 @@
 #! /usr/bin/env python3
 
+"""Unlink Resources
+
+Remove symlinks to resource files.
+"""
+
 import argparse
 import os
 
 
 def unlink_resources(links):
+    """Unlink the links, an array of filepaths."""
     if links:
         for link in links:
             os.unlink(link)
@@ -13,7 +19,9 @@ def unlink_resources(links):
 
 
 def main():
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(
+        description=__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument(
         'links',
         nargs='+',

@@ -1,5 +1,11 @@
 #! /usr/bin/env python3
 
+"""AWS Spot Bid
+
+Creates an AWS EC2 Spot Bid based on a zone, instance type, and ratio over max
+price.
+"""
+
 import argparse
 import datetime
 import json
@@ -10,6 +16,7 @@ import boto3
 
 
 def get_bid(session, instance_type, zone, ratio):
+    """Get a bid based on ratio over the max price in the last week"""
     region = zone[:-1]
 
     # get the start time for a week ago, as a week's worth of prices
@@ -53,6 +60,7 @@ FLT = '[{{"Field": "tenancy", "Value": "shared", "Type": "TERM_MATCH"}},'\
 
 # Get current AWS price for an on-demand instance
 def get_price(session, region, instance, os):
+    """Get a the current on-demand price for an instance type"""
     pricing = session.client('pricing', region_name='us-east-1')
     region_name = get_region_name(region)
     f = FLT.format(r=region_name, t=instance, o=os)
@@ -65,6 +73,7 @@ def get_price(session, region, instance, os):
 
 # Translate region code to region name
 def get_region_name(region_code):
+    """Given a region code, find its name"""
     default_region = 'US East (N. Virginia)'
     endpoint_file = resource_filename('botocore', 'data/endpoints.json')
     try:
@@ -80,7 +89,9 @@ def main():
     if sys.version_info < (3, 2):
         raise RuntimeError('This script requres Python 3.2+')
 
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(
+        description=__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument(
         'instance_type',
         help='Directory containing options.json and requirements files')
