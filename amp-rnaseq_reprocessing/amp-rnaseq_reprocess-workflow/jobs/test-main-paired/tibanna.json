@@ -63,8 +63,8 @@
         "syn18901017"
       ],
       "synapse_parentid": "syn20675525",
-      "cwl_args_url": "https://raw.githubusercontent.com/Sage-Bionetworks/amp-workflows/543cec971bb2de5d820df405d949d000959da8cd/amp-rnaseq_reprocessing/amp-rnaseq_reprocess-workflow/jobs/test-main-paired/tibanna.json",
-      "cwl_wf_url": "https://github.com/Sage-Bionetworks/amp-workflows/blob/21f081663a0595e6a9315a5153064371b17a6698/amp-rnaseq_reprocessing/amp-rnaseq_reprocess-workflow"
+      "cwl_args_url": "https://raw.githubusercontent.com/Sage-Bionetworks/amp-workflows/11fa29b16f0b110942967b3a15237f9ebda47e16/amp-rnaseq_reprocessing/amp-rnaseq_reprocess-workflow/jobs/test-main-paired/tibanna.json",
+      "cwl_wf_url": "https://github.com/Sage-Bionetworks/amp-workflows/blob/11fa29b16f0b110942967b3a15237f9ebda47e16/amp-rnaseq_reprocessing/amp-rnaseq_reprocess-workflow"
     },
     "output_S3_bucket": "minneker-sandbox"
   },
