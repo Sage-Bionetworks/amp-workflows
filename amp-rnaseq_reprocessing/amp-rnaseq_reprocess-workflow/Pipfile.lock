@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "aa19196fb12a4ec5d3aeda650d674c0eda1cb6ce0597e95236b5dbccff660557"
+            "sha256": "c03438a5d658afa3d6d95af081fd7ddfa650ce2affcaf21ce193d1a944fffcea"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -42,6 +42,13 @@
             ],
             "version": "==1.7.0"
         },
+        "benchmark-4dn": {
+            "hashes": [
+                "sha256:5bda21d733385281d058c1223c082da3788bb43b1b991ce933247c67bdb93dcb",
+                "sha256:f44a5d8274710828045955dae92e7ee093174ed88cdc695840f4a250ab9003a3"
+            ],
+            "version": "==0.5.6"
+        },
         "boltons": {
             "hashes": [
                 "sha256:7aa10b0f5b015678458a7d0422961fc0c7e823c05e644094c0e564931ce0b0df",
@@ -58,18 +65,18 @@
         },
         "boto3": {
             "hashes": [
-                "sha256:482ba0750cd9772c9d3bc67fe17a9470eba582aa6cf2810d7656a8d6e82a3b05",
-                "sha256:c8593cf034e678e58b361f555f66f66e7f700ac32bd4341768744b48de9f1f98"
+                "sha256:60e711f1113be926bcec1cfe62fa336438d021ce834f4a5228beead3b4bc5142",
+                "sha256:8c9b9b2422c1baa84c0f331ee86ac4d265e1e7d321ce7ba58dbb863585c2191f"
             ],
             "index": "pypi",
-            "version": "==1.9.236"
+            "version": "==1.9.241"
         },
         "botocore": {
             "hashes": [
-                "sha256:6d1f302ea190e7287eb3909e851e04676f96803c962e46b4f716dd0cea99bce5",
-                "sha256:b65e83183501ee89e2ec8e8f35c30a99ce2680dd41e7bf4f7241a86f4bb9f8a9"
+                "sha256:897415ec68b2cbb65a7d32965c456d332bb2eb936e533c9ad6064cd15e67c0c1",
+                "sha256:e35c2e6b8946be9063d7988b19dea2b6136b80c0e3469b6a076c574d5abca6b3"
             ],
-            "version": "==1.12.236"
+            "version": "==1.12.241"
         },
         "cachecontrol": {
             "hashes": [
@@ -173,18 +180,18 @@
         },
         "gitdb2": {
             "hashes": [
-                "sha256:83361131a1836661a155172932a13c08bda2db3674e4caa32368aa6eb02f38c2",
-                "sha256:e3a0141c5f2a3f635c7209d56c496ebe1ad35da82fe4d3ec4aaa36278d70648a"
+                "sha256:1b6df1433567a51a4a9c1a5a0de977aa351a405cc56d7d35f3388bad1f630350",
+                "sha256:96bbb507d765a7f51eb802554a9cfe194a174582f772e0d89f4e87288c288b7b"
             ],
-            "version": "==2.0.5"
+            "version": "==2.0.6"
         },
         "gitpython": {
             "hashes": [
-                "sha256:947cc75913e7b6da108458136607e2ee0e40c20be1e12d4284e7c6c12956c276",
-                "sha256:d2f4945f8260f6981d724f5957bc076398ada55cb5d25aaee10108bcdc894100"
+                "sha256:631263cc670aa56ce3d3c414cf0fe2e840f2e913514b138ea28d88a477bbcd21",
+                "sha256:6e97b9f0954807f30c2dd8e3165731ed6c477a1b365f194b69d81d7940a08332"
             ],
             "index": "pypi",
-            "version": "==3.0.2"
+            "version": "==3.0.3"
         },
         "idna": {
             "hashes": [
@@ -397,6 +404,13 @@
             "markers": "python_version >= '2.7'",
             "version": "==2.8.0"
         },
+        "python-lambda-4dn": {
+            "hashes": [
+                "sha256:5d63b786faf38922efe844cd2b11e9b5fa0a257c6d6f77ea3f3056d00112d760",
+                "sha256:a86d8b438e041cc7b0d144e16f24bae16cdbb4003ef2b55bbc89b187f2da7e0f"
+            ],
+            "version": "==0.12.2"
+        },
         "pytz": {
             "hashes": [
                 "sha256:26c0b32e437e54a18161324a2fca3c4b9846b74a8dccddd843113109e1116b32",
@@ -546,6 +560,14 @@
                 "sha256:eb2b989cf03ffc7166339eb34f1aa26c5ace255243337b1e22dab7caa1166687"
             ],
             "version": "==3.5.2"
+        },
+        "tibanna": {
+            "hashes": [
+                "sha256:5839060716353649a4e482dc7e25eaec26ffdf048ad4c7695fd2991f9a473e3f",
+                "sha256:a45926d655a780a4788fd37433e9fc8700e048b72b2fa32f26868c6548508e20"
+            ],
+            "index": "pypi",
+            "version": "==0.9.7"
         },
         "toil": {
             "extras": [

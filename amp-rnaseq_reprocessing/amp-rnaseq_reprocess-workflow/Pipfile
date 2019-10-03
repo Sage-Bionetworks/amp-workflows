@@ -11,6 +11,7 @@ cwltest = ">=1.0.*"
 cwlref-runner = ">=1.0.*"
 boto3 = ">=1.9"
 gitpython = "*"
+tibanna = "*"
 
 [requires]
 python_version = "3.7"
