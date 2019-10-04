@@ -1,0 +1,15 @@
+{
+    "index_synapseid": "syn20835938",
+    "nthreads": 15,
+    "synapse_parentid": "syn20487171",
+    "synapse_config": {
+        "class": "File",
+        "path": "/etc/synapse/.synapseConfig"
+    },
+    "synapseid": [
+        "syn20505142"
+    ],
+    "fq_synapseid": [
+        "syn20687426"
+    ]
+}

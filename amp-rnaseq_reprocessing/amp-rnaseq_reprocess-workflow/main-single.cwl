@@ -1,7 +1,7 @@
 class: Workflow
 cwlVersion: v1.0
-id: main_paired
-label: main-paired
+id: main_single
+label: main_single
 $namespaces:
   sbg: 'https://www.sevenbridges.com'
 inputs:
