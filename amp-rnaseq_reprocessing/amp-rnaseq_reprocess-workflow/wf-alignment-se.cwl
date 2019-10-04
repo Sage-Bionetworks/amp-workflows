@@ -27,7 +27,7 @@ inputs:
     type: string
     'sbg:x': 0
     'sbg:y': 0
-  - id: synfd
+  - id: fq_synapseid
     type: string
     'sbg:x': 7
     'sbg:y': -284
@@ -138,7 +138,7 @@ steps:
       - id: synapse_config
         source: synapse_config
       - id: synapseid
-        source: synfd
+        source: fq_synapseid
     out:
       - id: filepath
     run: steps/synapse-get-tool.cwl

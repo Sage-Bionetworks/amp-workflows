@@ -1,18 +1,12 @@
 class: Workflow
 cwlVersion: v1.0
-id: main_single
-label: main-single
+id: main_paired
+label: main-paired
 $namespaces:
   sbg: 'https://www.sevenbridges.com'
 inputs:
-  - id: genome_fastas
-    type: File
-    'sbg:x': -781.206298828125
-    'sbg:y': -256.5
-  - id: genemodel_gtf
-    type: File
-    'sbg:x': -795.1556396484375
-    'sbg:y': -109.12567901611328
+  - id: index_synapseid
+    type: string
   - id: synapse_config
     type: File
     'sbg:x': -522.0704956054688
@@ -21,6 +15,8 @@ inputs:
     type: 'string[]'
     'sbg:x': -405
     'sbg:y': -412
+  - id: fq_synapseid
+    type: string[]
   - id: nthreads
     type: int
     'sbg:x': -422
@@ -29,15 +25,9 @@ inputs:
     type: string?
   - id: output_metrics_filename
     type: string?
-  - id: synfd
-    type: string[]
+  - id: synapse_parentid
+    type: string
 outputs:
-  - id: realigned_reads_sam
-    outputSource:
-      - wf_alignment/realigned_reads_sam
-    type: 'File[]'
-    'sbg:x': -178
-    'sbg:y': -472
   - id: combined_counts
     outputSource:
       - combine_counts/combined_counts
@@ -57,27 +47,56 @@ outputs:
     'sbg:x': 50.2137451171875
     'sbg:y': 299.5
 steps:
-  - id: wf_buildindexes
-    in:
-      - id: genome_fastas
-        source: genome_fastas
-      - id: genemodel_gtf
-        source: genemodel_gtf
-      - id: nthreads
-        source: nthreads
-      - id: genstr
-        source: genstr
+  - id: get_argurl
+    in: []
     out:
-      - id: genome_dir
-    run: ./wf-buildindexes.cwl
-    label: Index building sub-workflow
-    'sbg:x': -639.203125
-    'sbg:y': -182.5
+      - id: cwl_args_url
+    run: steps/grab-argurl.cwl
+  - id: get_wfurl
+    in: []
+    out:
+      - id: cwl_wf_url
+    run: steps/grab-wfurl.cwl
+  - id: input_provenance
+    in:
+      - id: argurl
+        source: get_argurl/cwl_args_url
+      - id: synapseconfig
+        source: synapse_config
+    out:
+      - id: provenance_csv
+    run: steps/provenance.cwl
+    label: gather sample provenance
+  - id: upload_provenance
+    in:
+      - id: infile
+        source: input_provenance/provenance_csv
+      - id: synapse_parentid
+        source: synapse_parentid
+      - id: synapseconfig
+        source: synapse_config
+      - id: argurl
+        source: get_argurl/cwl_args_url
+      - id: wfurl
+        source: get_wfurl/cwl_wf_url
+    out: []
+    run: steps/upload_synapse.cwl
+  - id: wf_getindexes
+    in:
+      - id: synapseid
+        source: index_synapseid
+      - id: synapse_config
+        source: synapse_config
+    out:
+      - id: files
+      - id: genome_fasta
+      - id: genemodel_gtf
+    run: ./wf-getindexes.cwl
+    label: Get index files
   - id: wf_alignment
     in:
       - id: genome_dir
-        source:
-          - wf_buildindexes/genome_dir
+        source: wf_getindexes/files
       - id: genstr
         source: genstr
       - id: nthreads
@@ -86,8 +105,8 @@ steps:
         source: synapse_config
       - id: synapseid
         source: synapseid
-      - id: synfd
-        source: synfd
+      - id: fq_synapseid
+        source: fq_synapseid
     out:
       - id: splice_junctions
       - id: reads_per_gene
@@ -97,14 +116,14 @@ steps:
     label: Alignment sub-workflow
     scatter:
       - synapseid
-      - synfd
+      - fq_synapseid
     scatterMethod: dotproduct
     'sbg:x': -310.91680908203125
     'sbg:y': -200.39964294433594
   - id: wf_buildrefs
     in:
       - id: genemodel_gtf
-        source: genemodel_gtf
+        source: wf_getindexes/genemodel_gtf
       - id: aligned_reads_sam
         source: wf_alignment/realigned_reads_sam
         valueFrom: $(self[0])
@@ -113,15 +132,12 @@ steps:
       - id: picard_refflat
     run: ./wf-buildrefs.cwl
     label: Reference building sub-workflow
-#    scatter:
-#      - aligned_reads_sam
-#    scatterMethod: dotproduct
     'sbg:x': -516
     'sbg:y': 12
   - id: wf_metrics
     in:
       - id: genome_fasta
-        source: genome_fastas
+        source: wf_getindexes/genome_fasta
       - id: aligned_reads_sam
         source: wf_alignment/realigned_reads_sam
       - id: picard_refflat
@@ -138,8 +154,6 @@ steps:
     label: Metrics sub-workflow
     scatter:
       - aligned_reads_sam
- #     - picard_refflat
- #     - picard_riboints
       - basef
     scatterMethod: dotproduct
     'sbg:x': 128
@@ -155,6 +169,20 @@ steps:
     label: Combine read counts across samples
     'sbg:x': -63.8984375
     'sbg:y': 31.5
+  - id: upload_counts
+    in:
+      - id: infile
+        source: combine_counts/combined_counts
+      - id: synapse_parentid
+        source: synapse_parentid
+      - id: synapseconfig
+        source: synapse_config
+      - id: argurl
+        source: get_argurl/cwl_args_url
+      - id: wfurl
+        source: get_wfurl/cwl_wf_url
+    out: []
+    run: steps/upload_synapse.cwl
   - id: combine_metrics
     in:
       - id: picard_metrics
@@ -166,6 +194,20 @@ steps:
     label: Combine Picard metrics across samples
     'sbg:x': 343.8936767578125
     'sbg:y': -158.5
+  - id: upload_metrics
+    in:
+      - id: infile
+        source: combine_metrics/combined_metrics
+      - id: synapse_parentid
+        source: synapse_parentid
+      - id: synapseconfig
+        source: synapse_config
+      - id: argurl
+        source: get_argurl/cwl_args_url
+      - id: wfurl
+        source: get_wfurl/cwl_wf_url
+    out: []
+    run: steps/upload_synapse.cwl
   - id: merge_starlog
     in:
       - id: logs
@@ -177,9 +219,22 @@ steps:
     label: merge_starlog
     'sbg:x': -132.7860107421875
     'sbg:y': 294.5
+  - id: upload_starlog
+    in:
+      - id: infile
+        source: merge_starlog/starlog_merged
+      - id: synapse_parentid
+        source: synapse_parentid
+      - id: synapseconfig
+        source: synapse_config
+      - id: argurl
+        source: get_argurl/cwl_args_url
+      - id: wfurl
+        source: get_wfurl/cwl_wf_url
+    out: []
+    run: steps/upload_synapse.cwl
 requirements:
   - class: SubworkflowFeatureRequirement
   - class: ScatterFeatureRequirement
   - class: InlineJavascriptRequirement
   - class: StepInputExpressionRequirement
-
