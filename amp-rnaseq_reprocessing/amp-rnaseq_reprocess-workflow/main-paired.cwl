@@ -65,20 +65,6 @@ steps:
       - id: provenance_csv
     run: steps/provenance.cwl
     label: gather sample provenance
-  - id: upload_provenance
-    in:
-      - id: infile
-        source: input_provenance/provenance_csv
-      - id: synapse_parentid
-        source: synapse_parentid
-      - id: synapseconfig
-        source: synapse_config
-      - id: argurl
-        source: get_argurl/cwl_args_url
-      - id: wfurl
-        source: get_wfurl/cwl_wf_url
-    out: []
-    run: steps/upload_synapse.cwl
   - id: wf_getindexes
     in:
       - id: synapseid
@@ -164,20 +150,6 @@ steps:
     label: Combine read counts across samples
     'sbg:x': -63.8984375
     'sbg:y': 31.5
-  - id: upload_counts
-    in:
-      - id: infile
-        source: combine_counts/combined_counts
-      - id: synapse_parentid
-        source: synapse_parentid
-      - id: synapseconfig
-        source: synapse_config
-      - id: argurl
-        source: get_argurl/cwl_args_url
-      - id: wfurl
-        source: get_wfurl/cwl_wf_url
-    out: []
-    run: steps/upload_synapse.cwl
   - id: combine_metrics
     in:
       - id: picard_metrics
@@ -189,20 +161,6 @@ steps:
     label: Combine Picard metrics across samples
     'sbg:x': 343.8936767578125
     'sbg:y': -158.5
-  - id: upload_metrics
-    in:
-      - id: infile
-        source: combine_metrics/combined_metrics
-      - id: synapse_parentid
-        source: synapse_parentid
-      - id: synapseconfig
-        source: synapse_config
-      - id: argurl
-        source: get_argurl/cwl_args_url
-      - id: wfurl
-        source: get_wfurl/cwl_wf_url
-    out: []
-    run: steps/upload_synapse.cwl
   - id: merge_starlog
     in:
       - id: logs
@@ -214,10 +172,14 @@ steps:
     label: merge_starlog
     'sbg:x': -132.7860107421875
     'sbg:y': 294.5
-  - id: upload_starlog
+  - id: synapse_upload
     in:
-      - id: infile
-        source: merge_starlog/starlog_merged
+      - id: infiles
+        source:
+          - merge_starlog/starlog_merged
+          - input_provenance/provenance_csv
+          - combine_counts/combined_counts
+          - combine_metrics/combined_metrics
       - id: synapse_parentid
         source: synapse_parentid
       - id: synapseconfig
