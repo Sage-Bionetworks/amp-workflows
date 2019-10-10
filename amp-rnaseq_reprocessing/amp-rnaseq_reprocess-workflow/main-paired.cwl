@@ -195,3 +195,4 @@ requirements:
   - class: ScatterFeatureRequirement
   - class: InlineJavascriptRequirement
   - class: StepInputExpressionRequirement
+  - class: MultipleInputFeatureRequirement
