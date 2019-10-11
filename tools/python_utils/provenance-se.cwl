@@ -4,7 +4,7 @@ $namespaces:
   sbg: 'https://www.sevenbridges.com'
 id: sample_provenance
 baseCommand:
-  - provenance.py
+  - provenance-se.py
 inputs:
   - id: synapseconfig
     type: File
