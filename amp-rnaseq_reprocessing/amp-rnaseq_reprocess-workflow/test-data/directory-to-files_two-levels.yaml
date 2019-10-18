@@ -1,4 +1,0 @@
-dir:
-  class: Directory
-  path: ./test-dir
-recurse: true
