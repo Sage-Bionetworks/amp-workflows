@@ -1,0 +1,1 @@
+../../../tools/cwlutils/directory-to-file-list-tool.cwl

@@ -102,7 +102,7 @@ inputs:
       SortedByCoordinate: sorted by coordinate. This option will allocate
       extra memory for sorting which can be specified by –limitBAMsortRAM
     type: string[]
-    default: ["BAM", "Unsorted"]
+    default: ["BAM", "SortedByCoordinate"]
     inputBinding:
       prefix: --outSAMtype
 
@@ -147,7 +147,7 @@ outputs:
     label: Aligned reads SAM
     type: File
     outputBinding:
-      glob: "*Aligned.out.bam"
+      glob: "*bam"
 
   # - id: transcriptome_aligned_reads_bam
   #   type: File
@@ -168,6 +168,6 @@ outputs:
 
   - id: logs
     label: STAR logs
-    type: File[]
+    type: File
     outputBinding:
-      glob: "*.out"
+      glob: "*Log.final.out"

@@ -1,0 +1,1 @@
+../../../tools/python_utils/merge_starlog.cwl

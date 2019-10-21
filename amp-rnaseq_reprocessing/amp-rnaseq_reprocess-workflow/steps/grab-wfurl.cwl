@@ -1,0 +1,1 @@
+../../../tools/environment/grab-wfurl.cwl

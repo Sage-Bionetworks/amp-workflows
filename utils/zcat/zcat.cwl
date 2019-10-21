@@ -1,8 +1,8 @@
 cwlVersion: v1.0
 class: CommandLineTool
 
-baseCommand: ['cat']
-stdout: "$(inputs.output_basename).gz"
+baseCommand: 'zcat'
+stdout: "$(inputs.output_basename)"
 
 requirements:
   - class: InlineJavascriptRequirement
@@ -10,8 +10,8 @@ requirements:
 inputs:
 
   - id: input_gzs
-    label: Input gzipped files
-    type: File[]
+    label: Input gzipped file
+    type: File
     inputBinding:
       position: 1
 
@@ -20,8 +20,9 @@ inputs:
 
 outputs:
 
-  - id: output_gz
-    label: Concatenated gzipped file
+  - id: output_uncompressed
+    label: uncompressed file
     type: File
     outputBinding:
-      glob: "$(inputs.output_basename).gz"
+      glob: "$(inputs.output_basename)"
+

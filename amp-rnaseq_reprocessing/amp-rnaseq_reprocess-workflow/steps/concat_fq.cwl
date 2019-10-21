@@ -1,0 +1,1 @@
+../../../tools/concatenate_fq/concat_fq.cwl

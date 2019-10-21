@@ -1,0 +1,1 @@
+../../../tools/star_align/star_align-se.cwl

@@ -43,7 +43,7 @@ outputs:
   - id: logs
     outputSource:
       - star_align/logs
-    type: 'File[]'
+    type: File
     'sbg:x': 1399.3011474609375
     'sbg:y': 374.5
   - id: realigned_reads_sam
@@ -98,14 +98,15 @@ steps:
         source: picard_samtofastq/mate_1
       - id: mate_2_fastq
         source: picard_samtofastq/mate_2
+      - id: genstr
+        source: genstr
       - id: genome_dir
-        source: genome_dir
+        source:
+          - genome_dir
       - id: nthreads
         source: nthreads
       - id: output_dir_name
         source: synapseid
-      - id: genstr
-        source: genstr
     out:
       - id: aligned_reads_sam
       - id: reads_per_gene
@@ -115,13 +116,9 @@ steps:
     label: STAR spliced alignment
     'sbg:x': 1044.3306884765625
     'sbg:y': 193
-requirements: 
-  - class: StepInputExpressionRequirement
+requirements:
   - class: ResourceRequirement
-    ramMin: 16000
-    coresMin: 7
-    tmpdirMin: 30000
-    outdirMin: 30000
+    $mixin: resources-alignment.yaml
 'dct:creator':
   '@id': 'http://orcid.org/0000-0001-9758-0176'
   'foaf:mbox': 'mailto:james.a.eddy@gmail.com'
