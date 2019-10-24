@@ -27,24 +27,16 @@ Subfolders under the `jobs` folder supply the following
 
 #### cwltool execution
 The following instructions are for running the `cwl-runner` in BASH. In the
-example below, the job directory "jobs/test-main-paired" is used. Run this from the "amp-rnaseq_reprocess-workflow" directory.
-
-*NOTE: this section is under development -- proceed with caution*
+example below, the job directory "jobs/test-main-paired-small" is used. Run this
+from the "amp-rnaseq_reprocess-workflow" directory:
 
 ```bash
-# Create environment variables necessary for generating provenance
-export WORKFLOW_URL=$(utils/giturl.py)
-export CWL_ARGS_URL=$(utils/giturl.py --raw --path jobs/test-main-paired/job.json)
-
-# Create symlinks to resource files
-links=$(utils/linkresources.py jobs/test-main-paired)
-
-# Use cwltool to run a workflow
-cwl-runner --preserve-entire-environment main-paired.cwl jobs/test-main-paired/job.json
-
-# Remove symlinks
-utils/unlinkresources.py $links
+./run-cwltool.sh jobs/test-main-paired-small
 ```
+
+If you experience issues with the star_align step, you may want to verify that
+your ulimit is sufficiently high, and that the resources available to the 
+Docker engine are high enough to accommodate the wf-alignment.cwl workflow.
 
 #### toil execution 
 

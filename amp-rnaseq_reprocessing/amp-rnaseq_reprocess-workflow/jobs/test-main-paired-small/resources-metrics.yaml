@@ -1,0 +1,4 @@
+ramMin: 10000
+coresMin: 3
+tmpdirMin: 30000
+outdirMin: 30000

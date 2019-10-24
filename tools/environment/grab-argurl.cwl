@@ -7,11 +7,10 @@ stdout: echo_out
 outputs:
   - id: cwl_args_url
     type: string
-    outputBinding:
-      glob: echo_out
-      loadContents: true
-      outputEval: $(self[0].contents)
-baseCommand: echo
-arguments: ["-n", { valueFrom: '"$CWL_ARGS_URL"', shellQuote: false} ]
+baseCommand: []
+arguments:
+  - valueFrom: >
+      echo '{"cwl_args_url":"'"$CWL_ARGS_URL"'"}' > cwl.output.json
+    shellQuote: false
 requirements:
-  ShellCommandRequirement: {}
+  - class: ShellCommandRequirement
