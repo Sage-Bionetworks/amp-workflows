@@ -1,5 +1,5 @@
 {
-  "cluster_name": "rna-seq-reprocessing-toil-cluster-v001",
+  "cluster_name": "rna-seq-reprocessing-scicomp-toil-cluster-v001",
   "run_name": "msm",
   "log_level": "DEBUG",
   "retry_count": "3",
