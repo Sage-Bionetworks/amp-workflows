@@ -1,0 +1,1 @@
+../../../tools/python_utils/clean_tables.cwl
