@@ -195,6 +195,38 @@ steps:
         source: get_wfurl/cwl_wf_url
     out: []
     run: steps/upload_synapse.cwl
+  - id: clean_tables
+    in:
+      - id: count_table
+        source: combine_counts/combined_counts
+      - id: star_table
+        source: merge_starlog/starlog_merged
+      - id: metric_table
+        source: combine_metrics/combined_metrics
+      - id: provenance_csv
+        source: input_provenance/provenance_csv
+    out:
+      - id: clean_counts
+      - id: clean_log
+      - id: clean_metrics
+    run: steps/clean_tables.cwl
+  - id: clean_upload
+    in:
+      - id: infiles
+        source:
+          - clean_tables/clean_counts
+          - clean_tables/clean_log
+          - clean_tables/clean_metrics
+      - id: synapse_parentid
+        source: synapse_parentid
+      - id: synapseconfig
+        source: synapse_config
+      - id: argurl
+        source: get_argurl/cwl_args_url
+      - id: wfurl
+        source: get_wfurl/cwl_wf_url
+    out: []
+    run: steps/upload_synapse.cwl
 requirements:
   - class: SubworkflowFeatureRequirement
   - class: ScatterFeatureRequirement

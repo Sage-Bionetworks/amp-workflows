@@ -26,7 +26,7 @@ def parse_samples(prov):
 
 def update_count_header(sampledict, counttable):
     """Convert synapseid to specimen ID in header of count table"""
-    from_file = open(counttable) 
+    from_file = open(counttable)
     line = from_file.readline().strip()
 
     # convert the synapsee IDs to specimen IDs
@@ -46,7 +46,7 @@ def update_count_header(sampledict, counttable):
     # Remove duplicate samples
     df = pd.read_csv('gene_counts_specimenid.txt', sep='\t', index_col='feature')
     df_clean = df.astype(int).fillna(0).T.drop_duplicates().T
-    df_clean.to_csv(path_or_buf='gene_counts_clean.txt',sep='\t')
+    df_clean.to_csv(path_or_buf='gene_all_counts_matrix_clean.txt',sep='\t')
 
 def update_log_header(sampledict, logfile):
     """convert synapseid to specimenid in first column of star log table"""
@@ -67,7 +67,7 @@ def update_log_header(sampledict, logfile):
     df = pd.read_csv('star_log_specimenid.txt', sep='\t', index_col='Sample')
     # Since this table contains computational runtimes and mapping speeds, use only a subset of fields to idenify duplicates
     df_clean = df.drop_duplicates(subset=['Number of input reads', 'Uniquely mapped reads number'])
-    df_clean.to_csv(path_or_buf='star_log_clean.txt',sep='\t')
+    df_clean.to_csv(path_or_buf='Star_Log_Merged_clean.txt',sep='\t')
 
 def update_metrics_header(sampledict, metrics):
     """convert synapseid to specimenid in headerof picard metrics file"""
@@ -87,7 +87,7 @@ def update_metrics_header(sampledict, metrics):
     # Remove duplicate samples
     df = pd.read_csv('sample_metrics_specimenid.txt', sep='\t', index_col='sample')
     df_clean = df.drop_duplicates()
-    df_clean.to_csv(path_or_buf='sample_metrics_clean.txt',sep='\t')
+    df_clean.to_csv(path_or_buf='Study_all_metrics_matrix_clean.txt',sep='\t')
 
 def main():
     # create synapseid:sampleid dictionary

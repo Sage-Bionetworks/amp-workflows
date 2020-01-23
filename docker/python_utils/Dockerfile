@@ -13,6 +13,8 @@ RUN chmod a+x /usr/local/bin/starmerge.py
 RUN chmod a+x /usr/local/bin/synstore.py
 RUN chmod a+x /usr/local/bin/provenance.py
 RUN chmod a+x /usr/local/bin/provenance-se.py
+
+
 RUN pip install synapseclient
 
 CMD [ "python" ]
