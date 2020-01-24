@@ -42,6 +42,7 @@ def update_count_header(sampledict, counttable):
     to_file = open('gene_counts_specimenid.txt',mode='w')
     to_file.write(sep.join(converted) + '\n')
     shutil.copyfileobj(from_file, to_file)
+    to_file.close()
 
     # Remove duplicate samples
     df = pd.read_csv('gene_counts_specimenid.txt', sep='\t', index_col='feature')
