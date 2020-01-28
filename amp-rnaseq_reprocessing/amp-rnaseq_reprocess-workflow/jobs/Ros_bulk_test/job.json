@@ -1,0 +1,31 @@
+{
+    "index_synapseid": "syn20645801",
+    "nthreads": 15,
+    "synapse_parentid": "syn21552110",
+    "synapse_config": {
+        "class": "File",
+        "path": "/etc/synapse/.synapseConfig"
+    },
+    "synapseid": [
+        "syn21268710",
+        "syn21275337",
+        "syn21285108",
+        "syn21290058",
+        "syn21290154",
+        "syn21290215",
+        "syn21290285",
+        "syn21290353",
+        "syn21286630",
+        "syn21290388",
+        "syn21286634",
+        "syn21286683",
+        "syn21286689",
+        "syn21302978",
+        "syn21304187",
+        "syn21268454",
+        "syn21306426",
+        "syn21306422",
+        "syn21306421",
+        "syn21306420"
+    ]
+}
