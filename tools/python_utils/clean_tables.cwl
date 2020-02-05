@@ -30,7 +30,7 @@ outputs:
 label: clean_tables.cwl
 hints:
   - class: DockerRequirement
-    dockerPull: wpoehlm/ngstools:pyscript-88z67d
+    dockerPull: wpoehlm/ngstools:pyscript-650ffc0
 requirements:
   - class: InitialWorkDirRequirement
     listing:
