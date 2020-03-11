@@ -63,7 +63,7 @@ steps:
         source: synapse_config
     out:
       - id: provenance_csv
-    run: steps/provenance-se.cwl
+    run: steps/provenance.cwl
     label: gather sample provenance
   - id: wf_getindexes
     in:
