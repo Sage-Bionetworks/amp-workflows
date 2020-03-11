@@ -15,6 +15,8 @@ inputs:
     type: 'string[]'
     'sbg:x': -405
     'sbg:y': -412
+  - id: fq_synapseid
+    type: string[]
   - id: nthreads
     type: int
     'sbg:x': -422
@@ -89,6 +91,8 @@ steps:
         source: synapse_config
       - id: synapseid
         source: synapseid
+      - id: fq_synapseid
+        source: fq_synapseid
     out:
       - id: splice_junctions
       - id: reads_per_gene
@@ -98,6 +102,7 @@ steps:
     label: Alignment sub-workflow
     scatter:
       - synapseid
+      - fq_synapseid
     scatterMethod: dotproduct
     'sbg:x': -310.91680908203125
     'sbg:y': -200.39964294433594
