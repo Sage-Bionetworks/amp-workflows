@@ -87,7 +87,7 @@ inputs:
 
   - id: strand_specificity
     type: string
-    default: "SECOND_READ_TRANSCRIPTION_STRAND"
+    default: "NONE"
     inputBinding:
       position: 6
       prefix: STRAND_SPECIFICITY=

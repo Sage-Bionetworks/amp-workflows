@@ -17,8 +17,8 @@ inputs:
     type: string?
   - id: nthreads
     type: int
-    'sbg:x': 739.2590942382812
-    'sbg:y': 152.51564025878906
+    'sbg:x': 946.881103515625
+    'sbg:y': -24
   - id: synapse_config
     type: File
     'sbg:x': 0
@@ -27,6 +27,10 @@ inputs:
     type: string
     'sbg:x': 0
     'sbg:y': 0
+  - id: fq_synapseid
+    type: string
+    'sbg:x': 7
+    'sbg:y': -284
 outputs:
   - id: splice_junctions
     outputSource:
@@ -53,10 +57,49 @@ outputs:
     'sbg:x': 1410.3011474609375
     'sbg:y': 504.5
 steps:
+  - id: syn_get
+    in:
+      - id: synapse_config
+        source: synapse_config
+      - id: synapseid
+        source: synapseid
+    out:
+      - id: filepath
+    run: steps/synapse-get-tool.cwl
+    label: Download BAM from Synapse
+    'sbg:x': 233.5
+    'sbg:y': 207
+  - id: picard_sortsam
+    in:
+      - id: aligned_reads_sam
+        source: syn_get/filepath
+      - id: sorted_reads_filename
+        valueFrom: $(inputs.aligned_reads_sam.nameroot).sorted.bam
+    out:
+      - id: sorted_reads_bam
+    run: steps/picard_sortsam.cwl
+    label: Picard SortSam
+    'sbg:x': 458.3077392578125
+    'sbg:y': 207
+  - id: picard_samtofastq
+    in:
+      - id: aligned_reads_sam
+        source: picard_sortsam/sorted_reads_bam
+      - id: reads_r1_fastq
+        valueFrom: $(inputs.aligned_reads_sam.nameroot)_1.fastq
+      - id: reads_r2_fastq
+        valueFrom: $(inputs.aligned_reads_sam.nameroot)_2.fastq
+    out:
+      - id: mate_1
+      - id: mate_2
+    run: steps/picard_samtofastq.cwl
+    label: Picard SamToFastq
+    'sbg:x': 769.881103515625
+    'sbg:y': 93
   - id: star_align
     in:
       - id: mate_1_fastq
-        source: zcat/output_uncompressed
+        source: concat_fq/fqmerged
       - id: genstr
         source: genstr
       - id: genome_dir
@@ -75,12 +118,27 @@ steps:
     label: STAR spliced alignment
     'sbg:x': 1044.3306884765625
     'sbg:y': 193
+  - id: concat_fq
+    in:
+      - id: input1
+        source: picard_samtofastq/mate_1
+      - id: input2
+        source: zcat/output_uncompressed
+      - id: outname
+        source: picard_samtofastq/mate_1
+        valueFrom: $(self.nameroot).fastq
+    out:
+      - id: fqmerged
+    run: steps/concat_fq.cwl
+    label: concat_fq
+    'sbg:x': 636.0625
+    'sbg:y': -146
   - id: synapse_get_tool
     in:
       - id: synapse_config
         source: synapse_config
       - id: synapseid
-        source: synapseid
+        source: fq_synapseid
     out:
       - id: filepath
     run: steps/synapse-get-tool.cwl
@@ -89,7 +147,8 @@ steps:
   - id: zcat
     in:
       - id: input_gzs
-        source: synapse_get_tool/filepath
+        source:
+          - synapse_get_tool/filepath
       - id: output_basename
         source: synapse_get_tool/filepath
         valueFrom: $(self.nameroot).txt
@@ -103,3 +162,4 @@ requirements: []
   '@id': 'http://orcid.org/0000-0001-9758-0176'
   'foaf:mbox': 'mailto:james.a.eddy@gmail.com'
   'foaf:name': James Eddy
+
