@@ -1,0 +1,1 @@
+../../../tools/synapse/fetch_genome.cwl

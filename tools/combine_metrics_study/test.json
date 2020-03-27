@@ -1,0 +1,10 @@
+{
+  "picard_metrics": [
+    {
+      "path": "ex_sr_unstranded_picard.CombinedMetrics.csv",
+      "class": "File"
+    }
+  ],
+  "output_prefix": "ex_study",
+  "sample_suffix": "_picard.CombinedMetrics.csv"
+}

@@ -1,0 +1,11 @@
+{
+  "read_counts": [
+    {
+      "path": "ex_sr_unstrandedReadsPerGene.out.tab",
+      "class": "File"
+    }
+  ],
+  "output_prefix": "ex_study",
+  "sample_suffix": "ReadsPerGene.out.tab",
+  "column_number": 2
+}

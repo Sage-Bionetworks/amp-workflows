@@ -1,0 +1,25 @@
+{
+  "aligned_reads_sam": {
+    "path": "ex_sr_unstrandedAligned.out.bam",
+    "class": "File"
+  },
+  "genome_fasta": {
+    "path": "GRCh38.chr22.genome.fa",
+    "class": "File"
+  },
+  "picard_refflat": {
+    "path": "gencode.v24.chr22.refFlat.txt",
+    "class": "File"
+  },
+  "picard_riboints": {
+    "path": "gencode.v24.chr22.rRNA.interval_list",
+    "class": "File"
+  },
+  "rrna_fragment_percentage": 0.8,
+  "metric_accumulation_level": "ALL_READS",
+  "validation_stringency": "LENIENT",
+  "strand_specificity": "NONE",
+  "max_records_in_ram": 4000000,
+  "minimum_length": 500,
+  "output_metrics_filename": "ex_sr_unstranded.CollectRnaSeqMetrics"
+}

@@ -1,0 +1,1 @@
+../../../tools/synapse/store-indexed-product.cwl

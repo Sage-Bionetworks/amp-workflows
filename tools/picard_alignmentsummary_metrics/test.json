@@ -1,0 +1,17 @@
+{
+  "aligned_reads_sam": {
+    "path": "ex_sr_unstrandedAligned.out.bam",
+    "class": "File"
+  },
+  "genome_fasta": {
+    "path": "GRCh38.chr22.genome.fa",
+    "class": "File"
+  },
+  "validation_stringency": "LENIENT",
+  "assume_sorted": "true",
+  "max_insert_size": 100000,
+  "is_bisulfite_seq": "false",
+  "max_records_in_ram": 4000000,
+  "adapter_sequence": "",
+  "output_metrics_filename": "ex_sr_unstrandedAligned.CollectAlignmentSummaryMetrics"
+}

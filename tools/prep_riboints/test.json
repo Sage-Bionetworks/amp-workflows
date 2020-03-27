@@ -1,0 +1,10 @@
+{
+  "genemodel_gtf": {
+    "path": "gencode.v24.chr22.annotation.gtf",
+    "class": "File"
+  },
+  "aligned_reads_sam": {
+    "path": "ex_sr_unstrandedAligned.out.bam",
+    "class": "File"
+  }
+}

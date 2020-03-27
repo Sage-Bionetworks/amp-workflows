@@ -1,0 +1,9 @@
+{
+  "reads_sam": {
+    "path": "ex_pe_unstranded.bam.sorted.bam",
+    "class": "File"
+  },
+  "validation_stringency": "LENIENT",
+  "reads_r1_fastq": "ex_pe_unstranded_R1.fastq",
+  "reads_r2_fastq": "ex_pe_unstranded_R2.fastq"
+}

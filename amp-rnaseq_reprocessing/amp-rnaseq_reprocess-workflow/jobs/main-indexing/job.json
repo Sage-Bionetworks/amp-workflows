@@ -1,0 +1,12 @@
+{
+    "genome_fasta_url": "ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_31/GRCh38.primary_assembly.genome.fa.gz",
+    "genome_fasta_filename": "GRCh38.primary_assembly.genome.fa",
+    "annotation_gtf_url": "ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_31/gencode.v31.annotation.gtf.gz",
+    "annotation_gtf_filename": "gencode.v31.annotation.gtf",
+    "nthreads": 45,
+    "synapse_config": {
+        "class": "File",
+        "path": "/etc/synapse/.synapseConfig"
+    },
+    "output_synapse_id": "syn20675525"
+}

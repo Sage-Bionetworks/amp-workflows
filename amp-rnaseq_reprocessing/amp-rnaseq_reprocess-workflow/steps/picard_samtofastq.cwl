@@ -1,0 +1,1 @@
+../../../tools/picard_samtofastq/picard_samtofastq.cwl

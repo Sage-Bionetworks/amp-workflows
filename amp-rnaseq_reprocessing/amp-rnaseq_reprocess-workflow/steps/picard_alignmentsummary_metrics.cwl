@@ -1,0 +1,1 @@
+../../../tools/picard_alignmentsummary_metrics/picard_alignmentsummary_metrics.cwl

@@ -1,0 +1,1 @@
+../../../tools/star_index/star_index.cwl

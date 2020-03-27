@@ -1,0 +1,1 @@
+../../../utils/zcat/zcat.cwl
